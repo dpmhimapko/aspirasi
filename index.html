@@ -203,12 +203,12 @@
     }
 
     /* =========================
-       VISI MISI CARDS (RESPONSIVE FIX MOBILE)
+       VISI MISI CARDS (FIX: ukuran pill + label diperkecil, back bisa scroll)
        ========================= */
 
     .flip-grid{
       display:grid;
-      gap:1.35rem; /* lebih rapat di mobile */
+      gap:1.15rem;
     }
     @media (min-width: 768px){
       .flip-grid{ grid-template-columns: 1fr 1fr; gap:2rem; }
@@ -241,7 +241,7 @@
     .flip-inner{
       position: relative;
       width: 100%;
-      min-height: 420px; /* ✅ lebih kecil biar nggak kedempet di HP */
+      min-height: 390px; /* lebih ringkas di HP */
       transform-style: preserve-3d;
       transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
       border-radius: 2.25rem;
@@ -251,7 +251,7 @@
         0 12px 38px -30px rgba(128,0,0,0.18);
     }
     @media (min-width: 480px){
-      .flip-inner{ min-height: 460px; }
+      .flip-inner{ min-height: 420px; }
     }
     @media (min-width: 768px){
       .flip-inner{ min-height: 520px; border-radius: 2.75rem; }
@@ -292,33 +292,35 @@
       .flip-card:hover .flip-face::after{ transform: translateX(55%) rotate(10deg); }
     }
 
-    /* ✅ pill dikecilin di HP */
+    /* ✅ FIX: pill lebih kecil & tidak "nabrak" teks */
     .pill{
       position:absolute;
       left:1rem;
       right:1rem;
       top:1rem;
-      height:56px; /* ✅ */
+      height:48px;              /* kecilin */
       border-radius: 999px;
       display:flex;
       align-items:center;
       justify-content:center;
       color:#fff;
       font-weight: 900;
-      letter-spacing:.22em;
+      letter-spacing:.18em;     /* kecilin tracking */
       text-transform: uppercase;
-      font-size: clamp(1.05rem, 4.8vw, 2.2rem); /* ✅ */
-      box-shadow: 0 18px 48px rgba(2,6,23,0.18);
+      font-size: clamp(0.95rem, 4.3vw, 1.45rem);
+      box-shadow: 0 16px 42px rgba(2,6,23,0.16);
       border: 1px solid rgba(255,255,255,0.16);
       overflow:hidden;
       background: var(--maroon);
       padding-inline: 10px;
+      z-index: 2;
     }
     @media (min-width: 768px){
       .pill{
         left:1.25rem; right:1.25rem; top:1.25rem;
         height:74px;
         font-size: clamp(2rem, 3.6vw, 3.3rem);
+        letter-spacing:.22em;
         box-shadow: 0 22px 55px rgba(2,6,23,0.22);
       }
     }
@@ -339,15 +341,15 @@
     .pill.visi{ background: var(--maroon); }
     .pill.misi{ background: var(--maroon); }
 
-    /* ✅ jarak konten turun biar nggak tabrakan sama pill */
+    /* ✅ FIX: konten turun sesuai tinggi pill (biar gak ketimpa) */
     .card-body{
       position:absolute;
       left:1.1rem;
       right:1.1rem;
-      top:5.0rem;   /* ✅ */
-      bottom:1.1rem;/* ✅ */
+      top:4.4rem;   /* turun */
+      bottom:1.1rem;
       border-radius: 1.9rem;
-      padding: 1.4rem;
+      padding: 1.2rem;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -357,6 +359,7 @@
         radial-gradient(900px 420px at 85% 25%, rgba(15,23,42,0.05), transparent 60%),
         rgba(255,255,255,0.55);
       border: 1px solid rgba(241,245,249,0.75);
+      z-index: 1;
     }
     @media (min-width: 768px){
       .card-body{
@@ -367,11 +370,12 @@
       }
     }
 
+    /* ✅ FIX: label depan lebih kecil */
     .front-label{
       font-family:'Space Grotesk',sans-serif;
-      font-size: clamp(1.6rem, 7vw, 3.4rem); /* ✅ lebih aman di HP */
+      font-size: clamp(1.35rem, 6vw, 2.6rem);
       font-weight: 800;
-      letter-spacing: .18em;
+      letter-spacing: .16em;
       text-transform: uppercase;
       color: rgba(15,23,42,0.12);
       user-select:none;
@@ -386,18 +390,21 @@
       position:absolute;
       left:1.1rem;
       right:1.1rem;
-      top:5.0rem;   /* ✅ */
-      bottom:1.1rem;/* ✅ */
+      top:4.4rem;   /* turun */
+      bottom:1.1rem;
       border-radius: 1.9rem;
-      padding: 1.4rem;
+      padding: 1.2rem;
       display:flex;
       flex-direction:column;
-      justify-content:center;
       background:
         radial-gradient(900px 420px at 20% 15%, rgba(128,0,0,0.08), transparent 60%),
         radial-gradient(900px 420px at 85% 25%, rgba(15,23,42,0.06), transparent 60%),
         rgba(255,255,255,0.70);
       border: 1px solid rgba(241,245,249,0.78);
+
+      /* ✅ FIX: kalau teks panjang, scroll di dalam card */
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     @media (min-width: 768px){
       .back-wrap{
@@ -414,34 +421,36 @@
       letter-spacing: 0.28em;
       font-weight: 900;
       color: rgba(15,23,42,0.55);
-      margin-bottom: .9rem;
+      margin-bottom: .85rem;
       text-align:left;
+      flex: 0 0 auto;
     }
 
     .visi-text{
       font-weight: 800;
       font-style: italic;
       color: var(--ink);
-      line-height: 1.35;
+      line-height: 1.4;
       letter-spacing: -0.02em;
-      font-size: clamp(0.98rem, 3.6vw, 1.35rem); /* ✅ */
+      font-size: clamp(0.92rem, 3.35vw, 1.15rem);
       text-align:left;
     }
     @media (min-width: 768px){
       .visi-text{ font-size: clamp(1.05rem, 1.6vw, 1.55rem); }
     }
 
-    .misi-list{ margin-top: .2rem; display:flex; flex-direction:column; gap: .75rem; }
+    .misi-list{ margin-top: .15rem; display:flex; flex-direction:column; gap: .65rem; }
     @media (min-width: 768px){
       .misi-list{ gap: 1rem; }
     }
-    .misi-item{ display:flex; gap: .8rem; align-items:flex-start; }
+    .misi-item{ display:flex; gap: .75rem; align-items:flex-start; }
 
+    /* ✅ FIX: nomor & text sedikit dikecilin biar rapi */
     .num{
-      width: 32px; height: 32px;
+      width: 28px; height: 28px;
       border-radius: 999px;
       display:flex; align-items:center; justify-content:center;
-      font-size: 0.68rem;
+      font-size: 0.64rem;
       font-weight: 900;
       color: rgba(128,0,0,0.95);
       background: rgba(255,255,255,0.96);
@@ -455,7 +464,7 @@
       box-shadow: 0 16px 28px -18px rgba(128,0,0,0.45);
     }
     .misi-item p{
-      font-size: 0.92rem;
+      font-size: clamp(0.84rem, 3.1vw, 0.95rem);
       font-weight: 700;
       color: rgba(71,85,105,1);
       line-height: 1.55;
@@ -472,27 +481,27 @@
     }
 
     /* =========================
-       DRAGGABLE "TALI" LOGO (RESPONSIVE + PINDAH KE BAWAH HEADER DI HP)
+       DRAGGABLE "TALI" LOGO (FIX: garis benar2 hilang ketika idle)
        ========================= */
     .string-wrap{
       position: relative;
       width: 100%;
       display:flex;
       align-items:center;
-      justify-content:center; /* ✅ center di mobile */
+      justify-content:center;
       user-select:none;
       touch-action: none;
     }
 
     .string-stage{
       position: relative;
-      width: clamp(240px, 78vw, 420px); /* ✅ aman di HP */
+      width: clamp(240px, 78vw, 420px);
       height: clamp(240px, 78vw, 420px);
       display:grid;
       place-items:center;
+      overflow: visible;
     }
 
-    /* glow halus belakang logo */
     .string-stage::before{
       content:"";
       position:absolute;
@@ -506,19 +515,26 @@
       z-index:-1;
     }
 
+    /* ✅ FIX: tali tidak terlihat sama sekali saat idle */
     .string-line{
       position:absolute;
       left: 50%;
       top: 50%;
       height: 2px;
-      width: 220px;
+      width: 0px;                 /* default 0 */
       background: rgba(128,0,0,0.55);
       transform-origin: 0% 50%;
       border-radius: 999px;
+
       opacity: 0;
-      transition: opacity .15s ease;
+      visibility: hidden;         /* penting */
+      pointer-events: none;
+      transition: opacity .12s ease, visibility .12s ease;
     }
-    .string-line.show{ opacity: 1; }
+    .string-line.show{
+      opacity: 1;
+      visibility: visible;
+    }
 
     .draggable-logo{
       width: clamp(210px, 56vw, 380px);
@@ -527,7 +543,8 @@
       will-change: transform;
       transform: translate3d(0,0,0) rotate(0deg);
       filter: drop-shadow(0 18px 35px rgba(2,6,23,0.18));
-      opacity: 1;            /* ✅ jangan samar */
+      opacity: 1;
+      z-index: 2;
     }
     .draggable-logo:active{ cursor: grabbing; }
 
@@ -627,7 +644,7 @@
               </button>
             </div>
 
-            <!-- ✅ LOGO DRAG DI MOBILE PINDAH KE BAWAH HEADER (di bawah hero text) -->
+            <!-- LOGO DRAG (MOBILE) -->
             <div class="mt-10 lg:hidden" data-aos="zoom-in" data-aos-delay="260">
               <div class="string-wrap">
                 <div id="stringStageMobile" class="string-stage" aria-hidden="true">
@@ -641,13 +658,10 @@
                   />
                 </div>
               </div>
-              <p class="mt-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-        
-              </p>
             </div>
           </div>
 
-          <!-- ✅ LOGO DRAG DESKTOP (tetap kanan) -->
+          <!-- LOGO DRAG (DESKTOP) -->
           <div class="hidden lg:flex string-wrap" data-aos="fade-left">
             <div id="stringStage" class="string-stage" aria-hidden="true">
               <div id="stringLine" class="string-line"></div>
@@ -862,7 +876,6 @@
       window.scrollTo({top:0, behavior: 'smooth'});
       AOS.refresh();
       requestAnimationFrame(() => {
-        // re-check inview glow when section changes
         markInView();
       });
     }
@@ -910,8 +923,7 @@
               <td class="p-8 font-bold text-slate-900 uppercase tracking-tighter">${c[1] || ""}</td>
               <td class="p-8">
                 <span class="px-3 py-1 bg-red-50/80 text-[#800000] rounded-full font-bold text-[9px] uppercase border border-red-100/70">
-                  ${c[2] || ""}
-                </span>
+                  ${c[2] || ""}</span>
               </td>
               <td class="p-8 leading-relaxed text-slate-500">${c[3] || ""}</td>
             </tr>`;
@@ -953,13 +965,11 @@
       if(y > 500) toTop.classList.add('show');
       else toTop.classList.remove('show');
 
-      // ✅ parallax halus background photo
       if(bgPhoto){
         const t = Math.min(24, y * 0.03);
         bgPhoto.style.transform = `translate3d(0, ${t}px, 0) scale(1.02)`;
       }
 
-      // ✅ inview glow
       markInView();
     }
     window.addEventListener('scroll', onScrollFX, { passive:true });
@@ -997,7 +1007,7 @@
       });
     });
 
-    // ✅ Scroll in-view glow (simple & ringan)
+    // inview glow
     function isElementInView(el){
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight || document.documentElement.clientHeight;
@@ -1013,7 +1023,7 @@
     window.addEventListener('load', markInView);
 
     /* =========================
-       DRAG "TALI" LOGO (DESKTOP + MOBILE)
+       DRAG "TALI" LOGO (DESKTOP + MOBILE) - FIX idle line
        ========================= */
     function initStringLogo(opts){
       const logo = document.getElementById(opts.logoId);
@@ -1041,8 +1051,16 @@
         const rot = clamp(x * 0.06, -10, 10);
         logo.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
 
+        // line
         const len = Math.sqrt(x*x + y*y);
         const angle = Math.atan2(y, x) * 180 / Math.PI;
+
+        // ✅ FIX: saat tidak show, jangan biarkan width "nyangkut"
+        if(!line.classList.contains('show')){
+          line.style.width = "0px";
+          return;
+        }
+
         line.style.width = (clamp(len, 0, maxPull) + 40) + "px";
         line.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`;
       }
@@ -1078,7 +1096,10 @@
         dragging = true;
         pointerId = e.pointerId;
         logo.setPointerCapture(pointerId);
+
+        // show line only while dragging
         line.classList.add('show');
+
         tx = x; ty = y;
         e.preventDefault();
       }
@@ -1107,9 +1128,13 @@
         pointerId = null;
         tx = 0; ty = 0;
 
+        // hide line after release
         setTimeout(() => {
-          if(!dragging) line.classList.remove('show');
-        }, 120);
+          if(!dragging){
+            line.classList.remove('show');
+            line.style.width = "0px";
+          }
+        }, 80);
       }
 
       logo.addEventListener('pointerdown', onPointerDown);
@@ -1119,9 +1144,12 @@
 
       window.addEventListener('resize', () => { if(!dragging){ tx = 0; ty = 0; } });
       logo.addEventListener('dragstart', (e) => e.preventDefault());
+
+      // ✅ Pastikan garis benar2 tidak tampil saat awal load
+      line.classList.remove('show');
+      line.style.width = "0px";
     }
 
-    // init both
     initStringLogo({ logoId:'homeDraggableLogo', stageId:'stringStage', lineId:'stringLine' });
     initStringLogo({ logoId:'homeDraggableLogoMobile', stageId:'stringStageMobile', lineId:'stringLineMobile' });
   </script>
