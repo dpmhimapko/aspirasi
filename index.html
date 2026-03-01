@@ -1,290 +1,522 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DPM HIMA PKO FPOK UPI | Parlemen Resilience</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { --upi-maroon: #800000; --soft-bg: #fdfdfd; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--soft-bg); color: #1e293b; -webkit-font-smoothing: antialiased; }
-        .font-heading { font-family: 'Space Grotesk', sans-serif; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPM HIMA PKO FPOK UPI | Parlemen Resilience</title>
 
-        /* Smooth Section Transitions */
-        .section-content { display: none; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
-        .section-content.active { display: block; opacity: 1; transform: translateY(0); }
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-        /* Professional Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: var(--upi-maroon); }
+  <style>
+    :root {
+      --maroon: #800000;
+      --bg-soft: #fcfcfc;
+      --ink: #0f172a;
+      --muted: #475569;
+      --ring: rgba(128, 0, 0, 0.12);
+    }
 
-        /* Utility */
-        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .btn-maroon { background: var(--upi-maroon); color: white; transition: all 0.3s ease; border: 1px solid var(--upi-maroon); }
-        .btn-maroon:hover { background: transparent; color: var(--upi-maroon); }
-        
-        /* Shake Effect for Error */
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-        .shake { animation: shake 0.3s ease-in-out; border-color: var(--upi-maroon) !important; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #ffffff;
+      color: #1e293b;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-        /* Responsive Table for Mobile */
-        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
-    </style>
+    .font-heading { font-family: 'Space Grotesk', sans-serif; }
+
+    /* ====== Ambient background (elegant, non-intrusive) ====== */
+    .bg-aurora {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(900px 450px at 10% 10%, rgba(128,0,0,0.10), transparent 60%),
+        radial-gradient(900px 450px at 90% 10%, rgba(15,23,42,0.06), transparent 60%),
+        radial-gradient(800px 600px at 50% 95%, rgba(128,0,0,0.06), transparent 60%),
+        linear-gradient(180deg, #ffffff 0%, #fbfbfd 55%, #ffffff 100%);
+      filter: saturate(1.05);
+    }
+
+    .bg-grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.05;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+    }
+
+    /* ====== Top progress bar ====== */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      z-index: 200;
+      background: linear-gradient(90deg, rgba(128,0,0,1), rgba(128,0,0,0.55));
+      box-shadow: 0 6px 16px rgba(128,0,0,0.22);
+      transform-origin: left;
+    }
+
+    /* ====== Navigation ====== */
+    .nav-blur {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(22px);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-scrolled {
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 18px 50px rgba(2,6,23,0.07);
+    }
+    .nav-inner {
+      transition: padding 0.35s cubic-bezier(0.16, 1, 0.3, 1), height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-tight { height: 72px !important; }
+
+    /* ====== Section Transition (keep your original behavior) ====== */
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ====== Cards ====== */
+    .card-visi {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(241,245,249,0.9);
+      border-radius: 3rem;
+      box-shadow: 0 18px 55px -25px rgba(2,6,23,0.18);
+      transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+      backdrop-filter: blur(10px);
+    }
+    .card-visi:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 70px -35px rgba(2,6,23,0.26);
+      border-color: rgba(128,0,0,0.12);
+    }
+
+    .card-misi {
+      background: rgba(248,250,252,0.85);
+      border: 1px solid rgba(241,245,249,0.85);
+      border-radius: 3rem;
+      transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 55px -28px rgba(2,6,23,0.14);
+    }
+    .card-misi:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 70px -36px rgba(2,6,23,0.22);
+      border-color: rgba(128,0,0,0.10);
+    }
+
+    .text-visi {
+      font-weight: 800;
+      font-style: italic;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .number-circle {
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid rgba(241,245,249,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      box-shadow: 0 10px 25px -18px rgba(2,6,23,0.35);
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-misi:hover .number-circle { transform: translateY(-2px); }
+
+    /* ====== Buttons & Inputs ====== */
+    .btn-maroon {
+      background: var(--maroon);
+      color: white;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-maroon:before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%);
+      transform: translateX(-60%) rotate(8deg);
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-maroon:hover:before { transform: translateX(60%) rotate(8deg); }
+    .btn-maroon:hover { transform: translateY(-2px); box-shadow: 0 18px 38px rgba(128, 0, 0, 0.18); filter: saturate(1.03); }
+    .btn-maroon:active { transform: translateY(0px) scale(0.99); }
+
+    .input-style {
+      background: rgba(248,250,252,0.85);
+      border: 1px solid rgba(241,245,249,0.95);
+      border-radius: 1.5rem;
+      transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    }
+    .input-style:focus {
+      background: rgba(255,255,255,0.98);
+      border-color: rgba(128,0,0,0.55);
+      box-shadow: 0 0 0 6px var(--ring);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    /* ====== Premium hero text ====== */
+    .hero-gradient {
+      background: linear-gradient(90deg, #0f172a 0%, #0f172a 45%, var(--maroon) 85%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* ====== Back to top ====== */
+    .to-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 120;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: all 0.25s ease;
+    }
+    .to-top.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ====== Table polish ====== */
+    .row-hover {
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .row-hover:hover { background: rgba(248,250,252,0.85); }
+
+    /* ====== Shake Effect (keep your original) ====== */
+    .shake { animation: shakeAnim 0.5s ease-in-out; }
+    @keyframes shakeAnim {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* ====== Subtle reveal for elements when section changes ====== */
+    .soft-pop { animation: softPop 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes softPop {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+  </style>
 </head>
-<body class="selection:bg-red-100 selection:text-red-900">
 
-    <nav class="fixed top-0 w-full z-[100] glass-effect">
-        <div class="max-w-7xl mx-auto px-5 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
-                <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" alt="Logo" class="w-10 h-10 object-contain">
-                <div class="hidden xs:block">
-                    <h1 class="font-heading font-bold text-sm md:text-base leading-none tracking-tight text-slate-900 uppercase">DPM HIMA <span class="text-[#800000]">PKO UPI</span></h1>
-                    <p class="text-[8px] font-black tracking-[0.3em] text-slate-400 uppercase mt-1">Parlemen Resilience 25/26</p>
-                </div>
-            </div>
+<body>
 
-            <div class="flex items-center gap-2 md:gap-8">
-                <button onclick="showSection('home')" class="text-[10px] font-bold uppercase tracking-widest px-3 py-2 hover:text-[#800000] transition">Beranda</button>
-                <button onclick="showSection('aspirasi')" class="text-[10px] font-bold uppercase tracking-widest px-3 py-2 text-[#800000]">Aspirasi</button>
-                <button onclick="showSection('admin')" class="ml-2 px-4 py-2 border border-slate-200 text-slate-600 rounded text-[10px] font-black uppercase tracking-widest hover:border-[#800000] hover:text-[#800000] transition">Admin</button>
-            </div>
+  <!-- ambient -->
+  <div class="bg-aurora"></div>
+  <div class="bg-grain"></div>
+  <div id="scrollProgress" class="scroll-progress"></div>
+
+  <nav id="topNav" class="fixed top-0 w-full z-[100] nav-blur">
+    <div id="navInner" class="nav-inner max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-4 cursor-pointer select-none" onclick="showSection('home')">
+        <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" alt="Logo" class="w-10 h-10 drop-shadow-sm">
+        <div class="border-l border-slate-100/80 pl-4">
+          <h1 class="font-heading font-bold text-sm tracking-tight uppercase">
+            DPM HIMA <span class="text-[#800000]">PKO FPOK UPI</span>
+          </h1>
+          <p class="text-[8px] font-black tracking-[0.4em] text-slate-400 uppercase">Resilience 25/26</p>
         </div>
-    </nav>
+      </div>
 
-    <main class="pt-24 md:pt-32 pb-20">
+      <div class="flex items-center gap-2 md:gap-10">
+        <button onclick="showSection('home')" class="text-[10px] font-bold uppercase tracking-widest hover:text-[#800000] transition-colors">Beranda</button>
+        <button onclick="showSection('aspirasi')" class="text-[10px] font-bold uppercase tracking-widest text-[#800000] px-4 py-2 bg-rose-50/80 border border-rose-100/70 rounded-full hover:bg-rose-50 transition-all">
+          Aspirasi
+        </button>
+        <button onclick="showSection('admin')" class="px-5 py-2.5 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#800000] transition-all">
+          Admin
+        </button>
+      </div>
+    </div>
+  </nav>
 
-        <section id="home" class="section-content active px-6">
-            <div class="max-w-7xl mx-auto">
-                <div class="flex flex-col lg:flex-row items-center gap-16 py-10">
-                    <div class="flex-1 text-center lg:text-left">
-                        <div class="inline-block px-3 py-1 bg-slate-100 rounded text-[9px] font-black text-slate-500 uppercase tracking-widest mb-6">Legislatif Mahasiswa</div>
-                        <h2 class="font-heading text-5xl md:text-7xl font-bold text-slate-900 leading-[1.1] mb-8">
-                            Parlemen <br><span class="text-[#800000] italic">Resilience</span>
-                        </h2>
-                        <p class="text-slate-500 text-base md:text-lg leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
-                            Membangun lembaga yang aspiratif bagi mahasiswa dengan mengedepankan kolektif suara dalam pengambilan keputusan yang transparan, adaptif dan fleksibel.
-                        </p>
-                        <button onclick="showSection('aspirasi')" class="btn-maroon px-10 py-4 rounded-lg font-bold text-xs uppercase tracking-[0.2em]">
-                            Sampaikan Aspirasi
-                        </button>
-                    </div>
-                    <div class="flex-1 flex justify-center opacity-10 grayscale select-none">
-                        <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" class="w-72 md:w-96 h-auto pointer-events-none">
-                    </div>
-                </div>
+  <main class="pt-32 pb-20">
 
-                <div class="grid md:grid-cols-3 gap-8 mt-16">
-                    <div class="p-10 border border-slate-100 bg-white rounded-2xl shadow-sm">
-                        <h3 class="font-heading text-xs font-black text-[#800000] uppercase tracking-widest mb-6 border-b pb-4">Visi</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed italic italic">
-                            "Membangun lembaga yang aspiratif bagi mahasiswa dengan mengedepankan kolektif suara dalam pengambilan keputusan yang transparan, adaptif dan fleksibel untuk mahasiswa dalam meningkatkan kolaborasi agar mampu menjadi tempat untuk tumbuh, berkembang, belajar, dan berdinamika bagi seluruh mahasiswa Pendidikan Kepelatihan Olahraga FPOK UPI"
-                        </p>
-                    </div>
-                    <div class="md:col-span-2 bg-slate-900 p-10 rounded-2xl text-white shadow-xl">
-                        <h3 class="font-heading text-xs font-black text-[#fbbf24] uppercase tracking-widest mb-10">Misi Strategis</h3>
-                        <div class="grid sm:grid-cols-2 gap-8 text-[11px] leading-loose text-slate-400">
-                            <div>
-                                <p class="text-white font-bold mb-2 uppercase tracking-tighter text-xs">I. Budaya Kerja</p>
-                                <p>Mengembangkan budaya organisasi yang transparan, adaptif, dan fleksibel.</p>
-                            </div>
-                            <div>
-                                <p class="text-white font-bold mb-2 uppercase tracking-tighter text-xs">II. Kolaborasi</p>
-                                <p>Mendorong kolaborasi yang sinergis dan profesional.</p>
-                            </div>
-                            <div>
-                                <p class="text-white font-bold mb-2 uppercase tracking-tighter text-xs">III. Advokasi</p>
-                                <p>Optimalisasi peran DPM HIMA PKO sebagai lembaga yang aspiratif menyuarakan, menyalurkan dan mengadvokasi ide, aspirasi, dan inovasi mahasiwa.</p>
-                            </div>
-                            <div>
-                                <p class="text-white font-bold mb-2 uppercase tracking-tighter text-xs">IV. Komunikasi</p>
-                                <p>Menciptakan jaringan komunikasi dan organisasi yang baik dikalangan mahasiswa pendidikan kepelatihan olahraga.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <section id="home" class="section-content active px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-10 items-center mb-24" data-aos="fade-up">
+          <div class="text-center lg:text-left">
+            <span class="inline-block px-4 py-1 rounded bg-slate-100/70 border border-slate-200/40 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-8">
+              Legislative Portal
+            </span>
+
+            <h2 class="font-heading text-6xl md:text-8xl font-bold leading-[0.9] mb-8">
+              <span class="hero-gradient">Parlemen</span> <br>
+              <span class="text-[#800000] drop-shadow-[0_12px_45px_rgba(128,0,0,0.12)]">Resilience.</span>
+            </h2>
+
+            <p class="text-slate-500 text-lg md:text-xl leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0 font-medium">
+              Keputusan transparan, adaptif, dan fleksibel untuk masa depan PKO FPOK UPI yang lebih kolektif.
+            </p>
+
+            <button onclick="showSection('aspirasi')" class="btn-maroon px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest">
+              Suarakan Aspirasi
+            </button>
+          </div>
+
+          <div class="hidden lg:flex justify-end opacity-10 grayscale">
+            <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" class="w-96 pointer-events-none">
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 items-stretch">
+          <div class="card-visi p-10 md:p-14" data-aos="fade-right">
+            <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-[#800000] mb-10">Visi Parlemen</h3>
+            <p class="text-visi text-2xl md:text-4xl">
+              "Membangun lembaga yang aspiratif bagi mahasiswa dengan mengedepankan kolektif suara yang transparan, adaptif dan fleksibel."
+            </p>
+          </div>
+
+          <div class="card-misi p-10 md:p-14" data-aos="fade-left">
+            <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-12">Misi Strategis</h3>
+            <div class="space-y-8">
+              <div class="flex gap-5 items-start">
+                <span class="number-circle">1</span>
+                <p class="text-sm font-semibold text-slate-600 leading-relaxed">Budaya organisasi yang transparan, adaptif, dan fleksibel.</p>
+              </div>
+              <div class="flex gap-5 items-start">
+                <span class="number-circle">2</span>
+                <p class="text-sm font-semibold text-slate-600 leading-relaxed">Kolaborasi sinergis antar elemen mahasiswa PKO FPOK UPI.</p>
+              </div>
+              <div class="flex gap-5 items-start">
+                <span class="number-circle">3</span>
+                <p class="text-sm font-semibold text-slate-600 leading-relaxed">Optimalisasi DPM sebagai wadah advokasi ide dan inovasi.</p>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
 
-        <section id="aspirasi" class="section-content px-6">
-            <div class="max-w-xl mx-auto">
-                <div id="aspirasiCard" class="bg-white p-8 md:p-14 rounded-3xl border border-slate-100 shadow-sm">
-                    <div class="mb-10 text-center">
-                        <h2 class="font-heading text-2xl font-bold uppercase tracking-tight text-slate-900">Layanan Aspirasi</h2>
-                        <div class="w-10 h-1 bg-[#800000] mx-auto mt-4"></div>
-                    </div>
+      </div>
+    </section>
 
-                    <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeVUr-FDak18xsM4PF3XFZXZsnM1eljxsLYVNlW59OpcMGmZg/formResponse" 
-                          method="POST" id="formAspirasi" target="hidden_iframe" class="space-y-6">
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Nama Lengkap</label>
-                                <input type="text" name="entry.1716082016" required placeholder="Nama" 
-                                       class="w-full p-4 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:border-[#800000] transition-all">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">NIM</label>
-                                <input type="text" name="entry.625953499" required placeholder="NIM" 
-                                       class="w-full p-4 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:border-[#800000] transition-all">
-                            </div>
-                        </div>
+    <section id="aspirasi" class="section-content px-6">
+      <div class="max-w-2xl mx-auto py-5">
+        <div id="aspirasiCard" class="bg-white/85 backdrop-blur-xl p-10 md:p-16 rounded-[3.5rem] border border-slate-100/80 shadow-2xl shadow-slate-200/40">
+          <h2 class="font-heading text-3xl font-bold text-center mb-12 uppercase tracking-tight">Formulir Aspirasi</h2>
 
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Subjek Aspirasi</label>
-                            <input type="text" name="entry.1297363755" required placeholder="Misal: Akademik, Fasilitas, dll" 
-                                   class="w-full p-4 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:border-[#800000] transition-all">
-                        </div>
+          <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeVUr-FDak18xsM4PF3XFZXZsnM1eljxsLYVNlW59OpcMGmZg/formResponse"
+                method="POST" id="formAspirasi" target="hidden_iframe" class="space-y-6">
 
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pesan Lengkap</label>
-                            <textarea name="entry.2146318381" required rows="5" placeholder="Tuliskan aspirasi Anda..." 
-                                      class="w-full p-4 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:border-[#800000] transition-all resize-none"></textarea>
-                        </div>
-
-                        <button type="submit" onclick="handleFormSubmit()" class="w-full btn-maroon py-5 rounded-lg font-bold text-[10px] uppercase tracking-[0.3em] shadow-lg shadow-red-900/10">
-                            Kirim Aspirasi
-                        </button>
-                    </form>
-                    <div id="successMsg" class="hidden mt-8 p-4 bg-slate-900 text-white rounded-lg text-center text-[10px] font-black uppercase tracking-widest">Berhasil Terkirim ke Database</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="admin" class="section-content px-6">
-            <div id="adminLogin" class="max-w-sm mx-auto py-12">
-                <div id="loginBox" class="bg-white p-10 rounded-2xl border border-slate-100 text-center shadow-sm">
-                    <h2 class="font-heading text-sm font-black mb-8 uppercase tracking-widest text-slate-400">Panel Administrator</h2>
-                    <input type="password" id="passInput" placeholder="Sandi Akses" 
-                           class="w-full p-4 bg-slate-50 border border-slate-200 rounded-lg mb-4 text-center outline-none focus:border-[#800000] transition-all">
-                    <button onclick="checkAdminLogin()" class="w-full btn-maroon py-4 rounded-lg font-bold text-[10px] uppercase tracking-widest">Buka Akses</button>
-                </div>
+            <div class="grid md:grid-cols-2 gap-5">
+              <div class="space-y-2">
+                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nama Lengkap</label>
+                <input type="text" name="entry.1716082016" required class="w-full p-4 input-style text-sm">
+              </div>
+              <div class="space-y-2">
+                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">NIM</label>
+                <input type="text" name="entry.625953499" required class="w-full p-4 input-style text-sm">
+              </div>
             </div>
 
-            <div id="adminDash" class="hidden max-w-7xl mx-auto space-y-6">
-                <div class="flex flex-col md:flex-row justify-between items-center bg-white p-8 rounded-2xl border border-slate-100 gap-4">
-                    <div>
-                        <h2 class="font-heading text-lg font-bold text-slate-900 uppercase tracking-tight">Database Parlemen</h2>
-                        <p class="text-[9px] font-bold text-[#800000] uppercase tracking-widest mt-1">Status: Terhubung</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="refreshData()" id="refreshBtn" class="px-5 py-2.5 bg-[#800000] text-white rounded text-[10px] font-black uppercase tracking-widest transition active:scale-95">Refresh Data</button>
-                        <button onclick="exportCSV()" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded text-[10px] font-black uppercase tracking-widest hover:bg-slate-200">Export CSV</button>
-                        <button onclick="location.reload()" class="px-5 py-2.5 text-rose-600 rounded text-[10px] font-black uppercase tracking-widest">Keluar</button>
-                    </div>
-                </div>
-
-                <div class="bg-white border border-slate-100 shadow-sm rounded-2xl overflow-hidden">
-                    <div class="table-wrapper">
-                        <table class="w-full text-left min-w-[800px]">
-                            <thead class="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400 border-b">
-                                <tr>
-                                    <th class="p-6">Timestamp</th>
-                                    <th class="p-6 text-slate-900">Nama / NIM</th>
-                                    <th class="p-6 text-[#800000]">Kategori</th>
-                                    <th class="p-6">Isi Pesan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dbContent" class="text-xs text-slate-600 divide-y divide-slate-50">
-                                </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="space-y-2">
+              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Subjek</label>
+              <input type="text" name="entry.1297363755" required class="w-full p-4 input-style text-sm">
             </div>
-        </section>
 
-    </main>
+            <div class="space-y-2">
+              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Pesan Aspirasi</label>
+              <textarea name="entry.2146318381" required rows="5" class="w-full p-4 input-style text-sm resize-none"></textarea>
+            </div>
 
-    <footer class="py-12 border-t border-slate-100 text-center text-slate-300">
-        <p class="text-[9px] font-black uppercase tracking-[0.5em]">Digital Repository &copy; 2025 Parlemen Resilience DPM HIMA PKO UPI</p>
-    </footer>
+            <button type="submit" onclick="handleSubmit()" class="w-full btn-maroon py-5 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em]">
+              Kirim Aspirasi
+            </button>
+          </form>
 
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+          <div id="msgSent" class="hidden mt-8 p-4 bg-slate-900 text-white rounded-2xl text-center text-[10px] font-bold uppercase tracking-widest">
+            Terima Kasih, Aspirasi Terkirim
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <script>
-        const SHEETS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vStcxFf1veUj6SiD7Xt89JvZMSt4lO9TxKwtQCMHaZPiqbPH8fylGHOT0CCTqpJJrBvV8jlPCZlEy5v/pub?gid=761094266&single=true&output=csv";
-        let csvRawData = "";
+    <section id="admin" class="section-content px-6">
+      <div id="loginSection" class="max-w-sm mx-auto py-20">
+        <div id="loginCard" class="bg-white/85 backdrop-blur-xl p-12 rounded-[3rem] border border-slate-100/80 shadow-xl text-center">
+          <h2 class="font-heading text-xl font-bold mb-10 tracking-tight uppercase">Admin Login</h2>
+          <input type="password" id="passCode" placeholder="••••••••" class="w-full p-4 bg-slate-50/80 border border-slate-100/80 rounded-2xl mb-6 text-center outline-none focus:ring-0 focus:border-rose-200 transition-all">
+          <button onclick="checkAdmin()" class="w-full btn-maroon py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest">Masuk</button>
+        </div>
+      </div>
 
-        function showSection(id) {
-            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
+      <div id="dashboardSection" class="hidden max-w-7xl mx-auto space-y-6">
+        <div class="flex flex-col md:flex-row justify-between items-center bg-white/85 backdrop-blur-xl p-10 rounded-[3rem] border border-slate-100/80 gap-6 shadow-xl">
+          <div>
+            <h2 class="font-heading text-2xl font-bold uppercase tracking-tight text-slate-900">
+              Database <span class="text-[#800000]">Live</span>
+            </h2>
+            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-2">DPM HIMA PKO Internal Panel</p>
+          </div>
+          <div class="flex gap-3">
+            <button onclick="refreshData()" id="btnRefresh" class="px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#800000] transition-all">
+              Refresh
+            </button>
+            <button onclick="location.reload()" class="px-8 py-3 text-rose-600 font-bold text-[10px] uppercase hover:underline">
+              Keluar
+            </button>
+          </div>
+        </div>
 
-        function handleFormSubmit() {
-            const form = document.getElementById('formAspirasi');
-            const card = document.getElementById('aspirasiCard');
-            if(form.checkValidity()) {
-                document.getElementById('successMsg').classList.remove('hidden');
-                setTimeout(() => { 
-                    form.reset(); 
-                    document.getElementById('successMsg').classList.add('hidden');
-                }, 5000);
-            } else {
-                card.classList.add('shake');
-                setTimeout(() => card.classList.remove('shake'), 400);
-            }
-        }
+        <div class="bg-white/85 backdrop-blur-xl rounded-[3rem] border border-slate-100/80 shadow-2xl overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left min-w-[900px]">
+              <thead class="bg-slate-50/80 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100/70">
+                <tr>
+                  <th class="p-8">Waktu</th>
+                  <th class="p-8 text-slate-900">Nama / NIM</th>
+                  <th class="p-8 text-[#800000]">Subjek</th>
+                  <th class="p-8">Pesan</th>
+                </tr>
+              </thead>
+              <tbody id="tableRows" class="text-xs font-semibold text-slate-600 divide-y divide-slate-50/70"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        function checkAdminLogin() {
-            const input = document.getElementById('passInput');
-            const box = document.getElementById('loginBox');
-            if(input.value === 'dpmhimapko99') {
-                document.getElementById('adminLogin').classList.add('hidden');
-                document.getElementById('adminDash').classList.remove('hidden');
-                refreshData();
-            } else {
-                box.classList.add('shake');
-                input.value = "";
-                setTimeout(() => box.classList.remove('shake'), 400);
-            }
-        }
+  </main>
 
-        async function refreshData() {
-            const tbody = document.getElementById('dbContent');
-            const btn = document.getElementById('refreshBtn');
-            
-            btn.innerHTML = "Memuat...";
-            tbody.innerHTML = `<tr><td colspan="4" class="p-20 text-center text-slate-300 uppercase font-black text-[10px] tracking-widest animate-pulse tracking-widest">Sinkronisasi Basis Data...</td></tr>`;
-            
-            try {
-                // Anti-Cache mechanism
-                const response = await fetch(`${SHEETS_URL}&_ts=${new Date().getTime()}`);
-                csvRawData = await response.text();
-                const rows = csvRawData.split(/\r?\n/).slice(1);
-                
-                if(rows.length === 0 || rows[0] === "") {
-                    tbody.innerHTML = `<tr><td colspan="4" class="p-20 text-center text-slate-400">Data Kosong</td></tr>`;
-                } else {
-                    tbody.innerHTML = rows.reverse().map(row => {
-                        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                        const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
-                        return `<tr class="hover:bg-slate-50 transition-colors">
-                            <td class="p-6 font-mono text-[10px] text-slate-300">${clean[0]}</td>
-                            <td class="p-6 font-bold text-slate-800 uppercase tracking-tighter">${clean[1]}</td>
-                            <td class="p-6"><span class="bg-red-50 text-[#800000] px-2 py-1 rounded text-[9px] font-black uppercase">${clean[2]}</span></td>
-                            <td class="p-6 leading-relaxed">${clean[3]}</td>
-                        </tr>`;
-                    }).join('');
-                }
-            } catch (error) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-20 text-center text-red-500 font-bold uppercase tracking-widest">Koneksi Gagal</td></tr>`;
-            } finally {
-                btn.innerHTML = "Refresh Data";
-            }
-        }
+  <footer class="py-12 text-center">
+    <p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.5em]">
+      Parlemen Resilience © 2025 DPM HIMA PKO UPI
+    </p>
+  </footer>
 
-        function exportCSV() {
-            if(!csvRawData) return;
-            const blob = new Blob([csvRawData], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `Aspirasi_PKO_UPI_${new Date().toLocaleDateString()}.csv`;
-            link.click();
-        }
-    </script>
+  <!-- back to top -->
+  <button id="toTop" class="to-top btn-maroon w-12 h-12 rounded-full flex items-center justify-center shadow-xl"
+          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Back to top">
+    <span class="text-sm font-black">↑</span>
+  </button>
+
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    const SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vStcxFf1veUj6SiD7Xt89JvZMSt4lO9TxKwtQCMHaZPiqbPH8fylGHOT0CCTqpJJrBvV8jlPCZlEy5v/pub?gid=761094266&single=true&output=csv";
+
+    function showSection(id) {
+      document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(id);
+      target.classList.add('active');
+      target.classList.add('soft-pop');
+      setTimeout(() => target.classList.remove('soft-pop'), 700);
+
+      window.scrollTo({top:0, behavior: 'smooth'});
+      AOS.refresh();
+    }
+
+    function handleSubmit() {
+      const form = document.getElementById('formAspirasi');
+      const card = document.getElementById('aspirasiCard');
+      if(!form.checkValidity()) {
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 500);
+      } else {
+        document.getElementById('msgSent').classList.remove('hidden');
+        setTimeout(() => { form.reset(); document.getElementById('msgSent').classList.add('hidden'); }, 5000);
+      }
+    }
+
+    function checkAdmin() {
+      const pass = document.getElementById('passCode');
+      if(pass.value === 'dpmhimapko99') {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('dashboardSection').classList.remove('hidden');
+        refreshData();
+      } else {
+        document.getElementById('loginCard').classList.add('shake');
+        pass.value = "";
+        setTimeout(() => document.getElementById('loginCard').classList.remove('shake'), 500);
+      }
+    }
+
+    async function refreshData() {
+      const tbody = document.getElementById('tableRows');
+      const btn = document.getElementById('btnRefresh');
+      btn.innerHTML = "...";
+      tbody.innerHTML = `<tr><td colspan="4" class="p-20 text-center animate-pulse text-slate-300 font-bold uppercase tracking-widest">Sinkronisasi Data...</td></tr>`;
+
+      try {
+        const res = await fetch(`${SHEETS_CSV}&t=${new Date().getTime()}`);
+        const data = await res.text();
+        const rows = data.split(/\r?\n/).slice(1);
+
+        tbody.innerHTML = rows.reverse().map(r => {
+          const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').trim());
+          return `<tr class="row-hover">
+              <td class="p-8 text-[10px] font-mono text-slate-300 italic">${c[0] || ""}</td>
+              <td class="p-8 font-bold text-slate-900 uppercase tracking-tighter">${c[1] || ""}</td>
+              <td class="p-8">
+                <span class="px-3 py-1 bg-red-50/80 text-[#800000] rounded-full font-bold text-[9px] uppercase border border-red-100/70">
+                  ${c[2] || ""}
+                </span>
+              </td>
+              <td class="p-8 leading-relaxed text-slate-500">${c[3] || ""}</td>
+            </tr>`;
+        }).join('');
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-20 text-center text-rose-500 font-bold">Error Connection</td></tr>`;
+      } finally {
+        btn.innerHTML = "Refresh";
+      }
+    }
+
+    // ===== Scroll effects (visual only, no change to web function) =====
+    const nav = document.getElementById('topNav');
+    const navInner = document.getElementById('navInner');
+    const progress = document.getElementById('scrollProgress');
+    const toTop = document.getElementById('toTop');
+
+    function onScrollFX() {
+      const y = window.scrollY || 0;
+
+      // nav compact + shadow
+      if (y > 10) {
+        nav.classList.add('nav-scrolled');
+        navInner.classList.add('nav-tight');
+      } else {
+        nav.classList.remove('nav-scrolled');
+        navInner.classList.remove('nav-tight');
+      }
+
+      // progress bar
+      const doc = document.documentElement;
+      const max = (doc.scrollHeight - doc.clientHeight) || 1;
+      const p = Math.min(1, y / max);
+      progress.style.width = (p * 100) + "%";
+
+      // back to top
+      if (y > 500) toTop.classList.add('show');
+      else toTop.classList.remove('show');
+    }
+
+    window.addEventListener('scroll', onScrollFX, { passive: true });
+    window.addEventListener('load', onScrollFX);
+  </script>
 </body>
 </html>
