@@ -6,7 +6,7 @@
   <title>DPM HIMA PKO FPOK UPI | Parlemen Ressilience</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <style>
@@ -31,7 +31,15 @@
       color:#1e293b;
       -webkit-font-smoothing:antialiased;
       overflow-x:hidden;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .65s cubic-bezier(0.16,1,0.3,1), transform .65s cubic-bezier(0.16,1,0.3,1);
     }
+    body.is-loaded{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .font-heading{font-family:'Space Grotesk',sans-serif;}
 
     /* ===== Ambient background base ===== */
@@ -51,12 +59,13 @@
       background-image: var(--bg-url-primary), var(--bg-url-fallback);
       background-size: cover;
       background-position: center;
-      opacity: 0.10; /* atur 0.06 - 0.14 sesuai selera */
+      opacity: 0.10;
       filter: grayscale(1) contrast(1.05);
-      transform: scale(1.02);
+      transform: translate3d(0,0,0) scale(1.02);
+      will-change: transform;
     }
 
-    /* Soft overlay biar elegan */
+    /* Soft overlay */
     .bg-overlay{
       position:fixed; inset:0; z-index:-2; pointer-events:none;
       background:
@@ -74,7 +83,6 @@
     .scroll-progress{
       position:fixed; top:0; left:0; height:3px; width:0%;
       z-index:200;
-      /* ✅ maroon solid (no gradient) */
       background: var(--maroon);
       box-shadow:0 6px 16px rgba(128,0,0,0.22);
       transform-origin:left;
@@ -134,6 +142,13 @@
       -webkit-background-clip:text; background-clip:text; color:transparent;
     }
 
+    /* hero entrance */
+    .hero-entrance{ animation:heroIn .9s cubic-bezier(0.16,1,0.3,1) both; }
+    @keyframes heroIn{
+      from{ opacity:0; transform: translateY(14px) scale(.995); filter: blur(2px); }
+      to{ opacity:1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
     /* back to top */
     .to-top{
       position:fixed; right:18px; bottom:18px; z-index:120;
@@ -163,37 +178,62 @@
     .menu-pop{animation:menuPop .18s ease-out;}
     @keyframes menuPop{from{opacity:0; transform:translateY(-6px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);} }
 
+    /* subtle scroll glow on active sections */
+    .scroll-glow{
+      position: relative;
+    }
+    .scroll-glow::before{
+      content:"";
+      position:absolute;
+      inset:-18px;
+      border-radius: 3.25rem;
+      background:
+        radial-gradient(520px 200px at 20% 20%, rgba(128,0,0,0.12), transparent 60%),
+        radial-gradient(520px 220px at 80% 30%, rgba(15,23,42,0.10), transparent 62%);
+      filter: blur(18px);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .6s cubic-bezier(0.16,1,0.3,1), transform .6s cubic-bezier(0.16,1,0.3,1);
+      pointer-events:none;
+      z-index:-1;
+    }
+    .scroll-glow.is-inview::before{
+      opacity: .65;
+      transform: translateY(0);
+    }
+
     /* =========================
-       VISI MISI CARDS (PILL TOP)
-       Flip: AUTO on hover / click
-       Color: maroon solid (no gradient)
+       VISI MISI CARDS (RESPONSIVE FIX MOBILE)
        ========================= */
 
     .flip-grid{
       display:grid;
-      gap:2rem;
+      gap:1.35rem; /* lebih rapat di mobile */
     }
     @media (min-width: 768px){
-      .flip-grid{ grid-template-columns: 1fr 1fr; }
+      .flip-grid{ grid-template-columns: 1fr 1fr; gap:2rem; }
     }
 
     .flip-card{
       perspective: 1400px;
-      border-radius: 2.75rem;
+      border-radius: 2.25rem;
       position: relative;
+    }
+    @media (min-width: 768px){
+      .flip-card{ border-radius: 2.75rem; }
     }
 
     .flip-card::before{
       content:"";
       position:absolute;
-      inset:-14px;
-      border-radius: 3.2rem;
+      inset:-12px;
+      border-radius: 2.8rem;
       background:
         radial-gradient(700px 280px at 20% 15%, rgba(128,0,0,0.16), transparent 60%),
         radial-gradient(700px 280px at 80% 20%, rgba(15,23,42,0.10), transparent 60%),
         radial-gradient(600px 320px at 50% 92%, rgba(128,0,0,0.10), transparent 62%);
       filter: blur(18px);
-      opacity: .55;
+      opacity: .45;
       z-index:-1;
       transition: opacity .35s ease, transform .35s ease;
     }
@@ -201,37 +241,42 @@
     .flip-inner{
       position: relative;
       width: 100%;
-      min-height: 520px;
+      min-height: 420px; /* ✅ lebih kecil biar nggak kedempet di HP */
       transform-style: preserve-3d;
       transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-      border-radius: 2.75rem;
+      border-radius: 2.25rem;
       will-change: transform;
       box-shadow:
         0 28px 80px -55px rgba(2,6,23,0.45),
         0 12px 38px -30px rgba(128,0,0,0.18);
     }
+    @media (min-width: 480px){
+      .flip-inner{ min-height: 460px; }
+    }
+    @media (min-width: 768px){
+      .flip-inner{ min-height: 520px; border-radius: 2.75rem; }
+    }
 
-    /* ✅ AUTO FLIP: hover/focus-within flip (desktop) */
     @media (hover:hover) and (pointer:fine){
       .flip-card:hover .flip-inner{ transform: rotateY(180deg); }
     }
     .flip-card:focus-within .flip-inner{ transform: rotateY(180deg); }
-
-    /* ✅ Click/tap toggle (mobile + optional desktop) */
     .flip-card.is-flipped .flip-inner{ transform: rotateY(180deg); }
 
     .flip-face{
       position:absolute;
       inset:0;
       backface-visibility: hidden;
-      border-radius: 2.75rem;
+      border-radius: 2.25rem;
       overflow:hidden;
       border: 1px solid rgba(241,245,249,0.88);
       background: rgba(255,255,255,0.85);
       backdrop-filter: blur(18px);
     }
+    @media (min-width: 768px){
+      .flip-face{ border-radius: 2.75rem; }
+    }
 
-    /* shimmer halus */
     .flip-face::after{
       content:"";
       position:absolute;
@@ -242,19 +287,18 @@
       pointer-events:none;
     }
 
-    /* hover = lift + glow + shimmer */
     @media (hover:hover) and (pointer:fine){
-      .flip-card:hover::before{ opacity:.9; transform: translateY(-6px); }
+      .flip-card:hover::before{ opacity:.8; transform: translateY(-6px); }
       .flip-card:hover .flip-face::after{ transform: translateX(55%) rotate(10deg); }
     }
 
-    /* header pill */
+    /* ✅ pill dikecilin di HP */
     .pill{
       position:absolute;
-      left:1.25rem;
-      right:1.25rem;
-      top:1.25rem;
-      height:74px;
+      left:1rem;
+      right:1rem;
+      top:1rem;
+      height:56px; /* ✅ */
       border-radius: 999px;
       display:flex;
       align-items:center;
@@ -263,11 +307,20 @@
       font-weight: 900;
       letter-spacing:.22em;
       text-transform: uppercase;
-      font-size: clamp(2rem, 3.6vw, 3.3rem);
-      box-shadow: 0 22px 55px rgba(2,6,23,0.22);
+      font-size: clamp(1.05rem, 4.8vw, 2.2rem); /* ✅ */
+      box-shadow: 0 18px 48px rgba(2,6,23,0.18);
       border: 1px solid rgba(255,255,255,0.16);
       overflow:hidden;
-      background: var(--maroon); /* ✅ solid maroon */
+      background: var(--maroon);
+      padding-inline: 10px;
+    }
+    @media (min-width: 768px){
+      .pill{
+        left:1.25rem; right:1.25rem; top:1.25rem;
+        height:74px;
+        font-size: clamp(2rem, 3.6vw, 3.3rem);
+        box-shadow: 0 22px 55px rgba(2,6,23,0.22);
+      }
     }
 
     .pill::before{
@@ -283,18 +336,18 @@
       .flip-card:hover .pill::before{ transform: translateX(65%) rotate(10deg); }
     }
 
-    /* ✅ remove gradient variants, keep maroon */
     .pill.visi{ background: var(--maroon); }
     .pill.misi{ background: var(--maroon); }
 
+    /* ✅ jarak konten turun biar nggak tabrakan sama pill */
     .card-body{
       position:absolute;
-      left:1.6rem;
-      right:1.6rem;
-      top:6.7rem;
-      bottom:1.6rem;
-      border-radius: 2.1rem;
-      padding: 1.9rem;
+      left:1.1rem;
+      right:1.1rem;
+      top:5.0rem;   /* ✅ */
+      bottom:1.1rem;/* ✅ */
+      border-radius: 1.9rem;
+      padding: 1.4rem;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -305,29 +358,38 @@
         rgba(255,255,255,0.55);
       border: 1px solid rgba(241,245,249,0.75);
     }
+    @media (min-width: 768px){
+      .card-body{
+        left:1.6rem; right:1.6rem;
+        top:6.7rem; bottom:1.6rem;
+        border-radius: 2.1rem;
+        padding: 1.9rem;
+      }
+    }
 
     .front-label{
       font-family:'Space Grotesk',sans-serif;
-      font-size: clamp(2.2rem, 4vw, 4.2rem);
+      font-size: clamp(1.6rem, 7vw, 3.4rem); /* ✅ lebih aman di HP */
       font-weight: 800;
       letter-spacing: .18em;
       text-transform: uppercase;
       color: rgba(15,23,42,0.12);
       user-select:none;
     }
-
-    .flip-back{
-      transform: rotateY(180deg);
+    @media (min-width: 768px){
+      .front-label{ font-size: clamp(2.2rem, 4vw, 4.2rem); }
     }
+
+    .flip-back{ transform: rotateY(180deg); }
 
     .back-wrap{
       position:absolute;
-      left:1.6rem;
-      right:1.6rem;
-      top:6.7rem;
-      bottom:1.6rem;
-      border-radius: 2.1rem;
-      padding: 2rem;
+      left:1.1rem;
+      right:1.1rem;
+      top:5.0rem;   /* ✅ */
+      bottom:1.1rem;/* ✅ */
+      border-radius: 1.9rem;
+      padding: 1.4rem;
       display:flex;
       flex-direction:column;
       justify-content:center;
@@ -337,14 +399,22 @@
         rgba(255,255,255,0.70);
       border: 1px solid rgba(241,245,249,0.78);
     }
+    @media (min-width: 768px){
+      .back-wrap{
+        left:1.6rem; right:1.6rem;
+        top:6.7rem; bottom:1.6rem;
+        border-radius: 2.1rem;
+        padding: 2rem;
+      }
+    }
 
     .back-wrap h3{
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.28em;
       font-weight: 900;
       color: rgba(15,23,42,0.55);
-      margin-bottom: 1rem;
+      margin-bottom: .9rem;
       text-align:left;
     }
 
@@ -354,18 +424,24 @@
       color: var(--ink);
       line-height: 1.35;
       letter-spacing: -0.02em;
-      font-size: clamp(1.05rem, 1.6vw, 1.55rem);
+      font-size: clamp(0.98rem, 3.6vw, 1.35rem); /* ✅ */
       text-align:left;
     }
+    @media (min-width: 768px){
+      .visi-text{ font-size: clamp(1.05rem, 1.6vw, 1.55rem); }
+    }
 
-    .misi-list{ margin-top: .2rem; display:flex; flex-direction:column; gap: 1rem; }
-    .misi-item{ display:flex; gap: .9rem; align-items:flex-start; }
+    .misi-list{ margin-top: .2rem; display:flex; flex-direction:column; gap: .75rem; }
+    @media (min-width: 768px){
+      .misi-list{ gap: 1rem; }
+    }
+    .misi-item{ display:flex; gap: .8rem; align-items:flex-start; }
 
     .num{
-      width: 34px; height: 34px;
+      width: 32px; height: 32px;
       border-radius: 999px;
       display:flex; align-items:center; justify-content:center;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 900;
       color: rgba(128,0,0,0.95);
       background: rgba(255,255,255,0.96);
@@ -379,20 +455,90 @@
       box-shadow: 0 16px 28px -18px rgba(128,0,0,0.45);
     }
     .misi-item p{
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       color: rgba(71,85,105,1);
-      line-height: 1.6;
+      line-height: 1.55;
       text-align:left;
     }
 
-    /* tap feedback */
     .flip-card:active .flip-inner{ transform: scale(.995); }
 
-    /* ✅ Respect reduced motion */
     @media (prefers-reduced-motion: reduce){
       .flip-inner{ transition:none !important; }
       .flip-face::after, .pill::before{ transition:none !important; }
+      body{ transition:none !important; }
+      .hero-entrance{ animation:none !important; }
+    }
+
+    /* =========================
+       DRAGGABLE "TALI" LOGO (RESPONSIVE + PINDAH KE BAWAH HEADER DI HP)
+       ========================= */
+    .string-wrap{
+      position: relative;
+      width: 100%;
+      display:flex;
+      align-items:center;
+      justify-content:center; /* ✅ center di mobile */
+      user-select:none;
+      touch-action: none;
+    }
+
+    .string-stage{
+      position: relative;
+      width: clamp(240px, 78vw, 420px); /* ✅ aman di HP */
+      height: clamp(240px, 78vw, 420px);
+      display:grid;
+      place-items:center;
+    }
+
+    /* glow halus belakang logo */
+    .string-stage::before{
+      content:"";
+      position:absolute;
+      inset:-12px;
+      border-radius: 999px;
+      background:
+        radial-gradient(260px 260px at 40% 35%, rgba(128,0,0,0.18), transparent 60%),
+        radial-gradient(260px 260px at 70% 55%, rgba(15,23,42,0.12), transparent 62%);
+      filter: blur(18px);
+      opacity: .45;
+      z-index:-1;
+    }
+
+    .string-line{
+      position:absolute;
+      left: 50%;
+      top: 50%;
+      height: 2px;
+      width: 220px;
+      background: rgba(128,0,0,0.55);
+      transform-origin: 0% 50%;
+      border-radius: 999px;
+      opacity: 0;
+      transition: opacity .15s ease;
+    }
+    .string-line.show{ opacity: 1; }
+
+    .draggable-logo{
+      width: clamp(210px, 56vw, 380px);
+      pointer-events:auto;
+      cursor: grab;
+      will-change: transform;
+      transform: translate3d(0,0,0) rotate(0deg);
+      filter: drop-shadow(0 18px 35px rgba(2,6,23,0.18));
+      opacity: 1;            /* ✅ jangan samar */
+    }
+    .draggable-logo:active{ cursor: grabbing; }
+
+    @media (min-width: 1024px){
+      .string-wrap{ justify-content:flex-end; padding-right: 10px; }
+      .string-stage{ width: 420px; height: 420px; }
+      .draggable-logo{ width: 380px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .string-line{ display:none; }
     }
   </style>
 </head>
@@ -400,7 +546,7 @@
 <body>
   <!-- Background layers -->
   <div class="bg-aurora"></div>
-  <div class="bg-photo"></div>
+  <div id="bgPhoto" class="bg-photo"></div>
   <div class="bg-overlay"></div>
   <div class="bg-grain"></div>
   <div id="scrollProgress" class="scroll-progress"></div>
@@ -428,7 +574,7 @@
         </button>
       </div>
 
-      <!-- Mobile menu (titik 3) -->
+      <!-- Mobile menu -->
       <div class="md:hidden relative">
         <button id="menuBtn" class="w-11 h-11 rounded-full border border-slate-200/70 bg-white/70 backdrop-blur-xl flex items-center justify-center active:scale-95 transition"
                 aria-label="Menu">
@@ -460,36 +606,67 @@
     <section id="home" class="section-content active px-6">
       <div class="max-w-7xl mx-auto">
 
-        <div class="grid lg:grid-cols-2 gap-10 items-center mb-20" data-aos="fade-up">
-          <div class="text-center lg:text-left">
-            <span class="inline-block px-4 py-1 rounded bg-slate-100/70 border border-slate-200/40 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-8">
+        <div class="grid lg:grid-cols-2 gap-10 items-center mb-16 lg:mb-20">
+          <div class="text-center lg:text-left hero-entrance">
+            <span class="inline-block px-4 py-1 rounded bg-slate-100/70 border border-slate-200/40 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-8" data-aos="fade-up">
               Legislative Portal
             </span>
 
-            <h2 class="font-heading text-6xl md:text-8xl font-bold leading-[0.9] mb-8">
+            <h2 class="font-heading text-5xl sm:text-6xl md:text-8xl font-bold leading-[0.92] mb-7" data-aos="fade-up" data-aos-delay="80">
               <span class="hero-gradient">Parlemen</span><br>
               <span class="text-[#800000] drop-shadow-[0_12px_45px_rgba(128,0,0,0.12)]">Ressilience.</span>
             </h2>
 
-            <p class="text-slate-500 text-lg md:text-xl leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0 font-medium">
+            <p class="text-slate-500 text-base sm:text-lg md:text-xl leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 font-medium" data-aos="fade-up" data-aos-delay="140">
               Keputusan transparan, adaptif, dan fleksibel untuk masa depan PKO FPOK UPI yang lebih kolektif.
             </p>
 
-            <button onclick="showSection('aspirasi')" class="btn-maroon px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest">
-              Suarakan Aspirasi
-            </button>
+            <div data-aos="fade-up" data-aos-delay="220">
+              <button onclick="showSection('aspirasi')" class="btn-maroon px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest">
+                Suarakan Aspirasi
+              </button>
+            </div>
+
+            <!-- ✅ LOGO DRAG DI MOBILE PINDAH KE BAWAH HEADER (di bawah hero text) -->
+            <div class="mt-10 lg:hidden" data-aos="zoom-in" data-aos-delay="260">
+              <div class="string-wrap">
+                <div id="stringStageMobile" class="string-stage" aria-hidden="true">
+                  <div id="stringLineMobile" class="string-line"></div>
+                  <img
+                    id="homeDraggableLogoMobile"
+                    src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z"
+                    class="draggable-logo"
+                    alt="Logo DPM HIMA PKO"
+                    draggable="false"
+                  />
+                </div>
+              </div>
+              <p class="mt-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+        
+              </p>
+            </div>
           </div>
 
-          <div class="hidden lg:flex justify-end opacity-10 grayscale">
-            <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" class="w-96 pointer-events-none" alt="">
+          <!-- ✅ LOGO DRAG DESKTOP (tetap kanan) -->
+          <div class="hidden lg:flex string-wrap" data-aos="fade-left">
+            <div id="stringStage" class="string-stage" aria-hidden="true">
+              <div id="stringLine" class="string-line"></div>
+              <img
+                id="homeDraggableLogo"
+                src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z"
+                class="draggable-logo"
+                alt="Logo DPM HIMA PKO"
+                draggable="false"
+              />
+            </div>
           </div>
         </div>
 
         <!-- VISI MISI -->
-        <div class="flip-grid items-stretch">
+        <div class="flip-grid items-stretch scroll-glow" data-inview>
 
           <!-- VISI -->
-          <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Visi (klik untuk flip)">
+          <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Visi (klik untuk flip)" data-aos="fade-up">
             <div class="flip-inner">
               <!-- FRONT -->
               <div class="flip-face flip-front">
@@ -513,7 +690,7 @@
           </div>
 
           <!-- MISI -->
-          <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Misi (klik untuk flip)">
+          <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Misi (klik untuk flip)" data-aos="fade-up" data-aos-delay="80">
             <div class="flip-inner">
               <!-- FRONT -->
               <div class="flip-face flip-front">
@@ -558,13 +735,13 @@
 
     <section id="aspirasi" class="section-content px-6">
       <div class="max-w-2xl mx-auto py-5">
-        <div id="aspirasiCard" class="bg-white/85 backdrop-blur-xl p-10 md:p-16 rounded-[3.5rem] border border-slate-100/80 shadow-2xl shadow-slate-200/40">
-          <h2 class="font-heading text-3xl font-bold text-center mb-12 uppercase tracking-tight">Formulir Aspirasi</h2>
+        <div id="aspirasiCard" class="bg-white/85 backdrop-blur-xl p-10 md:p-16 rounded-[3.5rem] border border-slate-100/80 shadow-2xl shadow-slate-200/40 scroll-glow" data-inview>
+          <h2 class="font-heading text-3xl font-bold text-center mb-12 uppercase tracking-tight" data-aos="fade-up">Formulir Aspirasi</h2>
 
           <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeVUr-FDak18xsM4PF3XFZXZsnM1eljxsLYVNlW59OpcMGmZg/formResponse"
                 method="POST" id="formAspirasi" target="hidden_iframe" class="space-y-6">
 
-            <div class="grid md:grid-cols-2 gap-5">
+            <div class="grid md:grid-cols-2 gap-5" data-aos="fade-up" data-aos-delay="80">
               <div class="space-y-2">
                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nama Lengkap</label>
                 <input type="text" name="entry.1716082016" required class="w-full p-4 input-style text-sm">
@@ -575,17 +752,17 @@
               </div>
             </div>
 
-            <div class="space-y-2">
+            <div class="space-y-2" data-aos="fade-up" data-aos-delay="120">
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Subjek</label>
               <input type="text" name="entry.1297363755" required class="w-full p-4 input-style text-sm">
             </div>
 
-            <div class="space-y-2">
+            <div class="space-y-2" data-aos="fade-up" data-aos-delay="160">
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Pesan Aspirasi</label>
               <textarea name="entry.2146318381" required rows="5" class="w-full p-4 input-style text-sm resize-none"></textarea>
             </div>
 
-            <button type="submit" onclick="handleSubmit()" class="w-full btn-maroon py-5 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em]">
+            <button type="submit" onclick="handleSubmit()" class="w-full btn-maroon py-5 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em]" data-aos="fade-up" data-aos-delay="210">
               Kirim Aspirasi
             </button>
           </form>
@@ -599,15 +776,15 @@
 
     <section id="admin" class="section-content px-6">
       <div id="loginSection" class="max-w-sm mx-auto py-20">
-        <div id="loginCard" class="bg-white/85 backdrop-blur-xl p-12 rounded-[3rem] border border-slate-100/80 shadow-xl text-center">
-          <h2 class="font-heading text-xl font-bold mb-10 tracking-tight uppercase">Admin Login</h2>
-          <input type="password" id="passCode" placeholder="••••••••" class="w-full p-4 bg-slate-50/80 border border-slate-100/80 rounded-2xl mb-6 text-center outline-none focus:ring-0 focus:border-rose-200 transition-all">
-          <button onclick="checkAdmin()" class="w-full btn-maroon py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest">Masuk</button>
+        <div id="loginCard" class="bg-white/85 backdrop-blur-xl p-12 rounded-[3rem] border border-slate-100/80 shadow-xl text-center scroll-glow" data-inview>
+          <h2 class="font-heading text-xl font-bold mb-10 tracking-tight uppercase" data-aos="fade-up">Admin Login</h2>
+          <input type="password" id="passCode" placeholder="••••••••" class="w-full p-4 bg-slate-50/80 border border-slate-100/80 rounded-2xl mb-6 text-center outline-none focus:ring-0 focus:border-rose-200 transition-all" data-aos="fade-up" data-aos-delay="80">
+          <button onclick="checkAdmin()" class="w-full btn-maroon py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest" data-aos="fade-up" data-aos-delay="140">Masuk</button>
         </div>
       </div>
 
       <div id="dashboardSection" class="hidden max-w-7xl mx-auto space-y-6">
-        <div class="flex flex-col md:flex-row justify-between items-center bg-white/85 backdrop-blur-xl p-10 rounded-[3rem] border border-slate-100/80 gap-6 shadow-xl">
+        <div class="flex flex-col md:flex-row justify-between items-center bg-white/85 backdrop-blur-xl p-10 rounded-[3rem] border border-slate-100/80 gap-6 shadow-xl scroll-glow" data-inview>
           <div>
             <h2 class="font-heading text-2xl font-bold uppercase tracking-tight text-slate-900">
               Database <span class="text-[#800000]">Live</span>
@@ -615,7 +792,6 @@
             <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-2">DPM HIMA PKO Internal Panel</p>
           </div>
 
-          <!-- ✅ tombol export csv kembali -->
           <div class="flex gap-3 flex-wrap justify-center">
             <button onclick="refreshData()" id="btnRefresh" class="px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#800000] transition-all">
               Refresh
@@ -631,7 +807,7 @@
           </div>
         </div>
 
-        <div class="bg-white/85 backdrop-blur-xl rounded-[3rem] border border-slate-100/80 shadow-2xl overflow-hidden">
+        <div class="bg-white/85 backdrop-blur-xl rounded-[3rem] border border-slate-100/80 shadow-2xl overflow-hidden scroll-glow" data-inview>
           <div class="overflow-x-auto">
             <table class="w-full text-left min-w-[900px]">
               <thead class="bg-slate-50/80 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100/70">
@@ -666,7 +842,13 @@
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init({ duration: 1000, once: true });
+    // AOS
+    AOS.init({ duration: 900, once: true, offset: 60 });
+
+    // load entrance
+    window.addEventListener('load', () => {
+      document.body.classList.add('is-loaded');
+    });
 
     const SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vStcxFf1veUj6SiD7Xt89JvZMSt4lO9TxKwtQCMHaZPiqbPH8fylGHOT0CCTqpJJrBvV8jlPCZlEy5v/pub?gid=761094266&single=true&output=csv";
 
@@ -679,6 +861,10 @@
 
       window.scrollTo({top:0, behavior: 'smooth'});
       AOS.refresh();
+      requestAnimationFrame(() => {
+        // re-check inview glow when section changes
+        markInView();
+      });
     }
 
     function handleSubmit() {
@@ -737,7 +923,6 @@
       }
     }
 
-    // ✅ Export CSV
     function exportCSV(){
       const a = document.createElement('a');
       a.href = `${SHEETS_CSV}&t=${Date.now()}`;
@@ -747,11 +932,12 @@
       document.body.removeChild(a);
     }
 
-    // Scroll FX (visual only)
+    // Scroll FX
     const nav = document.getElementById('topNav');
     const navInner = document.getElementById('navInner');
     const progress = document.getElementById('scrollProgress');
     const toTop = document.getElementById('toTop');
+    const bgPhoto = document.getElementById('bgPhoto');
 
     function onScrollFX(){
       const y = window.scrollY || 0;
@@ -766,6 +952,15 @@
 
       if(y > 500) toTop.classList.add('show');
       else toTop.classList.remove('show');
+
+      // ✅ parallax halus background photo
+      if(bgPhoto){
+        const t = Math.min(24, y * 0.03);
+        bgPhoto.style.transform = `translate3d(0, ${t}px, 0) scale(1.02)`;
+      }
+
+      // ✅ inview glow
+      markInView();
     }
     window.addEventListener('scroll', onScrollFX, { passive:true });
     window.addEventListener('load', onScrollFX);
@@ -789,13 +984,11 @@
     document.addEventListener('click', () => closeMobileMenu());
     window.closeMobileMenu = closeMobileMenu;
 
-    // ✅ Flip cards: click/tap toggle + keyboard
+    // Flip cards
     document.querySelectorAll('[data-flip="card"]').forEach(card => {
       const toggle = () => card.classList.toggle('is-flipped');
 
       card.addEventListener('click', () => toggle());
-
-      // keyboard: Enter/Space
       card.addEventListener('keydown', (e) => {
         if(e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -803,6 +996,134 @@
         }
       });
     });
+
+    // ✅ Scroll in-view glow (simple & ringan)
+    function isElementInView(el){
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const pad = 80;
+      return (r.top < (vh - pad)) && (r.bottom > pad);
+    }
+    function markInView(){
+      document.querySelectorAll('[data-inview]').forEach(el => {
+        if(isElementInView(el)) el.classList.add('is-inview');
+        else el.classList.remove('is-inview');
+      });
+    }
+    window.addEventListener('load', markInView);
+
+    /* =========================
+       DRAG "TALI" LOGO (DESKTOP + MOBILE)
+       ========================= */
+    function initStringLogo(opts){
+      const logo = document.getElementById(opts.logoId);
+      const stage = document.getElementById(opts.stageId);
+      const line = document.getElementById(opts.lineId);
+      if(!logo || !stage || !line) return;
+
+      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const stiffness = reducedMotion ? 0.12 : 0.085;
+      const damping   = reducedMotion ? 0.72 : 0.82;
+      const maxPull   = 150;
+
+      let dragging = false;
+      let pointerId = null;
+
+      let x = 0, y = 0;
+      let vx = 0, vy = 0;
+      let tx = 0, ty = 0;
+      let lastT = performance.now();
+
+      function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+      function setTransform(){
+        const rot = clamp(x * 0.06, -10, 10);
+        logo.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
+
+        const len = Math.sqrt(x*x + y*y);
+        const angle = Math.atan2(y, x) * 180 / Math.PI;
+        line.style.width = (clamp(len, 0, maxPull) + 40) + "px";
+        line.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`;
+      }
+
+      function step(now){
+        const dt = Math.min(0.032, (now - lastT) / 1000);
+        lastT = now;
+
+        const ax = (tx - x) * stiffness;
+        const ay = (ty - y) * stiffness;
+
+        vx = (vx + ax) * damping;
+        vy = (vy + ay) * damping;
+
+        x += vx * (dt * 60);
+        y += vy * (dt * 60);
+
+        if(!dragging && Math.abs(x) < 0.08 && Math.abs(y) < 0.08 && Math.abs(vx) < 0.08 && Math.abs(vy) < 0.08){
+          x = 0; y = 0; vx = 0; vy = 0;
+        }
+
+        setTransform();
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+
+      function getCenter(){
+        const r = stage.getBoundingClientRect();
+        return { cx: r.left + r.width/2, cy: r.top + r.height/2 };
+      }
+
+      function onPointerDown(e){
+        dragging = true;
+        pointerId = e.pointerId;
+        logo.setPointerCapture(pointerId);
+        line.classList.add('show');
+        tx = x; ty = y;
+        e.preventDefault();
+      }
+
+      function onPointerMove(e){
+        if(!dragging || e.pointerId !== pointerId) return;
+
+        const { cx, cy } = getCenter();
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+
+        const len = Math.sqrt(dx*dx + dy*dy);
+        if(len > maxPull){
+          const s = maxPull / (len || 1);
+          tx = dx * s;
+          ty = dy * s;
+        } else {
+          tx = dx;
+          ty = dy;
+        }
+      }
+
+      function onPointerUp(e){
+        if(e.pointerId !== pointerId) return;
+        dragging = false;
+        pointerId = null;
+        tx = 0; ty = 0;
+
+        setTimeout(() => {
+          if(!dragging) line.classList.remove('show');
+        }, 120);
+      }
+
+      logo.addEventListener('pointerdown', onPointerDown);
+      window.addEventListener('pointermove', onPointerMove, { passive:false });
+      window.addEventListener('pointerup', onPointerUp);
+      window.addEventListener('pointercancel', onPointerUp);
+
+      window.addEventListener('resize', () => { if(!dragging){ tx = 0; ty = 0; } });
+      logo.addEventListener('dragstart', (e) => e.preventDefault());
+    }
+
+    // init both
+    initStringLogo({ logoId:'homeDraggableLogo', stageId:'stringStage', lineId:'stringLine' });
+    initStringLogo({ logoId:'homeDraggableLogoMobile', stageId:'stringStageMobile', lineId:'stringLineMobile' });
   </script>
 </body>
 </html>
