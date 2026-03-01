@@ -6,7 +6,7 @@
   <title>DPM HIMA PKO FPOK UPI | Parlemen Ressilience</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <style>
@@ -23,9 +23,6 @@
 
       /* Fallback */
       --bg-url-fallback: url("https://drive.google.com/uc?export=view&id=1sJQUCPBU0JzndSAM8GfAgjZOVMw7RLWV");
-
-      /* Elegant waves (SVG data-uri) */
-      --waves-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M0 160 C 180 120, 360 200, 540 160 S 900 120, 1080 160 S 1260 200, 1440 160' stroke='%23cbd5e1' stroke-width='2' opacity='.85'/%3E%3Cpath d='M0 190 C 220 150, 420 230, 640 190 S 980 150, 1180 190 S 1320 230, 1440 190' stroke='%23e2e8f0' stroke-width='2' opacity='.8'/%3E%3Cpath d='M0 220 C 220 180, 420 260, 640 220 S 980 180, 1180 220 S 1320 260, 1440 220' stroke='%23facc15' stroke-width='2' opacity='.32'/%3E%3Cpath d='M0 130 C 220 90, 420 170, 640 130 S 980 90, 1180 130 S 1320 170, 1440 130' stroke='%23facc15' stroke-width='2' opacity='.18'/%3E%3C/g%3E%3C/svg%3E");
     }
 
     body{
@@ -45,28 +42,15 @@
 
     .font-heading{font-family:'Space Grotesk',sans-serif;}
 
-    /* ===== Clean base (NO color aurora/gradient) ===== */
-    .bg-base{
-      position:fixed; inset:0; z-index:-5; pointer-events:none;
-      background:#ffffff;
-    }
-
-    /* ===== Elegant wave lines (like your example) ===== */
-    .bg-waves{
+    /* ===== Ambient background base ===== */
+    .bg-aurora{
       position:fixed; inset:0; z-index:-4; pointer-events:none;
-      background-image: var(--waves-svg);
-      background-repeat: no-repeat;
-      background-position: center 220px; /* sits behind hero title */
-      background-size: 1500px auto;
-      opacity: .55;
-      filter: blur(.15px);
-    }
-    @media (min-width: 768px){
-      .bg-waves{
-        background-position: center 260px;
-        background-size: 1800px auto;
-        opacity: .6;
-      }
+      background:
+        radial-gradient(900px 450px at 10% 10%, rgba(128,0,0,0.10), transparent 60%),
+        radial-gradient(900px 450px at 90% 10%, rgba(15,23,42,0.06), transparent 60%),
+        radial-gradient(800px 600px at 50% 95%, rgba(128,0,0,0.06), transparent 60%),
+        linear-gradient(180deg,#ffffff 0%,#fbfbfd 55%,#ffffff 100%);
+      filter:saturate(1.05);
     }
 
     /* ===== Background Image (samar) ===== */
@@ -75,16 +59,17 @@
       background-image: var(--bg-url-primary), var(--bg-url-fallback);
       background-size: cover;
       background-position: center;
-      opacity: 0.08;
+      opacity: 0.10;
       filter: grayscale(1) contrast(1.05);
       transform: translate3d(0,0,0) scale(1.02);
       will-change: transform;
     }
 
-    /* Soft overlay (kept, but plain white) */
+    /* Soft overlay */
     .bg-overlay{
       position:fixed; inset:0; z-index:-2; pointer-events:none;
-      background: rgba(255,255,255,0.72);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.82) 45%, rgba(255,255,255,0.72) 100%);
     }
 
     /* Grain tipis */
@@ -150,6 +135,11 @@
       box-shadow:0 0 0 6px var(--ring);
       outline:none;
       transform:translateY(-1px);
+    }
+
+    .hero-gradient{
+      background:linear-gradient(90deg,#0f172a 0%,#0f172a 45%, var(--maroon) 85%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
     }
 
     /* hero entrance */
@@ -564,9 +554,8 @@
 </head>
 
 <body>
-  <!-- Background layers (clean + wave) -->
-  <div class="bg-base"></div>
-  <div class="bg-waves"></div>
+  <!-- Background layers -->
+  <div class="bg-aurora"></div>
   <div id="bgPhoto" class="bg-photo"></div>
   <div class="bg-overlay"></div>
   <div class="bg-grain"></div>
@@ -633,9 +622,8 @@
               Legislative Portal
             </span>
 
-            <!-- ✅ Removed text gradient, now solid elegant like your example -->
             <h2 class="font-heading text-5xl sm:text-6xl md:text-8xl font-bold leading-[0.92] mb-7" data-aos="fade-up" data-aos-delay="80">
-              <span class="text-slate-900">Parlemen</span><br>
+              <span class="hero-gradient">Parlemen</span><br>
               <span class="text-[#800000] drop-shadow-[0_12px_45px_rgba(128,0,0,0.12)]">Ressilience.</span>
             </h2>
 
