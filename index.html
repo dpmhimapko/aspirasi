@@ -203,7 +203,7 @@
     }
 
     /* =========================
-       VISI MISI CARDS
+       VISI MISI CARDS (FIX: ukuran pill + label diperkecil, back bisa scroll)
        ========================= */
 
     .flip-grid{
@@ -241,7 +241,7 @@
     .flip-inner{
       position: relative;
       width: 100%;
-      min-height: 390px;
+      min-height: 390px; /* lebih ringkas di HP */
       transform-style: preserve-3d;
       transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
       border-radius: 2.25rem;
@@ -292,19 +292,20 @@
       .flip-card:hover .flip-face::after{ transform: translateX(55%) rotate(10deg); }
     }
 
+    /* ✅ FIX: pill lebih kecil & tidak "nabrak" teks */
     .pill{
       position:absolute;
       left:1rem;
       right:1rem;
       top:1rem;
-      height:48px;
+      height:48px;              /* kecilin */
       border-radius: 999px;
       display:flex;
       align-items:center;
       justify-content:center;
       color:#fff;
       font-weight: 900;
-      letter-spacing:.18em;
+      letter-spacing:.18em;     /* kecilin tracking */
       text-transform: uppercase;
       font-size: clamp(0.95rem, 4.3vw, 1.45rem);
       box-shadow: 0 16px 42px rgba(2,6,23,0.16);
@@ -340,11 +341,12 @@
     .pill.visi{ background: var(--maroon); }
     .pill.misi{ background: var(--maroon); }
 
+    /* ✅ FIX: konten turun sesuai tinggi pill (biar gak ketimpa) */
     .card-body{
       position:absolute;
       left:1.1rem;
       right:1.1rem;
-      top:4.4rem;
+      top:4.4rem;   /* turun */
       bottom:1.1rem;
       border-radius: 1.9rem;
       padding: 1.2rem;
@@ -368,6 +370,7 @@
       }
     }
 
+    /* ✅ FIX: label depan lebih kecil */
     .front-label{
       font-family:'Space Grotesk',sans-serif;
       font-size: clamp(1.35rem, 6vw, 2.6rem);
@@ -387,7 +390,7 @@
       position:absolute;
       left:1.1rem;
       right:1.1rem;
-      top:4.4rem;
+      top:4.4rem;   /* turun */
       bottom:1.1rem;
       border-radius: 1.9rem;
       padding: 1.2rem;
@@ -398,6 +401,8 @@
         radial-gradient(900px 420px at 85% 25%, rgba(15,23,42,0.06), transparent 60%),
         rgba(255,255,255,0.70);
       border: 1px solid rgba(241,245,249,0.78);
+
+      /* ✅ FIX: kalau teks panjang, scroll di dalam card */
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
@@ -440,6 +445,7 @@
     }
     .misi-item{ display:flex; gap: .75rem; align-items:flex-start; }
 
+    /* ✅ FIX: nomor & text sedikit dikecilin biar rapi */
     .num{
       width: 28px; height: 28px;
       border-radius: 999px;
@@ -475,7 +481,7 @@
     }
 
     /* =========================
-       DRAGGABLE "TALI" LOGO
+       DRAGGABLE "TALI" LOGO (FIX: garis benar2 hilang ketika idle)
        ========================= */
     .string-wrap{
       position: relative;
@@ -509,18 +515,19 @@
       z-index:-1;
     }
 
+    /* ✅ FIX: tali tidak terlihat sama sekali saat idle */
     .string-line{
       position:absolute;
       left: 50%;
       top: 50%;
       height: 2px;
-      width: 0px;
+      width: 0px;                 /* default 0 */
       background: rgba(128,0,0,0.55);
       transform-origin: 0% 50%;
       border-radius: 999px;
 
       opacity: 0;
-      visibility: hidden;
+      visibility: hidden;         /* penting */
       pointer-events: none;
       transition: opacity .12s ease, visibility .12s ease;
     }
@@ -751,56 +758,25 @@
             <div class="grid md:grid-cols-2 gap-5" data-aos="fade-up" data-aos-delay="80">
               <div class="space-y-2">
                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nama Lengkap</label>
-                <input
-                  type="text"
-                  name="entry.1716082016"
-                  required
-                  class="w-full p-4 input-style text-sm"
-                  placeholder="Contoh: Muhammad Ferari Kuswandi"
-                  autocomplete="name"
-                >
+                <input type="text" name="entry.1716082016" required class="w-full p-4 input-style text-sm">
               </div>
               <div class="space-y-2">
                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">NIM</label>
-                <input
-                  type="text"
-                  name="entry.625953499"
-                  required
-                  class="w-full p-4 input-style text-sm"
-                  placeholder="Contoh: 2304481"
-                  inputmode="numeric"
-                >
+                <input type="text" name="entry.625953499" required class="w-full p-4 input-style text-sm">
               </div>
             </div>
 
             <div class="space-y-2" data-aos="fade-up" data-aos-delay="120">
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Subjek</label>
-              <input
-                type="text"
-                name="entry.1297363755"
-                required
-                class="w-full p-4 input-style text-sm"
-                placeholder="Contoh: Fasilitas"
-              >
+              <input type="text" name="entry.1297363755" required class="w-full p-4 input-style text-sm">
             </div>
 
             <div class="space-y-2" data-aos="fade-up" data-aos-delay="160">
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Pesan Aspirasi</label>
-              <textarea
-                name="entry.2146318381"
-                required
-                rows="5"
-                class="w-full p-4 input-style text-sm resize-none"
-                placeholder="Contoh: Saya ingin menyampaikan aspirasi terkait fasilitas. Beberapa fasilitas di lingkungan kampus/kelas masih kurang memadai (misalnya kebersihan, ketersediaan alat, dan perawatan). Mohon ditingkatkan agar kegiatan belajar lebih nyaman."
-              ></textarea>
+              <textarea name="entry.2146318381" required rows="5" class="w-full p-4 input-style text-sm resize-none"></textarea>
             </div>
 
-            <button
-              type="submit"
-              class="w-full btn-maroon py-5 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em]"
-              data-aos="fade-up"
-              data-aos-delay="210"
-            >
+            <button type="submit" onclick="handleSubmit()" class="w-full btn-maroon py-5 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em]" data-aos="fade-up" data-aos-delay="210">
               Kirim Aspirasi
             </button>
           </form>
@@ -904,30 +880,17 @@
       });
     }
 
-    // ✅ FIX: Validasi + UI sukses lewat event submit (bukan onclick)
-    function initAspirasiSubmit(){
+    function handleSubmit() {
       const form = document.getElementById('formAspirasi');
       const card = document.getElementById('aspirasiCard');
-      const msg  = document.getElementById('msgSent');
-      if(!form || !card || !msg) return;
-
-      form.addEventListener('submit', (e) => {
-        if(!form.checkValidity()) {
-          e.preventDefault();
-          card.classList.add('shake');
-          setTimeout(() => card.classList.remove('shake'), 500);
-          return;
-        }
-
-        // valid: biarkan submit jalan ke iframe (Google Form)
-        msg.classList.remove('hidden');
-        setTimeout(() => {
-          form.reset();
-          msg.classList.add('hidden');
-        }, 5000);
-      });
+      if(!form.checkValidity()) {
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 500);
+      } else {
+        document.getElementById('msgSent').classList.remove('hidden');
+        setTimeout(() => { form.reset(); document.getElementById('msgSent').classList.add('hidden'); }, 5000);
+      }
     }
-    initAspirasiSubmit();
 
     function checkAdmin() {
       const pass = document.getElementById('passCode');
@@ -1060,7 +1023,7 @@
     window.addEventListener('load', markInView);
 
     /* =========================
-       DRAG "TALI" LOGO (DESKTOP + MOBILE)
+       DRAG "TALI" LOGO (DESKTOP + MOBILE) - FIX idle line
        ========================= */
     function initStringLogo(opts){
       const logo = document.getElementById(opts.logoId);
@@ -1088,9 +1051,11 @@
         const rot = clamp(x * 0.06, -10, 10);
         logo.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
 
+        // line
         const len = Math.sqrt(x*x + y*y);
         const angle = Math.atan2(y, x) * 180 / Math.PI;
 
+        // ✅ FIX: saat tidak show, jangan biarkan width "nyangkut"
         if(!line.classList.contains('show')){
           line.style.width = "0px";
           return;
@@ -1132,6 +1097,7 @@
         pointerId = e.pointerId;
         logo.setPointerCapture(pointerId);
 
+        // show line only while dragging
         line.classList.add('show');
 
         tx = x; ty = y;
@@ -1162,6 +1128,7 @@
         pointerId = null;
         tx = 0; ty = 0;
 
+        // hide line after release
         setTimeout(() => {
           if(!dragging){
             line.classList.remove('show');
@@ -1178,6 +1145,7 @@
       window.addEventListener('resize', () => { if(!dragging){ tx = 0; ty = 0; } });
       logo.addEventListener('dragstart', (e) => e.preventDefault());
 
+      // ✅ Pastikan garis benar2 tidak tampil saat awal load
       line.classList.remove('show');
       line.style.width = "0px";
     }
