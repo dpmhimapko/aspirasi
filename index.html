@@ -34,11 +34,9 @@
       color:#1e293b;
       -webkit-font-smoothing:antialiased;
       overflow-x:hidden;
-
-      /* entrance base */
       opacity: 0;
-      transform: translateY(10px);
-      transition: opacity .75s cubic-bezier(0.16,1,0.3,1), transform .75s cubic-bezier(0.16,1,0.3,1);
+      transform: translateY(6px);
+      transition: opacity .65s cubic-bezier(0.16,1,0.3,1), transform .65s cubic-bezier(0.16,1,0.3,1);
     }
     body.is-loaded{
       opacity: 1;
@@ -49,16 +47,16 @@
 
     /* ===== Clean base (NO color aurora/gradient) ===== */
     .bg-base{
-      position:fixed; inset:0; z-index:-6; pointer-events:none;
+      position:fixed; inset:0; z-index:-5; pointer-events:none;
       background:#ffffff;
     }
 
-    /* ===== Elegant wave lines ===== */
+    /* ===== Elegant wave lines (like your example) ===== */
     .bg-waves{
-      position:fixed; inset:0; z-index:-5; pointer-events:none;
+      position:fixed; inset:0; z-index:-4; pointer-events:none;
       background-image: var(--waves-svg);
       background-repeat: no-repeat;
-      background-position: center 220px;
+      background-position: center 220px; /* sits behind hero title */
       background-size: 1500px auto;
       opacity: .55;
       filter: blur(.15px);
@@ -73,7 +71,7 @@
 
     /* ===== Background Image (samar) ===== */
     .bg-photo{
-      position:fixed; inset:0; z-index:-4; pointer-events:none;
+      position:fixed; inset:0; z-index:-3; pointer-events:none;
       background-image: var(--bg-url-primary), var(--bg-url-fallback);
       background-size: cover;
       background-position: center;
@@ -83,15 +81,15 @@
       will-change: transform;
     }
 
-    /* Soft overlay */
+    /* Soft overlay (kept, but plain white) */
     .bg-overlay{
-      position:fixed; inset:0; z-index:-3; pointer-events:none;
+      position:fixed; inset:0; z-index:-2; pointer-events:none;
       background: rgba(255,255,255,0.72);
     }
 
     /* Grain tipis */
     .bg-grain{
-      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      position:fixed; inset:0; z-index:-1; pointer-events:none;
       opacity:0.05; mix-blend-mode:multiply;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
     }
@@ -104,76 +102,6 @@
       box-shadow:0 6px 16px rgba(128,0,0,0.22);
       transform-origin:left;
     }
-
-    /* ======== NEW: Page intro overlay (cinematic) ======== */
-    .intro{
-      position: fixed;
-      inset: 0;
-      z-index: 300;
-      display: grid;
-      place-items: center;
-      pointer-events: none;
-      opacity: 1;
-      transition: opacity .65s cubic-bezier(0.16,1,0.3,1), visibility .65s;
-      visibility: visible;
-      background:
-        radial-gradient(900px 400px at 20% 20%, rgba(128,0,0,0.10), transparent 60%),
-        radial-gradient(900px 420px at 85% 30%, rgba(15,23,42,0.08), transparent 62%),
-        rgba(255,255,255,0.55);
-      backdrop-filter: blur(16px);
-    }
-    .intro.hide{
-      opacity: 0;
-      visibility: hidden;
-    }
-    .intro-inner{
-      width: min(560px, 92vw);
-      border-radius: 2.5rem;
-      border: 1px solid rgba(241,245,249,0.8);
-      background: rgba(255,255,255,0.7);
-      box-shadow: 0 40px 100px rgba(2,6,23,0.10);
-      overflow: hidden;
-      transform: translateY(10px) scale(.995);
-      animation: introIn .8s cubic-bezier(0.16,1,0.3,1) both;
-    }
-    @keyframes introIn{
-      from { opacity:0; transform: translateY(18px) scale(.985); filter: blur(4px); }
-      to { opacity:1; transform: translateY(0) scale(1); filter: blur(0); }
-    }
-    .intro-top{
-      display:flex; align-items:center; gap:.9rem;
-      padding: 1.2rem 1.35rem;
-      border-bottom: 1px solid rgba(241,245,249,0.85);
-    }
-    .intro-top img{
-      width: 42px; height: 42px;
-      filter: drop-shadow(0 14px 28px rgba(2,6,23,0.12));
-    }
-    .intro-title{
-      font-family:'Space Grotesk',sans-serif;
-      font-weight: 800;
-      letter-spacing: .02em;
-      color: #0f172a;
-      font-size: 1rem;
-      line-height: 1.15;
-    }
-    .intro-sub{
-      font-size: .65rem;
-      font-weight: 900;
-      letter-spacing: .32em;
-      text-transform: uppercase;
-      color: rgba(100,116,139,0.75);
-      margin-top: .25rem;
-    }
-    .intro-bar{
-      height: 3px;
-      width: 0%;
-      background: var(--maroon);
-      box-shadow: 0 12px 26px rgba(128,0,0,0.18);
-      transform-origin: left;
-      transition: width 1.15s cubic-bezier(0.16,1,0.3,1);
-    }
-    .intro-bar.fill{ width: 100%; }
 
     /* nav */
     .nav-blur{
@@ -192,19 +120,6 @@
     /* section transition */
     .section-content{display:none;}
     .section-content.active{display:block; animation:fadeInUp .7s cubic-bezier(0.16,1,0.3,1);}
-
-    /* ======== NEW: slide transitions (directional) ======== */
-    .section-content.slide-in-right{ animation:slideInRight .72s cubic-bezier(0.16,1,0.3,1); }
-    .section-content.slide-in-left{ animation:slideInLeft .72s cubic-bezier(0.16,1,0.3,1); }
-    @keyframes slideInRight{
-      from{ opacity:0; transform: translateX(26px) translateY(10px); filter: blur(2px); }
-      to{ opacity:1; transform: translateX(0) translateY(0); filter: blur(0); }
-    }
-    @keyframes slideInLeft{
-      from{ opacity:0; transform: translateX(-26px) translateY(10px); filter: blur(2px); }
-      to{ opacity:1; transform: translateX(0) translateY(0); filter: blur(0); }
-    }
-
     @keyframes fadeInUp{from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
 
     /* buttons & input */
@@ -238,33 +153,11 @@
     }
 
     /* hero entrance */
-    .hero-entrance{ animation:heroIn .95s cubic-bezier(0.16,1,0.3,1) both; }
+    .hero-entrance{ animation:heroIn .9s cubic-bezier(0.16,1,0.3,1) both; }
     @keyframes heroIn{
-      from{ opacity:0; transform: translateY(18px) scale(.992); filter: blur(2px); }
+      from{ opacity:0; transform: translateY(14px) scale(.995); filter: blur(2px); }
       to{ opacity:1; transform: translateY(0) scale(1); filter: blur(0); }
     }
-
-    /* ======== NEW: stagger reveal for hero children (no library) ======== */
-    .reveal-stagger > *{
-      opacity: 0;
-      transform: translateY(14px);
-      filter: blur(2px);
-      transition:
-        opacity .7s cubic-bezier(0.16,1,0.3,1),
-        transform .7s cubic-bezier(0.16,1,0.3,1),
-        filter .7s cubic-bezier(0.16,1,0.3,1);
-    }
-    .reveal-stagger.is-revealed > *{
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-    .reveal-stagger.is-revealed > *:nth-child(1){ transition-delay: .05s; }
-    .reveal-stagger.is-revealed > *:nth-child(2){ transition-delay: .12s; }
-    .reveal-stagger.is-revealed > *:nth-child(3){ transition-delay: .20s; }
-    .reveal-stagger.is-revealed > *:nth-child(4){ transition-delay: .28s; }
-    .reveal-stagger.is-revealed > *:nth-child(5){ transition-delay: .36s; }
-    .reveal-stagger.is-revealed > *:nth-child(6){ transition-delay: .44s; }
 
     /* back to top */
     .to-top{
@@ -286,28 +179,6 @@
     @keyframes softPop{
       from{opacity:0; transform:translateY(10px) scale(0.99);}
       to{opacity:1; transform:translateY(0) scale(1);}
-    }
-
-    /* ======== NEW: click ripple (nice for buttons/cards) ======== */
-    .ripple{
-      position:absolute;
-      border-radius:999px;
-      transform: translate(-50%,-50%);
-      pointer-events:none;
-      width: 10px; height: 10px;
-      opacity: .35;
-      background: rgba(255,255,255,0.9);
-      animation: rippleAnim .7s cubic-bezier(0.16,1,0.3,1) forwards;
-      mix-blend-mode: overlay;
-    }
-    @keyframes rippleAnim{
-      from{ transform: translate(-50%,-50%) scale(.2); opacity:.38; }
-      to{ transform: translate(-50%,-50%) scale(18); opacity:0; }
-    }
-    .ripple-dark{
-      background: rgba(128,0,0,0.25);
-      mix-blend-mode: multiply;
-      opacity: .55;
     }
 
     .row-hover{transition:background .2s ease;}
@@ -344,6 +215,7 @@
     /* =========================
        VISI MISI CARDS
        ========================= */
+
     .flip-grid{
       display:grid;
       gap:1.15rem;
@@ -356,12 +228,6 @@
       perspective: 1400px;
       border-radius: 2.25rem;
       position: relative;
-      overflow: visible;
-      transition: transform .25s ease, filter .25s ease;
-    }
-    .flip-card:hover{
-      transform: translateY(-2px);
-      filter: saturate(1.01);
     }
     @media (min-width: 768px){
       .flip-card{ border-radius: 2.75rem; }
@@ -616,7 +482,6 @@
       .flip-face::after, .pill::before{ transition:none !important; }
       body{ transition:none !important; }
       .hero-entrance{ animation:none !important; }
-      .intro, .intro-inner, .reveal-stagger > *{ animation:none !important; transition:none !important; }
     }
 
     /* =========================
@@ -699,21 +564,7 @@
 </head>
 
 <body>
-  <!-- NEW: Intro overlay -->
-  <div id="intro" class="intro" aria-hidden="true">
-    <div class="intro-inner">
-      <div class="intro-top">
-        <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" alt="">
-        <div>
-          <div class="intro-title">Parlemen Ressilience</div>
-          <div class="intro-sub">DPM HIMA PKO FPOK UPI</div>
-        </div>
-      </div>
-      <div id="introBar" class="intro-bar"></div>
-    </div>
-  </div>
-
-  <!-- Background layers -->
+  <!-- Background layers (clean + wave) -->
   <div class="bg-base"></div>
   <div class="bg-waves"></div>
   <div id="bgPhoto" class="bg-photo"></div>
@@ -778,40 +629,38 @@
 
         <div class="grid lg:grid-cols-2 gap-10 items-center mb-16 lg:mb-20">
           <div class="text-center lg:text-left hero-entrance">
-            <!-- NEW: stagger wrapper -->
-            <div id="heroStagger" class="reveal-stagger">
-              <span class="inline-block px-4 py-1 rounded bg-slate-100/70 border border-slate-200/40 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-8" data-aos="fade-up">
-                Legislative Portal
-              </span>
+            <span class="inline-block px-4 py-1 rounded bg-slate-100/70 border border-slate-200/40 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-8" data-aos="fade-up">
+              Legislative Portal
+            </span>
 
-              <h2 class="font-heading text-5xl sm:text-6xl md:text-8xl font-bold leading-[0.92] mb-7" data-aos="fade-up" data-aos-delay="80">
-                <span class="text-slate-900">Parlemen</span><br>
-                <span class="text-[#800000] drop-shadow-[0_12px_45px_rgba(128,0,0,0.12)]">Ressilience.</span>
-              </h2>
+            <!-- ✅ Removed text gradient, now solid elegant like your example -->
+            <h2 class="font-heading text-5xl sm:text-6xl md:text-8xl font-bold leading-[0.92] mb-7" data-aos="fade-up" data-aos-delay="80">
+              <span class="text-slate-900">Parlemen</span><br>
+              <span class="text-[#800000] drop-shadow-[0_12px_45px_rgba(128,0,0,0.12)]">Ressilience.</span>
+            </h2>
 
-              <p class="text-slate-500 text-base sm:text-lg md:text-xl leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 font-medium" data-aos="fade-up" data-aos-delay="140">
-                Keputusan transparan, adaptif, dan fleksibel untuk masa depan PKO FPOK UPI yang lebih kolektif.
-              </p>
+            <p class="text-slate-500 text-base sm:text-lg md:text-xl leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 font-medium" data-aos="fade-up" data-aos-delay="140">
+              Keputusan transparan, adaptif, dan fleksibel untuk masa depan PKO FPOK UPI yang lebih kolektif.
+            </p>
 
-              <div data-aos="fade-up" data-aos-delay="220">
-                <button onclick="showSection('aspirasi')" class="btn-maroon px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest">
-                  Suarakan Aspirasi
-                </button>
-              </div>
+            <div data-aos="fade-up" data-aos-delay="220">
+              <button onclick="showSection('aspirasi')" class="btn-maroon px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest">
+                Suarakan Aspirasi
+              </button>
+            </div>
 
-              <!-- LOGO DRAG (MOBILE) -->
-              <div class="mt-10 lg:hidden" data-aos="zoom-in" data-aos-delay="260">
-                <div class="string-wrap">
-                  <div id="stringStageMobile" class="string-stage" aria-hidden="true">
-                    <div id="stringLineMobile" class="string-line"></div>
-                    <img
-                      id="homeDraggableLogoMobile"
-                      src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z"
-                      class="draggable-logo"
-                      alt="Logo DPM HIMA PKO"
-                      draggable="false"
-                    />
-                  </div>
+            <!-- LOGO DRAG (MOBILE) -->
+            <div class="mt-10 lg:hidden" data-aos="zoom-in" data-aos-delay="260">
+              <div class="string-wrap">
+                <div id="stringStageMobile" class="string-stage" aria-hidden="true">
+                  <div id="stringLineMobile" class="string-line"></div>
+                  <img
+                    id="homeDraggableLogoMobile"
+                    src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z"
+                    class="draggable-logo"
+                    alt="Logo DPM HIMA PKO"
+                    draggable="false"
+                  />
                 </div>
               </div>
             </div>
@@ -834,9 +683,11 @@
 
         <!-- VISI MISI -->
         <div class="flip-grid items-stretch scroll-glow" data-inview>
+
           <!-- VISI -->
           <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Visi (klik untuk flip)" data-aos="fade-up">
             <div class="flip-inner">
+              <!-- FRONT -->
               <div class="flip-face flip-front">
                 <div class="pill visi">VISI</div>
                 <div class="card-body">
@@ -844,6 +695,7 @@
                 </div>
               </div>
 
+              <!-- BACK -->
               <div class="flip-face flip-back">
                 <div class="pill visi">VISI</div>
                 <div class="back-wrap">
@@ -859,6 +711,7 @@
           <!-- MISI -->
           <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Misi (klik untuk flip)" data-aos="fade-up" data-aos-delay="80">
             <div class="flip-inner">
+              <!-- FRONT -->
               <div class="flip-face flip-front">
                 <div class="pill misi">MISI</div>
                 <div class="card-body">
@@ -866,6 +719,7 @@
                 </div>
               </div>
 
+              <!-- BACK -->
               <div class="flip-face flip-back">
                 <div class="pill misi">MISI</div>
                 <div class="back-wrap">
@@ -1041,53 +895,25 @@
     // AOS
     AOS.init({ duration: 900, once: true, offset: 60 });
 
-    // ===== NEW: intro overlay + stagger hero =====
+    // load entrance
     window.addEventListener('load', () => {
       document.body.classList.add('is-loaded');
-
-      // intro
-      const intro = document.getElementById('intro');
-      const bar   = document.getElementById('introBar');
-      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if(!reducedMotion){
-        requestAnimationFrame(() => bar.classList.add('fill'));
-        setTimeout(() => intro.classList.add('hide'), 1100);
-      } else {
-        intro.classList.add('hide');
-      }
-
-      // hero stagger
-      const hero = document.getElementById('heroStagger');
-      if(hero){
-        requestAnimationFrame(() => hero.classList.add('is-revealed'));
-      }
     });
 
     const SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vStcxFf1veUj6SiD7Xt89JvZMSt4lO9TxKwtQCMHaZPiqbPH8fylGHOT0CCTqpJJrBvV8jlPCZlEy5v/pub?gid=761094266&single=true&output=csv";
 
-    // ===== NEW: direction-aware section transitions =====
-    const sectionOrder = ["home","aspirasi","admin"];
-    let currentSection = "home";
-
     function showSection(id) {
-      const prevIdx = sectionOrder.indexOf(currentSection);
-      const nextIdx = sectionOrder.indexOf(id);
-      const direction = (nextIdx > prevIdx) ? "right" : "left";
-
-      document.querySelectorAll('.section-content').forEach(s => {
-        s.classList.remove('active','soft-pop','slide-in-right','slide-in-left');
-      });
-
+      document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
       const target = document.getElementById(id);
       target.classList.add('active');
-      target.classList.add(direction === "right" ? 'slide-in-right' : 'slide-in-left');
-
-      currentSection = id;
+      target.classList.add('soft-pop');
+      setTimeout(() => target.classList.remove('soft-pop'), 700);
 
       window.scrollTo({top:0, behavior: 'smooth'});
       AOS.refresh();
-      requestAnimationFrame(() => { markInView(); });
+      requestAnimationFrame(() => {
+        markInView();
+      });
     }
 
     // ✅ FIX: Validasi + UI sukses lewat event submit (bukan onclick)
@@ -1105,6 +931,7 @@
           return;
         }
 
+        // valid: biarkan submit jalan ke iframe (Google Form)
         msg.classList.remove('hidden');
         setTimeout(() => {
           form.reset();
@@ -1243,34 +1070,6 @@
       });
     }
     window.addEventListener('load', markInView);
-
-    /* =========================
-       NEW: Ripple effect for buttons & clickable cards
-       - auto apply to .btn-maroon, #btnRefresh, cards [data-flip]
-       ========================= */
-    function addRipple(el, opts = {}){
-      if(!el) return;
-      el.style.position = el.style.position || "relative";
-      el.style.overflow = "hidden";
-      el.addEventListener('pointerdown', (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const span = document.createElement('span');
-        span.className = "ripple" + (opts.dark ? " ripple-dark" : "");
-        span.style.left = x + "px";
-        span.style.top  = y + "px";
-
-        el.appendChild(span);
-        span.addEventListener('animationend', () => span.remove());
-      }, { passive:true });
-    }
-
-    // apply ripple
-    document.querySelectorAll('.btn-maroon').forEach(b => addRipple(b));
-    addRipple(document.getElementById('btnRefresh'));
-    document.querySelectorAll('[data-flip="card"]').forEach(c => addRipple(c, { dark:true }));
 
     /* =========================
        DRAG "TALI" LOGO (DESKTOP + MOBILE)
