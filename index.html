@@ -13,187 +13,72 @@
     :root{
       --maroon:#800000;
       --ink:#0f172a;
-      --ring:rgba(128,0,0,0.12);
-
-      /* Background drive file id */
+      --ring:rgba(128,0,0,0.10);
       --bg-id: "1sJQUCPBU0JzndSAM8GfAgjZOVMw7RLWV";
-
-      /* Most reliable direct image for Drive (when shared "anyone") */
       --bg-url-primary: url("https://lh3.googleusercontent.com/d/1sJQUCPBU0JzndSAM8GfAgjZOVMw7RLWV");
-
-      /* Fallback */
       --bg-url-fallback: url("https://drive.google.com/uc?export=view&id=1sJQUCPBU0JzndSAM8GfAgjZOVMw7RLWV");
-
-      /* Elegant waves (SVG data-uri) */
-      --waves-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M0 160 C 180 120, 360 200, 540 160 S 900 120, 1080 160 S 1260 200, 1440 160' stroke='%23cbd5e1' stroke-width='2' opacity='.85'/%3E%3Cpath d='M0 190 C 220 150, 420 230, 640 190 S 980 150, 1180 190 S 1320 230, 1440 190' stroke='%23e2e8f0' stroke-width='2' opacity='.8'/%3E%3Cpath d='M0 220 C 220 180, 420 260, 640 220 S 980 180, 1180 220 S 1320 260, 1440 220' stroke='%23facc15' stroke-width='2' opacity='.32'/%3E%3Cpath d='M0 130 C 220 90, 420 170, 640 130 S 980 90, 1180 130 S 1320 170, 1440 130' stroke='%23facc15' stroke-width='2' opacity='.18'/%3E%3C/g%3E%3C/svg%3E");
+      --waves-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M0 160 C 180 120, 360 200, 540 160 S 900 120, 1080 160 S 1260 200, 1440 160' stroke='%23dbe3ea' stroke-width='2' opacity='.95'/%3E%3Cpath d='M0 190 C 220 150, 420 230, 640 190 S 980 150, 1180 190 S 1320 230, 1440 190' stroke='%23edf2f7' stroke-width='2' opacity='.9'/%3E%3C/g%3E%3C/svg%3E");
     }
 
     body{
       font-family:'Plus Jakarta Sans',sans-serif;
-      background:#fff;
-      color:#1e293b;
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
-
-      /* entrance base */
-      opacity: 0;
-      transform: translateY(10px);
+      background:#ffffff; color:#1e293b;
+      -webkit-font-smoothing:antialiased; overflow-x:hidden;
+      opacity: 0; transform: translateY(10px);
       transition: opacity .75s cubic-bezier(0.16,1,0.3,1), transform .75s cubic-bezier(0.16,1,0.3,1);
     }
-    body.is-loaded{
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    body.is-loaded{ opacity: 1; transform: translateY(0); }
     .font-heading{font-family:'Space Grotesk',sans-serif;}
-
-    /* ===== Clean base (NO color aurora/gradient) ===== */
-    .bg-base{
-      position:fixed; inset:0; z-index:-6; pointer-events:none;
-      background:#ffffff;
-    }
-
-    /* ===== Elegant wave lines ===== */
+    .bg-base{ position:fixed; inset:0; z-index:-6; pointer-events:none; background:#ffffff; }
     .bg-waves{
       position:fixed; inset:0; z-index:-5; pointer-events:none;
-      background-image: var(--waves-svg);
-      background-repeat: no-repeat;
-      background-position: center 220px;
-      background-size: 1500px auto;
-      opacity: .55;
-      filter: blur(.15px);
+      background-image: var(--waves-svg); background-repeat: no-repeat;
+      background-position: center 220px; background-size: 1500px auto;
+      opacity: .4; filter: blur(.1px);
     }
-    @media (min-width: 768px){
-      .bg-waves{
-        background-position: center 260px;
-        background-size: 1800px auto;
-        opacity: .6;
-      }
-    }
-
-    /* ===== Background Image (samar) ===== */
+    @media (min-width: 768px){ .bg-waves{ background-position: center 260px; background-size: 1800px auto; opacity: .45; } }
     .bg-photo{
       position:fixed; inset:0; z-index:-4; pointer-events:none;
       background-image: var(--bg-url-primary), var(--bg-url-fallback);
-      background-size: cover;
-      background-position: center;
-      opacity: 0.08;
-      filter: grayscale(1) contrast(1.05);
-      transform: translate3d(0,0,0) scale(1.02);
-      will-change: transform;
+      background-size: cover; background-position: center;
+      opacity: 0.04; filter: grayscale(1) contrast(1.02);
+      transform: translate3d(0,0,0) scale(1.02); will-change: transform;
     }
-
-    /* Soft overlay */
-    .bg-overlay{
-      position:fixed; inset:0; z-index:-3; pointer-events:none;
-      background: rgba(255,255,255,0.72);
-    }
-
-    /* Grain tipis */
+    .bg-overlay{ position:fixed; inset:0; z-index:-3; pointer-events:none; background: rgba(255,255,255,0.93); }
     .bg-grain{
-      position:fixed; inset:0; z-index:-2; pointer-events:none;
-      opacity:0.05; mix-blend-mode:multiply;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      position:fixed; inset:0; z-index:-2; pointer-events:none; opacity:0.03; mix-blend-mode:multiply;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
     }
-
-    /* progress */
-    .scroll-progress{
-      position:fixed; top:0; left:0; height:3px; width:0%;
-      z-index:200;
-      background: var(--maroon);
-      box-shadow:0 6px 16px rgba(128,0,0,0.22);
-      transform-origin:left;
-    }
-
-    /* ======== NEW: Page intro overlay (cinematic) ======== */
+    .scroll-progress{ position:fixed; top:0; left:0; height:3px; width:0%; z-index:200; background: var(--maroon); transform-origin:left; }
     .intro{
-      position: fixed;
-      inset: 0;
-      z-index: 300;
-      display: grid;
-      place-items: center;
-      pointer-events: none;
-      opacity: 1;
+      position: fixed; inset: 0; z-index: 300; display: grid; place-items: center;
+      pointer-events: none; opacity: 1; visibility: visible;
       transition: opacity .65s cubic-bezier(0.16,1,0.3,1), visibility .65s;
-      visibility: visible;
-      background:
-        radial-gradient(900px 400px at 20% 20%, rgba(128,0,0,0.10), transparent 60%),
-        radial-gradient(900px 420px at 85% 30%, rgba(15,23,42,0.08), transparent 62%),
-        rgba(255,255,255,0.55);
-      backdrop-filter: blur(16px);
+      background: rgba(255,255,255,0.82); backdrop-filter: blur(14px);
     }
-    .intro.hide{
-      opacity: 0;
-      visibility: hidden;
-    }
+    .intro.hide{ opacity: 0; visibility: hidden; }
     .intro-inner{
-      width: min(560px, 92vw);
-      border-radius: 2.5rem;
-      border: 1px solid rgba(241,245,249,0.8);
-      background: rgba(255,255,255,0.7);
-      box-shadow: 0 40px 100px rgba(2,6,23,0.10);
-      overflow: hidden;
-      transform: translateY(10px) scale(.995);
+      width: min(560px, 92vw); border-radius: 2.5rem; border: 1px solid rgba(226,232,240,0.95);
+      background: rgba(255,255,255,0.96); box-shadow: 0 30px 80px rgba(15,23,42,0.08);
+      overflow: hidden; transform: translateY(10px) scale(.995);
       animation: introIn .8s cubic-bezier(0.16,1,0.3,1) both;
     }
     @keyframes introIn{
       from { opacity:0; transform: translateY(18px) scale(.985); filter: blur(4px); }
       to { opacity:1; transform: translateY(0) scale(1); filter: blur(0); }
     }
-    .intro-top{
-      display:flex; align-items:center; gap:.9rem;
-      padding: 1.2rem 1.35rem;
-      border-bottom: 1px solid rgba(241,245,249,0.85);
-    }
-    .intro-top img{
-      width: 42px; height: 42px;
-      filter: drop-shadow(0 14px 28px rgba(2,6,23,0.12));
-    }
-    .intro-title{
-      font-family:'Space Grotesk',sans-serif;
-      font-weight: 800;
-      letter-spacing: .02em;
-      color: #0f172a;
-      font-size: 1rem;
-      line-height: 1.15;
-    }
-    .intro-sub{
-      font-size: .65rem;
-      font-weight: 900;
-      letter-spacing: .32em;
-      text-transform: uppercase;
-      color: rgba(100,116,139,0.75);
-      margin-top: .25rem;
-    }
-    .intro-bar{
-      height: 3px;
-      width: 0%;
-      background: var(--maroon);
-      box-shadow: 0 12px 26px rgba(128,0,0,0.18);
-      transform-origin: left;
-      transition: width 1.15s cubic-bezier(0.16,1,0.3,1);
-    }
+    .intro-top{ display:flex; align-items:center; gap:.9rem; padding: 1.2rem 1.35rem; border-bottom: 1px solid rgba(226,232,240,0.95); }
+    .intro-top img{ width: 42px; height: 42px; filter: drop-shadow(0 10px 20px rgba(15,23,42,0.08)); }
+    .intro-title{ font-family:'Space Grotesk',sans-serif; font-weight: 800; letter-spacing: .02em; color: #0f172a; font-size: 1rem; line-height: 1.15; }
+    .intro-sub{ font-size: .65rem; font-weight: 900; letter-spacing: .32em; text-transform: uppercase; color: rgba(100,116,139,0.75); margin-top: .25rem; }
+    .intro-bar{ height: 3px; width: 0%; background: var(--maroon); transform-origin: left; transition: width 1.15s cubic-bezier(0.16,1,0.3,1); }
     .intro-bar.fill{ width: 100%; }
-
-    /* nav */
-    .nav-blur{
-      background:rgba(255,255,255,0.72);
-      backdrop-filter:blur(22px);
-      border-bottom:1px solid rgba(0,0,0,0.04);
-      transition:all .35s cubic-bezier(0.16,1,0.3,1);
-    }
-    .nav-scrolled{
-      background:rgba(255,255,255,0.86);
-      box-shadow:0 18px 50px rgba(2,6,23,0.07);
-    }
+    .nav-blur{ background:rgba(255,255,255,0.88); backdrop-filter:blur(20px); border-bottom:1px solid rgba(226,232,240,0.7); transition:all .35s cubic-bezier(0.16,1,0.3,1); }
+    .nav-scrolled{ background:rgba(255,255,255,0.96); box-shadow:0 16px 40px rgba(15,23,42,0.05); }
     .nav-inner{ transition:height .35s cubic-bezier(0.16,1,0.3,1); }
     .nav-tight{ height:72px !important; }
-
-    /* section transition */
     .section-content{display:none;}
     .section-content.active{display:block; animation:fadeInUp .7s cubic-bezier(0.16,1,0.3,1);}
-
-    /* ======== NEW: slide transitions (directional) ======== */
     .section-content.slide-in-right{ animation:slideInRight .72s cubic-bezier(0.16,1,0.3,1); }
     .section-content.slide-in-left{ animation:slideInLeft .72s cubic-bezier(0.16,1,0.3,1); }
     @keyframes slideInRight{
@@ -204,506 +89,169 @@
       from{ opacity:0; transform: translateX(-26px) translateY(10px); filter: blur(2px); }
       to{ opacity:1; transform: translateX(0) translateY(0); filter: blur(0); }
     }
-
-    @keyframes fadeInUp{from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
-
-    /* buttons & input */
+    @keyframes fadeInUp{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
     .btn-maroon{
-      background:var(--maroon); color:white;
+      background:var(--maroon); color:white; position:relative; overflow:hidden;
       transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
-      position:relative; overflow:hidden;
     }
     .btn-maroon:before{
       content:""; position:absolute; inset:-40%;
-      background:linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%);
-      transform:translateX(-60%) rotate(8deg);
-      transition:transform .7s cubic-bezier(0.16,1,0.3,1);
+      background:linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%);
+      transform:translateX(-60%) rotate(8deg); transition:transform .7s cubic-bezier(0.16,1,0.3,1);
     }
     .btn-maroon:hover:before{transform:translateX(60%) rotate(8deg);}
-    .btn-maroon:hover{transform:translateY(-2px); box-shadow:0 18px 38px rgba(128,0,0,0.18); filter:saturate(1.03);}
+    .btn-maroon:hover{transform:translateY(-2px); box-shadow:0 14px 28px rgba(15,23,42,0.12); filter:saturate(1.03);}
     .btn-maroon:active{transform:translateY(0) scale(.99);}
-
     .input-style{
-      background:rgba(248,250,252,0.85);
-      border:1px solid rgba(241,245,249,0.95);
-      border-radius:1.5rem;
+      background:rgba(255,255,255,0.96); border:1px solid rgba(226,232,240,0.95); border-radius:1.5rem;
       transition:box-shadow .25s ease, border-color .25s ease, background .25s ease, transform .25s ease;
     }
-    .input-style:focus{
-      background:rgba(255,255,255,0.98);
-      border-color:rgba(128,0,0,0.55);
-      box-shadow:0 0 0 6px var(--ring);
-      outline:none;
-      transform:translateY(-1px);
-    }
-
-    /* hero entrance */
+    .input-style:focus{ background:#fff; border-color:rgba(128,0,0,0.45); box-shadow:0 0 0 6px var(--ring); outline:none; transform:translateY(-1px); }
     .hero-entrance{ animation:heroIn .95s cubic-bezier(0.16,1,0.3,1) both; }
     @keyframes heroIn{
       from{ opacity:0; transform: translateY(18px) scale(.992); filter: blur(2px); }
       to{ opacity:1; transform: translateY(0) scale(1); filter: blur(0); }
     }
-
-    /* ======== NEW: stagger reveal for hero children (no library) ======== */
     .reveal-stagger > *{
-      opacity: 0;
-      transform: translateY(14px);
-      filter: blur(2px);
-      transition:
-        opacity .7s cubic-bezier(0.16,1,0.3,1),
-        transform .7s cubic-bezier(0.16,1,0.3,1),
-        filter .7s cubic-bezier(0.16,1,0.3,1);
+      opacity: 0; transform: translateY(14px); filter: blur(2px);
+      transition: opacity .7s cubic-bezier(0.16,1,0.3,1), transform .7s cubic-bezier(0.16,1,0.3,1), filter .7s cubic-bezier(0.16,1,0.3,1);
     }
-    .reveal-stagger.is-revealed > *{
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
+    .reveal-stagger.is-revealed > *{ opacity: 1; transform: translateY(0); filter: blur(0); }
     .reveal-stagger.is-revealed > *:nth-child(1){ transition-delay: .05s; }
     .reveal-stagger.is-revealed > *:nth-child(2){ transition-delay: .12s; }
     .reveal-stagger.is-revealed > *:nth-child(3){ transition-delay: .20s; }
     .reveal-stagger.is-revealed > *:nth-child(4){ transition-delay: .28s; }
     .reveal-stagger.is-revealed > *:nth-child(5){ transition-delay: .36s; }
     .reveal-stagger.is-revealed > *:nth-child(6){ transition-delay: .44s; }
-
-    /* back to top */
-    .to-top{
-      position:fixed; right:18px; bottom:18px; z-index:120;
-      opacity:0; transform:translateY(10px); pointer-events:none;
-      transition:all .25s ease;
-    }
+    .to-top{ position:fixed; right:18px; bottom:18px; z-index:120; opacity:0; transform:translateY(10px); pointer-events:none; transition:all .25s ease; }
     .to-top.show{opacity:1; transform:translateY(0); pointer-events:auto;}
-
-    /* shake */
     .shake{animation:shakeAnim .5s ease-in-out;}
-    @keyframes shakeAnim{
-      0%,100%{transform:translateX(0);}
-      25%{transform:translateX(-5px);}
-      75%{transform:translateX(5px);}
-    }
-
+    @keyframes shakeAnim{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
     .soft-pop{animation:softPop .7s cubic-bezier(0.16,1,0.3,1);}
-    @keyframes softPop{
-      from{opacity:0; transform:translateY(10px) scale(0.99);}
-      to{opacity:1; transform:translateY(0) scale(1);}
-    }
-
-    /* ======== NEW: click ripple (nice for buttons/cards) ======== */
+    @keyframes softPop{ from{opacity:0; transform:translateY(10px) scale(0.99);} to{opacity:1; transform:translateY(0) scale(1);} }
     .ripple{
-      position:absolute;
-      border-radius:999px;
-      transform: translate(-50%,-50%);
-      pointer-events:none;
-      width: 10px; height: 10px;
-      opacity: .35;
-      background: rgba(255,255,255,0.9);
-      animation: rippleAnim .7s cubic-bezier(0.16,1,0.3,1) forwards;
-      mix-blend-mode: overlay;
+      position:absolute; border-radius:999px; transform: translate(-50%,-50%); pointer-events:none;
+      width: 10px; height: 10px; opacity: .35; background: rgba(255,255,255,0.9);
+      animation: rippleAnim .7s cubic-bezier(0.16,1,0.3,1) forwards; mix-blend-mode: overlay;
     }
-    @keyframes rippleAnim{
-      from{ transform: translate(-50%,-50%) scale(.2); opacity:.38; }
-      to{ transform: translate(-50%,-50%) scale(18); opacity:0; }
-    }
-    .ripple-dark{
-      background: rgba(128,0,0,0.25);
-      mix-blend-mode: multiply;
-      opacity: .55;
-    }
-
+    @keyframes rippleAnim{ from{ transform: translate(-50%,-50%) scale(.2); opacity:.38; } to{ transform: translate(-50%,-50%) scale(18); opacity:0; } }
+    .ripple-dark{ background: rgba(15,23,42,0.08); mix-blend-mode: multiply; opacity: .45; }
     .row-hover{transition:background .2s ease;}
     .row-hover:hover{background:rgba(248,250,252,0.85);}
-
-    /* mobile menu dropdown */
     .menu-pop{animation:menuPop .18s ease-out;}
-    @keyframes menuPop{from{opacity:0; transform:translateY(-6px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);} }
-
-    /* subtle scroll glow on active sections */
-    .scroll-glow{
-      position: relative;
-    }
+    @keyframes menuPop{ from{opacity:0; transform:translateY(-6px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);} }
+    .scroll-glow{ position: relative; }
     .scroll-glow::before{
-      content:"";
-      position:absolute;
-      inset:-18px;
-      border-radius: 3.25rem;
-      background:
-        radial-gradient(520px 200px at 20% 20%, rgba(128,0,0,0.12), transparent 60%),
-        radial-gradient(520px 220px at 80% 30%, rgba(15,23,42,0.10), transparent 62%);
-      filter: blur(18px);
-      opacity: 0;
-      transform: translateY(6px);
+      content:""; position:absolute; inset:-12px; border-radius: 3rem; background: rgba(255,255,255,0.75);
+      filter: blur(12px); opacity: 0; transform: translateY(6px); pointer-events:none; z-index:-1;
       transition: opacity .6s cubic-bezier(0.16,1,0.3,1), transform .6s cubic-bezier(0.16,1,0.3,1);
-      pointer-events:none;
-      z-index:-1;
     }
-    .scroll-glow.is-inview::before{
-      opacity: .65;
-      transform: translateY(0);
-    }
-
-    /* =========================
-       VISI MISI CARDS
-       ========================= */
-    .flip-grid{
-      display:grid;
-      gap:1.15rem;
-    }
-    @media (min-width: 768px){
-      .flip-grid{ grid-template-columns: 1fr 1fr; gap:2rem; }
-    }
-
-    .flip-card{
-      perspective: 1400px;
-      border-radius: 2.25rem;
-      position: relative;
-      overflow: visible;
-      transition: transform .25s ease, filter .25s ease;
-    }
-    .flip-card:hover{
-      transform: translateY(-2px);
-      filter: saturate(1.01);
-    }
-    @media (min-width: 768px){
-      .flip-card{ border-radius: 2.75rem; }
-    }
-
-    .flip-card::before{
-      content:"";
-      position:absolute;
-      inset:-12px;
-      border-radius: 2.8rem;
-      background:
-        radial-gradient(700px 280px at 20% 15%, rgba(128,0,0,0.16), transparent 60%),
-        radial-gradient(700px 280px at 80% 20%, rgba(15,23,42,0.10), transparent 60%),
-        radial-gradient(600px 320px at 50% 92%, rgba(128,0,0,0.10), transparent 62%);
-      filter: blur(18px);
-      opacity: .45;
-      z-index:-1;
-      transition: opacity .35s ease, transform .35s ease;
-    }
-
+    .scroll-glow.is-inview::before{ opacity: .9; transform: translateY(0); }
+    .flip-grid{ display:grid; gap:1.15rem; }
+    @media (min-width: 768px){ .flip-grid{ grid-template-columns: 1fr 1fr; gap:2rem; } }
+    .flip-card{ perspective: 1400px; border-radius: 2.25rem; position: relative; overflow: visible; transition: transform .25s ease, filter .25s ease; }
+    .flip-card:hover{ transform: translateY(-2px); filter: saturate(1.01); }
+    @media (min-width: 768px){ .flip-card{ border-radius: 2.75rem; } }
     .flip-inner{
-      position: relative;
-      width: 100%;
-      min-height: 390px;
-      transform-style: preserve-3d;
-      transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-      border-radius: 2.25rem;
-      will-change: transform;
-      box-shadow:
-        0 28px 80px -55px rgba(2,6,23,0.45),
-        0 12px 38px -30px rgba(128,0,0,0.18);
+      position: relative; width: 100%; min-height: 390px; transform-style: preserve-3d;
+      transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 2.25rem;
+      will-change: transform; box-shadow: 0 24px 60px -40px rgba(15,23,42,0.16);
     }
-    @media (min-width: 480px){
-      .flip-inner{ min-height: 420px; }
-    }
-    @media (min-width: 768px){
-      .flip-inner{ min-height: 520px; border-radius: 2.75rem; }
-    }
-
-    @media (hover:hover) and (pointer:fine){
-      .flip-card:hover .flip-inner{ transform: rotateY(180deg); }
-    }
+    @media (min-width: 480px){ .flip-inner{ min-height: 420px; } }
+    @media (min-width: 768px){ .flip-inner{ min-height: 520px; border-radius: 2.75rem; } }
+    @media (hover:hover) and (pointer:fine){ .flip-card:hover .flip-inner{ transform: rotateY(180deg); } }
     .flip-card:focus-within .flip-inner{ transform: rotateY(180deg); }
     .flip-card.is-flipped .flip-inner{ transform: rotateY(180deg); }
-
     .flip-face{
-      position:absolute;
-      inset:0;
-      backface-visibility: hidden;
-      border-radius: 2.25rem;
-      overflow:hidden;
-      border: 1px solid rgba(241,245,249,0.88);
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(18px);
+      position:absolute; inset:0; backface-visibility: hidden; border-radius: 2.25rem;
+      overflow:hidden; border: 1px solid rgba(226,232,240,0.92); background: rgba(255,255,255,0.96); backdrop-filter: blur(14px);
     }
-    @media (min-width: 768px){
-      .flip-face{ border-radius: 2.75rem; }
-    }
-
+    @media (min-width: 768px){ .flip-face{ border-radius: 2.75rem; } }
     .flip-face::after{
-      content:"";
-      position:absolute;
-      inset:-45%;
-      background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%);
-      transform: translateX(-55%) rotate(10deg);
-      transition: transform .9s cubic-bezier(0.16,1,0.3,1);
-      pointer-events:none;
+      content:""; position:absolute; inset:-45%; pointer-events:none;
+      background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.12) 50%, transparent 65%);
+      transform: translateX(-55%) rotate(10deg); transition: transform .9s cubic-bezier(0.16,1,0.3,1);
     }
-
-    @media (hover:hover) and (pointer:fine){
-      .flip-card:hover::before{ opacity:.8; transform: translateY(-6px); }
-      .flip-card:hover .flip-face::after{ transform: translateX(55%) rotate(10deg); }
-    }
-
     .pill{
-      position:absolute;
-      left:1rem;
-      right:1rem;
-      top:1rem;
-      height:48px;
-      border-radius: 999px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-      font-weight: 900;
-      letter-spacing:.18em;
-      text-transform: uppercase;
-      font-size: clamp(0.95rem, 4.3vw, 1.45rem);
-      box-shadow: 0 16px 42px rgba(2,6,23,0.16);
-      border: 1px solid rgba(255,255,255,0.16);
-      overflow:hidden;
-      background: var(--maroon);
-      padding-inline: 10px;
-      z-index: 2;
+      position:absolute; left:1rem; right:1rem; top:1rem; height:48px; border-radius: 999px;
+      display:flex; align-items:center; justify-content:center; color:#fff; font-weight: 900;
+      letter-spacing:.18em; text-transform: uppercase; font-size: clamp(0.95rem, 4.3vw, 1.45rem);
+      box-shadow: 0 12px 24px rgba(15,23,42,0.08); overflow:hidden; background: var(--maroon); padding-inline: 10px; z-index: 2;
     }
-    @media (min-width: 768px){
-      .pill{
-        left:1.25rem; right:1.25rem; top:1.25rem;
-        height:74px;
-        font-size: clamp(2rem, 3.6vw, 3.3rem);
-        letter-spacing:.22em;
-        box-shadow: 0 22px 55px rgba(2,6,23,0.22);
-      }
-    }
-
+    @media (min-width: 768px){ .pill{ left:1.25rem; right:1.25rem; top:1.25rem; height:74px; font-size: clamp(2rem, 3.6vw, 3.3rem); letter-spacing:.22em; } }
     .pill::before{
-      content:"";
-      position:absolute;
-      inset:-30%;
-      background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%);
-      transform: translateX(-65%) rotate(10deg);
-      transition: transform .9s cubic-bezier(0.16,1,0.3,1);
-      opacity:.9;
+      content:""; position:absolute; inset:-30%; opacity:.9;
+      background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%);
+      transform: translateX(-65%) rotate(10deg); transition: transform .9s cubic-bezier(0.16,1,0.3,1);
     }
     @media (hover:hover) and (pointer:fine){
       .flip-card:hover .pill::before{ transform: translateX(65%) rotate(10deg); }
+      .flip-card:hover .flip-face::after{ transform: translateX(55%) rotate(10deg); }
     }
-
-    .pill.visi{ background: var(--maroon); }
-    .pill.misi{ background: var(--maroon); }
-
     .card-body{
-      position:absolute;
-      left:1.1rem;
-      right:1.1rem;
-      top:4.4rem;
-      bottom:1.1rem;
-      border-radius: 1.9rem;
-      padding: 1.2rem;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      background:
-        radial-gradient(900px 420px at 20% 15%, rgba(128,0,0,0.06), transparent 60%),
-        radial-gradient(900px 420px at 85% 25%, rgba(15,23,42,0.05), transparent 60%),
-        rgba(255,255,255,0.55);
-      border: 1px solid rgba(241,245,249,0.75);
-      z-index: 1;
+      position:absolute; left:1.1rem; right:1.1rem; top:4.4rem; bottom:1.1rem; border-radius: 1.9rem; padding: 1.2rem;
+      display:flex; align-items:center; justify-content:center; text-align:center; background: #ffffff; border: 1px solid rgba(241,245,249,0.95); z-index: 1;
     }
-    @media (min-width: 768px){
-      .card-body{
-        left:1.6rem; right:1.6rem;
-        top:6.7rem; bottom:1.6rem;
-        border-radius: 2.1rem;
-        padding: 1.9rem;
-      }
-    }
-
-    .front-label{
-      font-family:'Space Grotesk',sans-serif;
-      font-size: clamp(1.35rem, 6vw, 2.6rem);
-      font-weight: 800;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: rgba(15,23,42,0.12);
-      user-select:none;
-    }
-    @media (min-width: 768px){
-      .front-label{ font-size: clamp(2.2rem, 4vw, 4.2rem); }
-    }
-
+    @media (min-width: 768px){ .card-body{ left:1.6rem; right:1.6rem; top:6.7rem; bottom:1.6rem; border-radius: 2.1rem; padding: 1.9rem; } }
+    .front-label{ font-family:'Space Grotesk',sans-serif; font-size: clamp(1.35rem, 6vw, 2.6rem); font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: rgba(15,23,42,0.12); user-select:none; }
+    @media (min-width: 768px){ .front-label{ font-size: clamp(2.2rem, 4vw, 4.2rem); } }
     .flip-back{ transform: rotateY(180deg); }
-
     .back-wrap{
-      position:absolute;
-      left:1.1rem;
-      right:1.1rem;
-      top:4.4rem;
-      bottom:1.1rem;
-      border-radius: 1.9rem;
-      padding: 1.2rem;
-      display:flex;
-      flex-direction:column;
-      background:
-        radial-gradient(900px 420px at 20% 15%, rgba(128,0,0,0.08), transparent 60%),
-        radial-gradient(900px 420px at 85% 25%, rgba(15,23,42,0.06), transparent 60%),
-        rgba(255,255,255,0.70);
-      border: 1px solid rgba(241,245,249,0.78);
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      position:absolute; left:1.1rem; right:1.1rem; top:4.4rem; bottom:1.1rem; border-radius: 1.9rem; padding: 1.2rem;
+      display:flex; flex-direction:column; background: #ffffff; border: 1px solid rgba(241,245,249,0.95); overflow-y: auto; -webkit-overflow-scrolling: touch;
     }
-    @media (min-width: 768px){
-      .back-wrap{
-        left:1.6rem; right:1.6rem;
-        top:6.7rem; bottom:1.6rem;
-        border-radius: 2.1rem;
-        padding: 2rem;
-      }
-    }
-
-    .back-wrap h3{
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.28em;
-      font-weight: 900;
-      color: rgba(15,23,42,0.55);
-      margin-bottom: .85rem;
-      text-align:left;
-      flex: 0 0 auto;
-    }
-
-    .visi-text{
-      font-weight: 800;
-      font-style: italic;
-      color: var(--ink);
-      line-height: 1.4;
-      letter-spacing: -0.02em;
-      font-size: clamp(0.92rem, 3.35vw, 1.15rem);
-      text-align:left;
-    }
-    @media (min-width: 768px){
-      .visi-text{ font-size: clamp(1.05rem, 1.6vw, 1.55rem); }
-    }
-
+    @media (min-width: 768px){ .back-wrap{ left:1.6rem; right:1.6rem; top:6.7rem; bottom:1.6rem; border-radius: 2.1rem; padding: 2rem; } }
+    .back-wrap h3{ font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.28em; font-weight: 900; color: rgba(15,23,42,0.55); margin-bottom: .85rem; text-align:left; flex: 0 0 auto; }
+    .visi-text{ font-weight: 800; font-style: italic; color: var(--ink); line-height: 1.4; letter-spacing: -0.02em; font-size: clamp(0.92rem, 3.35vw, 1.15rem); text-align:left; }
+    @media (min-width: 768px){ .visi-text{ font-size: clamp(1.05rem, 1.6vw, 1.55rem); } }
     .misi-list{ margin-top: .15rem; display:flex; flex-direction:column; gap: .65rem; }
-    @media (min-width: 768px){
-      .misi-list{ gap: 1rem; }
-    }
+    @media (min-width: 768px){ .misi-list{ gap: 1rem; } }
     .misi-item{ display:flex; gap: .75rem; align-items:flex-start; }
-
     .num{
-      width: 28px; height: 28px;
-      border-radius: 999px;
-      display:flex; align-items:center; justify-content:center;
-      font-size: 0.64rem;
-      font-weight: 900;
-      color: rgba(128,0,0,0.95);
-      background: rgba(255,255,255,0.96);
-      border: 1px solid rgba(128,0,0,0.18);
-      box-shadow: 0 12px 24px -18px rgba(128,0,0,0.35);
-      flex-shrink: 0;
-      transition: transform .25s ease, box-shadow .25s ease;
+      width: 28px; height: 28px; border-radius: 999px; display:flex; align-items:center; justify-content:center;
+      font-size: 0.64rem; font-weight: 900; color: rgba(128,0,0,0.95); background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(128,0,0,0.15); box-shadow: 0 8px 18px -14px rgba(15,23,42,0.15); flex-shrink: 0; transition: transform .25s ease, box-shadow .25s ease;
     }
-    .misi-item:hover .num{
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 16px 28px -18px rgba(128,0,0,0.45);
-    }
-    .misi-item p{
-      font-size: clamp(0.84rem, 3.1vw, 0.95rem);
-      font-weight: 700;
-      color: rgba(71,85,105,1);
-      line-height: 1.55;
-      text-align:left;
-    }
-
+    .misi-item:hover .num{ transform: translateY(-2px) scale(1.03); box-shadow: 0 10px 20px -14px rgba(15,23,42,0.18); }
+    .misi-item p{ font-size: clamp(0.84rem, 3.1vw, 0.95rem); font-weight: 700; color: rgba(71,85,105,1); line-height: 1.55; text-align:left; }
     .flip-card:active .flip-inner{ transform: scale(.995); }
-
     @media (prefers-reduced-motion: reduce){
-      .flip-inner{ transition:none !important; }
-      .flip-face::after, .pill::before{ transition:none !important; }
-      body{ transition:none !important; }
-      .hero-entrance{ animation:none !important; }
-      .intro, .intro-inner, .reveal-stagger > *{ animation:none !important; transition:none !important; }
+      .flip-inner, .flip-face::after, .pill::before, body{ transition:none !important; }
+      .hero-entrance, .intro, .intro-inner, .reveal-stagger > *{ animation:none !important; transition:none !important; }
     }
-
-    /* =========================
-       DRAGGABLE "TALI" LOGO
-       ========================= */
-    .string-wrap{
-      position: relative;
-      width: 100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      user-select:none;
-      touch-action: none;
-    }
-
-    .string-stage{
-      position: relative;
-      width: clamp(240px, 78vw, 420px);
-      height: clamp(240px, 78vw, 420px);
-      display:grid;
-      place-items:center;
-      overflow: visible;
-    }
-
-    .string-stage::before{
-      content:"";
-      position:absolute;
-      inset:-12px;
-      border-radius: 999px;
-      background:
-        radial-gradient(260px 260px at 40% 35%, rgba(128,0,0,0.18), transparent 60%),
-        radial-gradient(260px 260px at 70% 55%, rgba(15,23,42,0.12), transparent 62%);
-      filter: blur(18px);
-      opacity: .45;
-      z-index:-1;
-    }
-
+    .string-wrap{ position: relative; width: 100%; display:flex; align-items:center; justify-content:center; user-select:none; touch-action: none; }
+    .string-stage{ position: relative; width: clamp(240px, 78vw, 420px); height: clamp(240px, 78vw, 420px); display:grid; place-items:center; overflow: visible; }
     .string-line{
-      position:absolute;
-      left: 50%;
-      top: 50%;
-      height: 2px;
-      width: 0px;
-      background: rgba(128,0,0,0.55);
-      transform-origin: 0% 50%;
-      border-radius: 999px;
-
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+      position:absolute; left: 50%; top: 50%; height: 2px; width: 0px; background: rgba(128,0,0,0.4);
+      transform-origin: 0% 50%; border-radius: 999px; opacity: 0; visibility: hidden; pointer-events: none;
       transition: opacity .12s ease, visibility .12s ease;
     }
-    .string-line.show{
-      opacity: 1;
-      visibility: visible;
-    }
-
+    .string-line.show{ opacity: 1; visibility: visible; }
     .draggable-logo{
-      width: clamp(210px, 56vw, 380px);
-      pointer-events:auto;
-      cursor: grab;
-      will-change: transform;
-      transform: translate3d(0,0,0) rotate(0deg);
-      filter: drop-shadow(0 18px 35px rgba(2,6,23,0.18));
-      opacity: 1;
-      z-index: 2;
+      width: clamp(210px, 56vw, 380px); pointer-events:auto; cursor: grab; will-change: transform;
+      transform: translate3d(0,0,0) rotate(0deg); filter: drop-shadow(0 18px 35px rgba(15,23,42,0.14)); opacity: 1; z-index: 2;
     }
     .draggable-logo:active{ cursor: grabbing; }
-
-    @media (min-width: 1024px){
-      .string-wrap{ justify-content:flex-end; padding-right: 10px; }
-      .string-stage{ width: 420px; height: 420px; }
-      .draggable-logo{ width: 380px; }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      .string-line{ display:none; }
-    }
+    @media (min-width: 1024px){ .string-wrap{ justify-content:flex-end; padding-right: 10px; } .string-stage{ width: 420px; height: 420px; } .draggable-logo{ width: 380px; } }
+    .cta-runner-wrap{ position: relative; width: 100%; max-width: 420px; height: 78px; margin: 18px auto 0; overflow: hidden; }
+    @media (min-width: 1024px){ .cta-runner-wrap{ margin-left: 0; margin-right: 0; } }
+    .cta-runner-track{ position: absolute; left: 0; right: 0; top: 50%; height: 2px; transform: translateY(-50%); background: rgba(128,0,0,0.10); border-radius: 999px; }
+    .cta-runner{ position: absolute; left: 0; top: 50%; width: 58px; height: 58px; transform: translate(0,-50%); will-change: transform; transition: transform .08s linear; z-index: 2; }
+    .cta-runner img{ width: 100%; height: 100%; display: block; object-fit: contain; filter: drop-shadow(0 8px 18px rgba(128,0,0,0.16)); }
+    .cta-runner.is-reverse{ transform: translate(0,-50%) scaleX(-1); }
+    .cta-runner.is-idle img{ animation-play-state: paused; }
+    .cta-runner-img{ animation: ctaRunnerBounce .55s infinite ease-in-out; transform-origin: center; }
+    @keyframes ctaRunnerBounce{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-3px); } }
+    @media (max-width: 640px){ .cta-runner-wrap{ max-width: 300px; height: 64px; } .cta-runner{ width: 48px; height: 48px; } }
+    @media (prefers-reduced-motion: reduce){ .string-line{ display:none; } .cta-runner, .cta-runner-img{ transition:none !important; animation:none !important; } }
   </style>
 </head>
 
 <body>
-  <!-- NEW: Intro overlay -->
   <div id="intro" class="intro" aria-hidden="true">
     <div class="intro-inner">
       <div class="intro-top">
-        <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" alt="">
+        <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" alt="" referrerPolicy="no-referrer">
         <div>
           <div class="intro-title">Parlemen Ressilience</div>
           <div class="intro-sub">DPM HIMA PKO FPOK UPI</div>
@@ -713,7 +261,6 @@
     </div>
   </div>
 
-  <!-- Background layers -->
   <div class="bg-base"></div>
   <div class="bg-waves"></div>
   <div id="bgPhoto" class="bg-photo"></div>
@@ -724,349 +271,144 @@
   <nav id="topNav" class="fixed top-0 w-full z-[100] nav-blur">
     <div id="navInner" class="nav-inner max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       <div class="flex items-center gap-4 cursor-pointer select-none" onclick="showSection('home')">
-        <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" alt="Logo" class="w-10 h-10 drop-shadow-sm">
-        <div class="border-l border-slate-100/80 pl-4">
-          <h1 class="font-heading font-bold text-sm tracking-tight uppercase">
-            DPM HIMA <span class="text-[#800000]">PKO FPOK UPI</span>
-          </h1>
+        <img src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" alt="Logo" class="w-10 h-10 drop-shadow-sm" referrerPolicy="no-referrer">
+        <div class="border-l border-slate-200/70 pl-4">
+          <h1 class="font-heading font-bold text-sm tracking-tight uppercase">DPM HIMA <span class="text-[#800000]">PKO FPOK UPI</span></h1>
           <p class="text-[8px] font-black tracking-[0.4em] text-slate-400 uppercase">Ressilience 25/26</p>
         </div>
       </div>
-
-      <!-- Desktop menu -->
       <div class="hidden md:flex items-center gap-10">
         <button onclick="showSection('home')" class="text-[10px] font-bold uppercase tracking-widest hover:text-[#800000] transition-colors">Beranda</button>
-        <button onclick="showSection('aspirasi')" class="text-[10px] font-bold uppercase tracking-widest text-[#800000] px-4 py-2 bg-rose-50/80 border border-rose-100/70 rounded-full hover:bg-rose-50 transition-all">
-          Aspirasi
-        </button>
-        <button onclick="showSection('admin')" class="px-5 py-2.5 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#800000] transition-all">
-          Admin
-        </button>
+        <button onclick="showSection('aspirasi')" class="text-[10px] font-bold uppercase tracking-widest text-[#800000] px-4 py-2 bg-white border border-slate-200 rounded-full hover:bg-slate-50 transition-all">Aspirasi</button>
+        <button onclick="showSection('admin')" class="px-5 py-2.5 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#800000] transition-all">Admin</button>
       </div>
-
-      <!-- Mobile menu -->
       <div class="md:hidden relative">
-        <button id="menuBtn" class="w-11 h-11 rounded-full border border-slate-200/70 bg-white/70 backdrop-blur-xl flex items-center justify-center active:scale-95 transition"
-                aria-label="Menu">
-          <span class="flex gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-slate-700"></span>
-            <span class="w-1.5 h-1.5 rounded-full bg-slate-700"></span>
-            <span class="w-1.5 h-1.5 rounded-full bg-slate-700"></span>
-          </span>
+        <button id="menuBtn" class="w-11 h-11 rounded-full border border-slate-200/70 bg-white/90 backdrop-blur-xl flex items-center justify-center active:scale-95 transition" aria-label="Menu">
+          <span class="flex gap-1"><span class="w-1.5 h-1.5 rounded-full bg-slate-700"></span><span class="w-1.5 h-1.5 rounded-full bg-slate-700"></span><span class="w-1.5 h-1.5 rounded-full bg-slate-700"></span></span>
         </button>
-
-        <div id="mobileMenu" class="hidden absolute right-0 mt-3 w-44 rounded-2xl border border-slate-100/80 bg-white/90 backdrop-blur-xl shadow-xl overflow-hidden">
-          <button onclick="showSection('home'); closeMobileMenu()" class="w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-slate-50">
-            Beranda
-          </button>
-          <button onclick="showSection('aspirasi'); closeMobileMenu()" class="w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-slate-50 text-[#800000]">
-            Aspirasi
-          </button>
-          <button onclick="showSection('admin'); closeMobileMenu()" class="w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-slate-50">
-            Admin
-          </button>
+        <div id="mobileMenu" class="hidden absolute right-0 mt-3 w-44 rounded-2xl border border-slate-200 bg-white/96 backdrop-blur-xl shadow-xl overflow-hidden">
+          <button onclick="showSection('home'); closeMobileMenu()" class="w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-slate-50">Beranda</button>
+          <button onclick="showSection('aspirasi'); closeMobileMenu()" class="w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-slate-50 text-[#800000]">Aspirasi</button>
+          <button onclick="showSection('admin'); closeMobileMenu()" class="w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-slate-50">Admin</button>
         </div>
       </div>
-
     </div>
   </nav>
 
   <main class="pt-32 pb-20">
-
     <section id="home" class="section-content active px-6">
       <div class="max-w-7xl mx-auto">
-
         <div class="grid lg:grid-cols-2 gap-10 items-center mb-16 lg:mb-20">
           <div class="text-center lg:text-left hero-entrance">
-            <!-- NEW: stagger wrapper -->
             <div id="heroStagger" class="reveal-stagger">
-              <span class="inline-block px-4 py-1 rounded bg-slate-100/70 border border-slate-200/40 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-8" data-aos="fade-up">
-                Legislative Portal
-              </span>
-
-              <h2 class="font-heading text-5xl sm:text-6xl md:text-8xl font-bold leading-[0.92] mb-7" data-aos="fade-up" data-aos-delay="80">
-                <span class="text-slate-900">Parlemen</span><br>
-                <span class="text-[#800000] drop-shadow-[0_12px_45px_rgba(128,0,0,0.12)]">Ressilience.</span>
-              </h2>
-
-              <p class="text-slate-500 text-base sm:text-lg md:text-xl leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 font-medium" data-aos="fade-up" data-aos-delay="140">
-                Keputusan transparan, adaptif, dan fleksibel untuk masa depan PKO FPOK UPI yang lebih kolektif.
-              </p>
-
+              <span class="inline-block px-4 py-1 rounded bg-slate-50 border border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-8" data-aos="fade-up">Legislative Portal</span>
+              <h2 class="font-heading text-5xl sm:text-6xl md:text-8xl font-bold leading-[0.92] mb-7" data-aos="fade-up" data-aos-delay="80"><span class="text-slate-900">Parlemen</span><br><span class="text-[#800000]">Ressilience.</span></h2>
+              <p class="text-slate-500 text-base sm:text-lg md:text-xl leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 font-medium" data-aos="fade-up" data-aos-delay="140">Keputusan transparan, adaptif, dan fleksibel untuk masa depan PKO FPOK UPI yang lebih kolektif.</p>
               <div data-aos="fade-up" data-aos-delay="220">
-                <button onclick="showSection('aspirasi')" class="btn-maroon px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest">
-                  Suarakan Aspirasi
-                </button>
+                <button onclick="showSection('aspirasi')" class="btn-maroon px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest">Suarakan Aspirasi</button>
+                <div class="cta-runner-wrap" aria-hidden="true">
+                  <div class="cta-runner-track"></div>
+                  <div id="ctaRunner" class="cta-runner is-idle">
+                    <img src="https://lh3.googleusercontent.com/d/1YVHidEYRYmE-6zRb0fAvIA1fElmNHQSq" class="cta-runner-img" alt="Runner" referrerPolicy="no-referrer">
+                  </div>
+                </div>
               </div>
-
-              <!-- LOGO DRAG (MOBILE) -->
               <div class="mt-10 lg:hidden" data-aos="zoom-in" data-aos-delay="260">
                 <div class="string-wrap">
                   <div id="stringStageMobile" class="string-stage" aria-hidden="true">
                     <div id="stringLineMobile" class="string-line"></div>
-                    <img
-                      id="homeDraggableLogoMobile"
-                      src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z"
-                      class="draggable-logo"
-                      alt="Logo DPM HIMA PKO"
-                      draggable="false"
-                    />
+                    <img id="homeDraggableLogoMobile" src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" class="draggable-logo" alt="Logo DPM HIMA PKO" draggable="false" referrerPolicy="no-referrer" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- LOGO DRAG (DESKTOP) -->
           <div class="hidden lg:flex string-wrap" data-aos="fade-left">
             <div id="stringStage" class="string-stage" aria-hidden="true">
               <div id="stringLine" class="string-line"></div>
-              <img
-                id="homeDraggableLogo"
-                src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z"
-                class="draggable-logo"
-                alt="Logo DPM HIMA PKO"
-                draggable="false"
-              />
+              <img id="homeDraggableLogo" src="https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z" class="draggable-logo" alt="Logo DPM HIMA PKO" draggable="false" referrerPolicy="no-referrer" />
             </div>
           </div>
         </div>
-
-        <!-- VISI MISI -->
         <div class="flip-grid items-stretch scroll-glow" data-inview>
-          <!-- VISI -->
-          <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Visi (klik untuk flip)" data-aos="fade-up">
+          <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Visi" data-aos="fade-up">
             <div class="flip-inner">
-              <div class="flip-face flip-front">
-                <div class="pill visi">VISI</div>
-                <div class="card-body">
-                  <div class="front-label">VISI</div>
-                </div>
-              </div>
-
-              <div class="flip-face flip-back">
-                <div class="pill visi">VISI</div>
-                <div class="back-wrap">
-                  <h3>Visi Parlemen</h3>
-                  <p class="visi-text">
-                    “Membangun lembaga yang aspiratif bagi mahasiswa dengan mengedepankan kolektif suara dalam pengambilan keputusan yang transparan, adaptif dan fleksibel untuk mahasiswa dalam meningkatkan kolaborasi agar mampu menjadi tempat untuk tumbuh, berkembang, belajar, dan berdinamika bagi seluruh mahasiswa Pendidikan Kepelatihan Olahraga FPOK UPI”
-                  </p>
-                </div>
-              </div>
+              <div class="flip-face flip-front"><div class="pill visi">VISI</div><div class="card-body"><div class="front-label">VISI</div></div></div>
+              <div class="flip-face flip-back"><div class="pill visi">VISI</div><div class="back-wrap"><h3>Visi Parlemen</h3><p class="visi-text">“Membangun lembaga yang aspiratif bagi mahasiswa dengan mengedepankan kolektif suara dalam pengambilan keputusan yang transparan, adaptif dan fleksibel untuk mahasiswa dalam meningkatkan kolaborasi agar mampu menjadi tempat untuk tumbuh, berkembang, belajar, dan berdinamika bagi seluruh mahasiswa Pendidikan Kepelatihan Olahraga FPOK UPI”</p></div></div>
             </div>
           </div>
-
-          <!-- MISI -->
-          <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Misi (klik untuk flip)" data-aos="fade-up" data-aos-delay="80">
+          <div class="flip-card" data-flip="card" role="button" tabindex="0" aria-label="Kartu Misi" data-aos="fade-up" data-aos-delay="80">
             <div class="flip-inner">
-              <div class="flip-face flip-front">
-                <div class="pill misi">MISI</div>
-                <div class="card-body">
-                  <div class="front-label">MISI</div>
-                </div>
-              </div>
-
-              <div class="flip-face flip-back">
-                <div class="pill misi">MISI</div>
-                <div class="back-wrap">
-                  <h3>Misi Strategis</h3>
-                  <div class="misi-list">
-                    <div class="misi-item">
-                      <div class="num">1</div>
-                      <p>Mengembangkan budaya organisasi yang transparan, adaptif, dan fleksibel.</p>
-                    </div>
-                    <div class="misi-item">
-                      <div class="num">2</div>
-                      <p>Mendorong kolaborasi yang sinergis dan profesional.</p>
-                    </div>
-                    <div class="misi-item">
-                      <div class="num">3</div>
-                      <p>Optimalisasi peran DPM HIMA PKO sebagai lembaga yang aspiratif menyuarakan, menyalurkan dan mengadvokasi ide, aspirasi, dan inovasi mahasiwa.</p>
-                    </div>
-                    <div class="misi-item">
-                      <div class="num">4</div>
-                      <p>Menciptakan jaringan komunikasi dan organisasi yang baik dikalangan mahasiswa pendidikan kepelatihan olahraga.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div class="flip-face flip-front"><div class="pill misi">MISI</div><div class="card-body"><div class="front-label">MISI</div></div></div>
+              <div class="flip-face flip-back"><div class="pill misi">MISI</div><div class="back-wrap"><h3>Misi Strategis</h3><div class="misi-list"><div class="misi-item"><div class="num">1</div><p>Mengembangkan budaya organisasi yang transparan, adaptif, dan fleksibel.</p></div><div class="misi-item"><div class="num">2</div><p>Mendorong kolaborasi yang sinergis dan profesional.</p></div><div class="misi-item"><div class="num">3</div><p>Optimalisasi peran DPM HIMA PKO sebagai lembaga yang aspiratif menyuarakan, menyalurkan dan mengadvokasi ide, aspirasi, dan inovasi mahasiwa.</p></div><div class="misi-item"><div class="num">4</div><p>Menciptakan jaringan komunikasi dan organisasi yang baik dikalangan mahasiswa pendidikan kepelatihan olahraga.</p></div></div></div></div>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
 
     <section id="aspirasi" class="section-content px-6">
       <div class="max-w-2xl mx-auto py-5">
-        <div id="aspirasiCard" class="bg-white/85 backdrop-blur-xl p-10 md:p-16 rounded-[3.5rem] border border-slate-100/80 shadow-2xl shadow-slate-200/40 scroll-glow" data-inview>
+        <div id="aspirasiCard" class="bg-white/96 backdrop-blur-xl p-10 md:p-16 rounded-[3.5rem] border border-slate-200 shadow-xl shadow-slate-200/20 scroll-glow" data-inview>
           <h2 class="font-heading text-3xl font-bold text-center mb-12 uppercase tracking-tight" data-aos="fade-up">Formulir Aspirasi</h2>
-
-          <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeVUr-FDak18xsM4PF3XFZXZsnM1eljxsLYVNlW59OpcMGmZg/formResponse"
-                method="POST" id="formAspirasi" target="hidden_iframe" class="space-y-6">
-
+          <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeVUr-FDak18xsM4PF3XFZXZsnM1eljxsLYVNlW59OpcMGmZg/formResponse" method="POST" id="formAspirasi" target="hidden_iframe" class="space-y-6">
             <div class="grid md:grid-cols-2 gap-5" data-aos="fade-up" data-aos-delay="80">
-              <div class="space-y-2">
-                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nama Lengkap</label>
-                <input
-                  type="text"
-                  name="entry.1716082016"
-                  required
-                  class="w-full p-4 input-style text-sm"
-                  placeholder="Contoh: Muhammad Ferari Kuswandi"
-                  autocomplete="name"
-                >
-              </div>
-              <div class="space-y-2">
-                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">NIM</label>
-                <input
-                  type="text"
-                  name="entry.625953499"
-                  required
-                  class="w-full p-4 input-style text-sm"
-                  placeholder="Contoh: 2304481"
-                  inputmode="numeric"
-                >
-              </div>
+              <div class="space-y-2"><label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nama Lengkap</label><input type="text" name="entry.1716082016" required class="w-full p-4 input-style text-sm" placeholder="Contoh: Muhammad Ferari Kuswandi" autocomplete="name"></div>
+              <div class="space-y-2"><label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">NIM</label><input type="text" name="entry.625953499" required class="w-full p-4 input-style text-sm" placeholder="Contoh: 2304481" inputmode="numeric"></div>
             </div>
-
-            <div class="space-y-2" data-aos="fade-up" data-aos-delay="120">
-              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Subjek</label>
-              <input
-                type="text"
-                name="entry.1297363755"
-                required
-                class="w-full p-4 input-style text-sm"
-                placeholder="Contoh: Fasilitas"
-              >
-            </div>
-
-            <div class="space-y-2" data-aos="fade-up" data-aos-delay="160">
-              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Pesan Aspirasi</label>
-              <textarea
-                name="entry.2146318381"
-                required
-                rows="5"
-                class="w-full p-4 input-style text-sm resize-none"
-                placeholder="Contoh: Saya ingin menyampaikan aspirasi terkait fasilitas. Beberapa fasilitas di lingkungan kampus/kelas masih kurang memadai (misalnya kebersihan, ketersediaan alat, dan perawatan). Mohon ditingkatkan agar kegiatan belajar lebih nyaman."
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              class="w-full btn-maroon py-5 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em]"
-              data-aos="fade-up"
-              data-aos-delay="210"
-            >
-              Kirim Aspirasi
-            </button>
+            <div class="space-y-2" data-aos="fade-up" data-aos-delay="120"><label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Subjek</label><input type="text" name="entry.1297363755" required class="w-full p-4 input-style text-sm" placeholder="Contoh: Fasilitas"></div>
+            <div class="space-y-2" data-aos="fade-up" data-aos-delay="160"><label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Pesan Aspirasi</label><textarea name="entry.2146318381" required rows="5" class="w-full p-4 input-style text-sm resize-none" placeholder="Contoh: Saya ingin menyampaikan aspirasi terkait fasilitas..."></textarea></div>
+            <button type="submit" class="w-full btn-maroon py-5 rounded-2xl font-bold text-[10px] uppercase tracking-[0.3em]" data-aos="fade-up" data-aos-delay="210">Kirim Aspirasi</button>
           </form>
-
-          <div id="msgSent" class="hidden mt-8 p-4 bg-slate-900 text-white rounded-2xl text-center text-[10px] font-bold uppercase tracking-widest">
-            Terima Kasih, Aspirasi Terkirim
-          </div>
+          <div id="msgSent" class="hidden mt-8 p-4 bg-slate-900 text-white rounded-2xl text-center text-[10px] font-bold uppercase tracking-widest">Terima Kasih, Aspirasi Terkirim</div>
         </div>
       </div>
     </section>
 
     <section id="admin" class="section-content px-6">
       <div id="loginSection" class="max-w-sm mx-auto py-20">
-        <div id="loginCard" class="bg-white/85 backdrop-blur-xl p-12 rounded-[3rem] border border-slate-100/80 shadow-xl text-center scroll-glow" data-inview>
+        <div id="loginCard" class="bg-white/96 backdrop-blur-xl p-12 rounded-[3rem] border border-slate-200 shadow-xl text-center scroll-glow" data-inview>
           <h2 class="font-heading text-xl font-bold mb-10 tracking-tight uppercase" data-aos="fade-up">Admin Login</h2>
-          <input type="password" id="passCode" placeholder="••••••••" class="w-full p-4 bg-slate-50/80 border border-slate-100/80 rounded-2xl mb-6 text-center outline-none focus:ring-0 focus:border-rose-200 transition-all" data-aos="fade-up" data-aos-delay="80">
+          <input type="password" id="passCode" placeholder="••••••••" class="w-full p-4 bg-white border border-slate-200 rounded-2xl mb-6 text-center outline-none focus:ring-0 focus:border-rose-200 transition-all" data-aos="fade-up" data-aos-delay="80">
           <button onclick="checkAdmin()" class="w-full btn-maroon py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest" data-aos="fade-up" data-aos-delay="140">Masuk</button>
         </div>
       </div>
-
       <div id="dashboardSection" class="hidden max-w-7xl mx-auto space-y-6">
-        <div class="flex flex-col md:flex-row justify-between items-center bg-white/85 backdrop-blur-xl p-10 rounded-[3rem] border border-slate-100/80 gap-6 shadow-xl scroll-glow" data-inview>
-          <div>
-            <h2 class="font-heading text-2xl font-bold uppercase tracking-tight text-slate-900">
-              Database <span class="text-[#800000]">Live</span>
-            </h2>
-            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-2">DPM HIMA PKO Internal Panel</p>
-          </div>
-
+        <div class="flex flex-col md:flex-row justify-between items-center bg-white/96 backdrop-blur-xl p-10 rounded-[3rem] border border-slate-200 gap-6 shadow-xl scroll-glow" data-inview>
+          <div><h2 class="font-heading text-2xl font-bold uppercase tracking-tight text-slate-900">Database <span class="text-[#800000]">Live</span></h2><p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-2">DPM HIMA PKO Internal Panel</p></div>
           <div class="flex gap-3 flex-wrap justify-center">
-            <button onclick="refreshData()" id="btnRefresh" class="px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#800000] transition-all">
-              Refresh
-            </button>
-
-            <button onclick="exportCSV()" class="px-8 py-3 bg-white/80 border border-slate-200/70 text-slate-900 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-all">
-              Export CSV
-            </button>
-
-            <button onclick="location.reload()" class="px-8 py-3 text-rose-600 font-bold text-[10px] uppercase hover:underline">
-              Keluar
-            </button>
+            <button onclick="refreshData()" id="btnRefresh" class="px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#800000] transition-all">Refresh</button>
+            <button onclick="exportCSV()" class="px-8 py-3 bg-white border border-slate-200 text-slate-900 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-all">Export CSV</button>
+            <button onclick="location.reload()" class="px-8 py-3 text-rose-600 font-bold text-[10px] uppercase hover:underline">Keluar</button>
           </div>
         </div>
-
-        <div class="bg-white/85 backdrop-blur-xl rounded-[3rem] border border-slate-100/80 shadow-2xl overflow-hidden scroll-glow" data-inview>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left min-w-[900px]">
-              <thead class="bg-slate-50/80 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100/70">
-                <tr>
-                  <th class="p-8">Waktu</th>
-                  <th class="p-8 text-slate-900">Nama / NIM</th>
-                  <th class="p-8 text-[#800000]">Subjek</th>
-                  <th class="p-8">Pesan</th>
-                </tr>
-              </thead>
-              <tbody id="tableRows" class="text-xs font-semibold text-slate-600 divide-y divide-slate-50/70"></tbody>
-            </table>
-          </div>
+        <div class="bg-white/96 backdrop-blur-xl rounded-[3rem] border border-slate-200 shadow-2xl overflow-hidden scroll-glow" data-inview>
+          <div class="overflow-x-auto"><table class="w-full text-left min-w-[900px]"><thead class="bg-slate-50 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-200"><tr><th class="p-8">Waktu</th><th class="p-8 text-slate-900">Nama / NIM</th><th class="p-8 text-[#800000]">Subjek</th><th class="p-8">Pesan</th></tr></thead><tbody id="tableRows" class="text-xs font-semibold text-slate-600 divide-y divide-slate-100"></tbody></table></div>
         </div>
       </div>
     </section>
-
   </main>
 
-  <footer class="py-12 text-center">
-    <p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.5em]">
-      Parlemen Ressilience © 2025 DPM HIMA PKO UPI
-    </p>
-  </footer>
-
-  <button id="toTop" class="to-top btn-maroon w-12 h-12 rounded-full flex items-center justify-center shadow-xl"
-          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Back to top">
-    <span class="text-sm font-black">↑</span>
-  </button>
-
+  <footer class="py-12 text-center"><p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.5em]">Parlemen Ressilience © 2025 DPM HIMA PKO UPI</p></footer>
+  <button id="toTop" class="to-top btn-maroon w-12 h-12 rounded-full flex items-center justify-center shadow-xl" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Back to top"><span class="text-sm font-black">↑</span></button>
   <iframe name="hidden_iframe" style="display:none;"></iframe>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    // AOS
     AOS.init({ duration: 900, once: true, offset: 60 });
-
-    // ===== NEW: intro overlay + stagger hero =====
     window.addEventListener('load', () => {
       document.body.classList.add('is-loaded');
-
-      // intro
       const intro = document.getElementById('intro');
-      const bar   = document.getElementById('introBar');
-      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if(!reducedMotion){
+      const bar = document.getElementById('introBar');
+      if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         requestAnimationFrame(() => bar.classList.add('fill'));
         setTimeout(() => intro.classList.add('hide'), 1100);
-      } else {
-        intro.classList.add('hide');
-      }
-
-      // hero stagger
+      } else { intro.classList.add('hide'); }
       const hero = document.getElementById('heroStagger');
-      if(hero){
-        requestAnimationFrame(() => hero.classList.add('is-revealed'));
-      }
+      if(hero){ requestAnimationFrame(() => hero.classList.add('is-revealed')); }
     });
 
     const SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vStcxFf1veUj6SiD7Xt89JvZMSt4lO9TxKwtQCMHaZPiqbPH8fylGHOT0CCTqpJJrBvV8jlPCZlEy5v/pub?gid=761094266&single=true&output=csv";
-
-    // ===== NEW: direction-aware section transitions =====
     const sectionOrder = ["home","aspirasi","admin"];
     let currentSection = "home";
 
@@ -1074,42 +416,27 @@
       const prevIdx = sectionOrder.indexOf(currentSection);
       const nextIdx = sectionOrder.indexOf(id);
       const direction = (nextIdx > prevIdx) ? "right" : "left";
-
-      document.querySelectorAll('.section-content').forEach(s => {
-        s.classList.remove('active','soft-pop','slide-in-right','slide-in-left');
-      });
-
+      document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active','soft-pop','slide-in-right','slide-in-left'));
       const target = document.getElementById(id);
-      target.classList.add('active');
-      target.classList.add(direction === "right" ? 'slide-in-right' : 'slide-in-left');
-
+      target.classList.add('active', direction === "right" ? 'slide-in-right' : 'slide-in-left');
       currentSection = id;
-
       window.scrollTo({top:0, behavior: 'smooth'});
       AOS.refresh();
-      requestAnimationFrame(() => { markInView(); });
+      requestAnimationFrame(markInView);
     }
 
-    // ✅ FIX: Validasi + UI sukses lewat event submit (bukan onclick)
     function initAspirasiSubmit(){
       const form = document.getElementById('formAspirasi');
       const card = document.getElementById('aspirasiCard');
-      const msg  = document.getElementById('msgSent');
-      if(!form || !card || !msg) return;
-
+      const msg = document.getElementById('msgSent');
+      if(!form) return;
       form.addEventListener('submit', (e) => {
         if(!form.checkValidity()) {
-          e.preventDefault();
-          card.classList.add('shake');
-          setTimeout(() => card.classList.remove('shake'), 500);
-          return;
+          e.preventDefault(); card.classList.add('shake');
+          setTimeout(() => card.classList.remove('shake'), 500); return;
         }
-
         msg.classList.remove('hidden');
-        setTimeout(() => {
-          form.reset();
-          msg.classList.add('hidden');
-        }, 5000);
+        setTimeout(() => { form.reset(); msg.classList.add('hidden'); }, 5000);
       });
     }
     initAspirasiSubmit();
@@ -1122,8 +449,7 @@
         refreshData();
       } else {
         document.getElementById('loginCard').classList.add('shake');
-        pass.value = "";
-        setTimeout(() => document.getElementById('loginCard').classList.remove('shake'), 500);
+        pass.value = ""; setTimeout(() => document.getElementById('loginCard').classList.remove('shake'), 500);
       }
     }
 
@@ -1132,269 +458,103 @@
       const btn = document.getElementById('btnRefresh');
       btn.innerHTML = "...";
       tbody.innerHTML = `<tr><td colspan="4" class="p-20 text-center animate-pulse text-slate-300 font-bold uppercase tracking-widest">Sinkronisasi Data...</td></tr>`;
-
       try {
         const res = await fetch(`${SHEETS_CSV}&t=${new Date().getTime()}`);
         const data = await res.text();
         const rows = data.split(/\r?\n/).slice(1).filter(Boolean);
-
         tbody.innerHTML = rows.reverse().map(r => {
           const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').trim());
-          return `<tr class="row-hover">
-              <td class="p-8 text-[10px] font-mono text-slate-300 italic">${c[0] || ""}</td>
-              <td class="p-8 font-bold text-slate-900 uppercase tracking-tighter">${c[1] || ""}</td>
-              <td class="p-8">
-                <span class="px-3 py-1 bg-red-50/80 text-[#800000] rounded-full font-bold text-[9px] uppercase border border-red-100/70">
-                  ${c[2] || ""}</span>
-              </td>
-              <td class="p-8 leading-relaxed text-slate-500">${c[3] || ""}</td>
-            </tr>`;
+          return `<tr class="row-hover"><td class="p-8 text-[10px] font-mono text-slate-300 italic">${c[0]||""}</td><td class="p-8 font-bold text-slate-900 uppercase tracking-tighter">${c[1]||""}</td><td class="p-8"><span class="px-3 py-1 bg-slate-50 text-[#800000] rounded-full font-bold text-[9px] uppercase border border-slate-200">${c[2]||""}</span></td><td class="p-8 leading-relaxed text-slate-500">${c[3]||""}</td></tr>`;
         }).join('');
-      } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="4" class="p-20 text-center text-rose-500 font-bold">Error Connection</td></tr>`;
-      } finally {
-        btn.innerHTML = "Refresh";
-      }
+      } catch (e) { tbody.innerHTML = `<tr><td colspan="4" class="p-20 text-center text-rose-500 font-bold">Error Connection</td></tr>`; }
+      finally { btn.innerHTML = "Refresh"; }
     }
 
     function exportCSV(){
-      const a = document.createElement('a');
-      a.href = `${SHEETS_CSV}&t=${Date.now()}`;
+      const a = document.createElement('a'); a.href = `${SHEETS_CSV}&t=${Date.now()}`;
       a.download = `Aspirasi_DPM_${new Date().toISOString().slice(0,10)}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
     }
 
-    // Scroll FX
-    const nav = document.getElementById('topNav');
-    const navInner = document.getElementById('navInner');
-    const progress = document.getElementById('scrollProgress');
-    const toTop = document.getElementById('toTop');
-    const bgPhoto = document.getElementById('bgPhoto');
+    const nav = document.getElementById('topNav'), navInner = document.getElementById('navInner'), progress = document.getElementById('scrollProgress'), toTop = document.getElementById('toTop'), bgPhoto = document.getElementById('bgPhoto'), ctaRunner = document.getElementById('ctaRunner');
+    let lastScrollY = window.scrollY, ctaRunnerTimer = null;
+
+    function updateCtaRunner(currentY){
+      if(!ctaRunner) return;
+      const doc = document.documentElement, maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
+      const wrap = ctaRunner.closest('.cta-runner-wrap'), maxX = Math.max(0, (wrap ? wrap.clientWidth : 420) - ctaRunner.offsetWidth);
+      const posX = (currentY / maxScroll) * maxX;
+      if(currentY > lastScrollY + 1){ ctaRunner.classList.remove('is-reverse','is-idle'); ctaRunner.style.transform = `translate(${posX}px,-50%)`; }
+      else if(currentY < lastScrollY - 1){ ctaRunner.classList.remove('is-idle'); ctaRunner.classList.add('is-reverse'); ctaRunner.style.transform = `translate(${posX}px,-50%) scaleX(-1)`; }
+      clearTimeout(ctaRunnerTimer); ctaRunnerTimer = setTimeout(() => ctaRunner.classList.add('is-idle'), 120);
+    }
 
     function onScrollFX(){
-      const y = window.scrollY || 0;
-
-      if(y > 10){ nav.classList.add('nav-scrolled'); navInner.classList.add('nav-tight'); }
-      else { nav.classList.remove('nav-scrolled'); navInner.classList.remove('nav-tight'); }
-
-      const doc = document.documentElement;
-      const max = (doc.scrollHeight - doc.clientHeight) || 1;
-      const p = Math.min(1, y / max);
-      progress.style.width = (p * 100) + "%";
-
-      if(y > 500) toTop.classList.add('show');
-      else toTop.classList.remove('show');
-
-      if(bgPhoto){
-        const t = Math.min(24, y * 0.03);
-        bgPhoto.style.transform = `translate3d(0, ${t}px, 0) scale(1.02)`;
-      }
-
-      markInView();
+      const y = window.scrollY;
+      if(y > 10){ nav.classList.add('nav-scrolled'); navInner.classList.add('nav-tight'); } else { nav.classList.remove('nav-scrolled'); navInner.classList.remove('nav-tight'); }
+      const doc = document.documentElement, max = (doc.scrollHeight - doc.clientHeight) || 1;
+      progress.style.width = (Math.min(1, y / max) * 100) + "%";
+      if(y > 500) toTop.classList.add('show'); else toTop.classList.remove('show');
+      if(bgPhoto){ bgPhoto.style.transform = `translate3d(0, ${Math.min(18, y * 0.02)}px, 0) scale(1.02)`; }
+      updateCtaRunner(y); markInView(); lastScrollY = y;
     }
+
     window.addEventListener('scroll', onScrollFX, { passive:true });
-    window.addEventListener('load', onScrollFX);
-
-    // Mobile menu
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    function openMobileMenu(){
-      mobileMenu.classList.remove('hidden');
-      mobileMenu.classList.add('menu-pop');
-      setTimeout(() => mobileMenu.classList.remove('menu-pop'), 220);
-    }
+    const menuBtn = document.getElementById('menuBtn'), mobileMenu = document.getElementById('mobileMenu');
     function closeMobileMenu(){ mobileMenu.classList.add('hidden'); }
-    function toggleMobileMenu(){
-      if(mobileMenu.classList.contains('hidden')) openMobileMenu();
-      else closeMobileMenu();
-    }
-
-    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMobileMenu(); });
-    document.addEventListener('click', () => closeMobileMenu());
-    window.closeMobileMenu = closeMobileMenu;
-
-    // Flip cards
+    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); mobileMenu.classList.toggle('hidden'); if(!mobileMenu.classList.contains('hidden')){ mobileMenu.classList.add('menu-pop'); setTimeout(()=>mobileMenu.classList.remove('menu-pop'),220); } });
+    document.addEventListener('click', closeMobileMenu);
     document.querySelectorAll('[data-flip="card"]').forEach(card => {
       const toggle = () => card.classList.toggle('is-flipped');
-
-      card.addEventListener('click', () => toggle());
-      card.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          toggle();
-        }
-      });
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
     });
 
-    // inview glow
-    function isElementInView(el){
-      const r = el.getBoundingClientRect();
-      const vh = window.innerHeight || document.documentElement.clientHeight;
-      const pad = 80;
-      return (r.top < (vh - pad)) && (r.bottom > pad);
-    }
     function markInView(){
       document.querySelectorAll('[data-inview]').forEach(el => {
-        if(isElementInView(el)) el.classList.add('is-inview');
-        else el.classList.remove('is-inview');
+        const r = el.getBoundingClientRect(), vh = window.innerHeight, pad = 80;
+        if((r.top < (vh - pad)) && (r.bottom > pad)) el.classList.add('is-inview'); else el.classList.remove('is-inview');
       });
     }
-    window.addEventListener('load', markInView);
 
-    /* =========================
-       NEW: Ripple effect for buttons & clickable cards
-       - auto apply to .btn-maroon, #btnRefresh, cards [data-flip]
-       ========================= */
     function addRipple(el, opts = {}){
-      if(!el) return;
-      el.style.position = el.style.position || "relative";
-      el.style.overflow = "hidden";
+      if(!el) return; el.style.position = el.style.position || "relative"; el.style.overflow = "hidden";
       el.addEventListener('pointerdown', (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const span = document.createElement('span');
+        const rect = el.getBoundingClientRect(), span = document.createElement('span');
         span.className = "ripple" + (opts.dark ? " ripple-dark" : "");
-        span.style.left = x + "px";
-        span.style.top  = y + "px";
-
-        el.appendChild(span);
-        span.addEventListener('animationend', () => span.remove());
+        span.style.left = (e.clientX - rect.left) + "px"; span.style.top = (e.clientY - rect.top) + "px";
+        el.appendChild(span); span.addEventListener('animationend', () => span.remove());
       }, { passive:true });
     }
-
-    // apply ripple
     document.querySelectorAll('.btn-maroon').forEach(b => addRipple(b));
     addRipple(document.getElementById('btnRefresh'));
     document.querySelectorAll('[data-flip="card"]').forEach(c => addRipple(c, { dark:true }));
 
-    /* =========================
-       DRAG "TALI" LOGO (DESKTOP + MOBILE)
-       ========================= */
     function initStringLogo(opts){
-      const logo = document.getElementById(opts.logoId);
-      const stage = document.getElementById(opts.stageId);
-      const line = document.getElementById(opts.lineId);
+      const logo = document.getElementById(opts.logoId), stage = document.getElementById(opts.stageId), line = document.getElementById(opts.lineId);
       if(!logo || !stage || !line) return;
-
-      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      const stiffness = reducedMotion ? 0.12 : 0.085;
-      const damping   = reducedMotion ? 0.72 : 0.82;
-      const maxPull   = 150;
-
-      let dragging = false;
-      let pointerId = null;
-
-      let x = 0, y = 0;
-      let vx = 0, vy = 0;
-      let tx = 0, ty = 0;
-      let lastT = performance.now();
-
-      function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
-
-      function setTransform(){
-        const rot = clamp(x * 0.06, -10, 10);
-        logo.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
-
-        const len = Math.sqrt(x*x + y*y);
-        const angle = Math.atan2(y, x) * 180 / Math.PI;
-
-        if(!line.classList.contains('show')){
-          line.style.width = "0px";
-          return;
-        }
-
-        line.style.width = (clamp(len, 0, maxPull) + 40) + "px";
-        line.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`;
-      }
-
+      const stiffness = 0.085, damping = 0.82, maxPull = 150;
+      let dragging = false, pointerId = null, x = 0, y = 0, vx = 0, vy = 0, tx = 0, ty = 0, lastT = performance.now();
       function step(now){
-        const dt = Math.min(0.032, (now - lastT) / 1000);
-        lastT = now;
-
-        const ax = (tx - x) * stiffness;
-        const ay = (ty - y) * stiffness;
-
-        vx = (vx + ax) * damping;
-        vy = (vy + ay) * damping;
-
-        x += vx * (dt * 60);
-        y += vy * (dt * 60);
-
-        if(!dragging && Math.abs(x) < 0.08 && Math.abs(y) < 0.08 && Math.abs(vx) < 0.08 && Math.abs(vy) < 0.08){
-          x = 0; y = 0; vx = 0; vy = 0;
+        const dt = Math.min(0.032, (now - lastT) / 1000); lastT = now;
+        vx = (vx + (tx - x) * stiffness) * damping; vy = (vy + (ty - y) * stiffness) * damping;
+        x += vx * (dt * 60); y += vy * (dt * 60);
+        logo.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${Math.max(-10, Math.min(10, x * 0.06))}deg)`;
+        if(line.classList.contains('show')){
+          const len = Math.sqrt(x*x + y*y);
+          line.style.width = (Math.min(maxPull, len) + 40) + "px"; line.style.transform = `translate(-50%,-50%) rotate(${Math.atan2(y, x) * 180 / Math.PI}deg)`;
         }
-
-        setTransform();
         requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
-
-      function getCenter(){
-        const r = stage.getBoundingClientRect();
-        return { cx: r.left + r.width/2, cy: r.top + r.height/2 };
-      }
-
-      function onPointerDown(e){
-        dragging = true;
-        pointerId = e.pointerId;
-        logo.setPointerCapture(pointerId);
-
-        line.classList.add('show');
-
-        tx = x; ty = y;
-        e.preventDefault();
-      }
-
-      function onPointerMove(e){
+      logo.addEventListener('pointerdown', (e) => { dragging = true; pointerId = e.pointerId; logo.setPointerCapture(pointerId); line.classList.add('show'); tx = x; ty = y; e.preventDefault(); });
+      window.addEventListener('pointermove', (e) => {
         if(!dragging || e.pointerId !== pointerId) return;
-
-        const { cx, cy } = getCenter();
-        const dx = e.clientX - cx;
-        const dy = e.clientY - cy;
-
-        const len = Math.sqrt(dx*dx + dy*dy);
-        if(len > maxPull){
-          const s = maxPull / (len || 1);
-          tx = dx * s;
-          ty = dy * s;
-        } else {
-          tx = dx;
-          ty = dy;
-        }
-      }
-
-      function onPointerUp(e){
-        if(e.pointerId !== pointerId) return;
-        dragging = false;
-        pointerId = null;
-        tx = 0; ty = 0;
-
-        setTimeout(() => {
-          if(!dragging){
-            line.classList.remove('show');
-            line.style.width = "0px";
-          }
-        }, 80);
-      }
-
-      logo.addEventListener('pointerdown', onPointerDown);
-      window.addEventListener('pointermove', onPointerMove, { passive:false });
-      window.addEventListener('pointerup', onPointerUp);
-      window.addEventListener('pointercancel', onPointerUp);
-
-      window.addEventListener('resize', () => { if(!dragging){ tx = 0; ty = 0; } });
-      logo.addEventListener('dragstart', (e) => e.preventDefault());
-
-      line.classList.remove('show');
-      line.style.width = "0px";
+        const r = stage.getBoundingClientRect(), dx = e.clientX - (r.left + r.width/2), dy = e.clientY - (r.top + r.height/2), len = Math.sqrt(dx*dx + dy*dy);
+        if(len > maxPull){ const s = maxPull / len; tx = dx * s; ty = dy * s; } else { tx = dx; ty = dy; }
+      });
+      window.addEventListener('pointerup', (e) => { if(e.pointerId !== pointerId) return; dragging = false; pointerId = null; tx = 0; ty = 0; setTimeout(() => { if(!dragging) line.classList.remove('show'); }, 80); });
     }
-
     initStringLogo({ logoId:'homeDraggableLogo', stageId:'stringStage', lineId:'stringLine' });
     initStringLogo({ logoId:'homeDraggableLogoMobile', stageId:'stringStageMobile', lineId:'stringLineMobile' });
   </script>
