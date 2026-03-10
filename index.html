@@ -17,10 +17,11 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- React, Framer Motion & Babel -->
+    <!-- React, Framer Motion, Canvas Confetti & Babel -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/framer-motion@11.0.8/dist/framer-motion.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script>
@@ -40,11 +41,7 @@
     </script>
 
     <style>
-        :root {
-            --maroon: #800000;
-            --ink: #0f172a;
-        }
-
+        :root { --maroon: #800000; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
@@ -52,90 +49,38 @@
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
-
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
-
-        .btn-maroon {
-            background-color: var(--maroon);
-            color: white;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.2s;
-        }
-
+        .btn-maroon { background-color: var(--maroon); color: white; transition: all 0.2s; }
         .input-style {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid #e2e8f0;
             border-radius: 1.5rem;
-            transition: all 0.2s;
         }
-
         .input-style:focus {
-            background: white;
             border-color: rgba(128, 0, 0, 0.4);
             box-shadow: 0 0 0 6px rgba(128, 0, 0, 0.1);
             outline: none;
-            transform: translateY(-2px);
         }
-
-        @keyframes introIn {
-            from { opacity: 0; transform: translateY(18px) scale(0.985); filter: blur(4px); }
-            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-
-        @keyframes heroIn {
-            from { opacity: 0; transform: translateY(18px) scale(0.992); filter: blur(2px); }
-            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-        }
-
-        @keyframes shakeAnim {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        @keyframes blob-float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        .animate-blob { animation: blob-float 15s infinite ease-in-out; }
-        .animate-intro-in { animation: introIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-        .animate-hero-in { animation: heroIn 0.95s cubic-bezier(0.16, 1, 0.3, 1) both; }
-        .animate-shake { animation: shakeAnim 0.5s ease-in-out; }
-        .animate-runner-bounce { animation: ctaRunnerBounce 0.4s infinite ease-in-out; }
-
-        @keyframes ctaRunnerBounce {
+        .animate-marquee { animation: marquee 30s linear infinite; }
+        
+        @keyframes runnerBounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-4px); }
         }
+        .animate-runner-bounce { animation: runnerBounce 0.4s infinite ease-in-out; }
 
         .bg-waves {
-            position: fixed;
-            inset: 0;
-            z-index: -10;
-            pointer-events: none;
-            opacity: 0.4;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M0 160 C 180 120, 360 200, 540 160 S 900 120, 1080 160 S 1260 200, 1440 160' stroke='%23dbe3ea' stroke-width='2' opacity='.95'/%3E%3Cpath d='M0 190 C 220 150, 420 230, 640 190 S 980 150, 1180 190 S 1320 230, 1440 190' stroke='%23edf2f7' stroke-width='2' opacity='.9'/%3E%3C/g%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center 220px;
-            background-size: 1500px auto;
-        }
-
-        .bg-grain {
-            position: fixed;
-            inset: 0;
-            z-index: -10;
-            pointer-events: none;
-            opacity: 0.03;
-            mix-blend-mode: multiply;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+            position: fixed; inset: 0; z-index: -10; opacity: 0.4;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23dbe3ea' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,213.3C960,224,1056,192,1152,165.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: bottom; background-size: cover;
         }
     </style>
 </head>
@@ -146,58 +91,32 @@
         const { useState, useEffect, useRef } = React;
         const { motion, AnimatePresence, useMotionValue, useSpring, useTransform } = Motion;
 
-        const Icon = ({ name, className = "w-5 h-5" }) => {
-            const icons = {
-                menu: <path d="M4 6h16M4 12h16M4 18h16" />,
-                x: <path d="M18 6L6 18M6 6l12 12" />,
-                refresh: <path d="M21 12a9 9 0 11-9-9c2.52 0 4.85.83 6.71 2.24L21 8M21 3v5h-5" />,
-                download: <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />,
-                logout: <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />,
-                arrowUp: <path d="M12 19V5M5 12l7-7 7 7" />,
-                shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4" />,
-                chevronDown: <path d="M6 9l6 6 6-6" />
-            };
-            return (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-                    {icons[name]}
-                </svg>
-            );
-        };
-
         const LOGO_URL = "https://lh3.googleusercontent.com/d/1zrA4l4_KDja1efdj-f0tQKUV1CN11a8Z";
         const RUNNER_URL = "https://lh3.googleusercontent.com/d/1YVHidEYRYmE-6zRb0fAvIA1fElmNHQSq";
         const SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vStcxFf1veUj6SiD7Xt89JvZMSt4lO9TxKwtQCMHaZPiqbPH8fylGHOT0CCTqpJJrBvV8jlPCZlEy5v/pub?gid=761094266&single=true&output=csv";
 
+        const Icon = ({ name, className = "w-5 h-5" }) => {
+            const icons = {
+                refresh: <path d="M21 12a9 9 0 11-9-9c2.52 0 4.85.83 6.71 2.24L21 8M21 3v5h-5" />,
+                shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4" />,
+                users: <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 110-8 4 4 0 010 8zm14 14v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />,
+                message: <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />,
+                trending: <path d="M23 6l-9.5 9.5-5-5L1 18" />,
+                download: <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />,
+                logout: <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+            };
+            return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>{icons[name]}</svg>;
+        };
+
         const HangingLogo = ({ scrollProgress }) => {
             const dropDistance = Math.max(0, Math.min(120, (scrollProgress - 5) * 2.5));
             const dragX = useMotionValue(0);
-            const dragY = useMotionValue(0);
             const springX = useSpring(dragX, { stiffness: 400, damping: 15 });
-            const springY = useSpring(dragY, { stiffness: 400, damping: 15 });
-            const rotate = useTransform(springX, [-100, 100], [-45, 45]);
-            const stringWidth = useTransform(springY, [0, 200], [1.5, 0.5]);
-
             return (
                 <div className="relative w-10 h-10 flex flex-col items-center">
-                    <motion.div 
-                        style={{ 
-                            height: useTransform(springY, (y) => dropDistance + y),
-                            width: stringWidth,
-                            x: springX,
-                            left: '50%',
-                            translateX: '-50%'
-                        }}
-                        className="absolute top-1/2 bg-slate-300 origin-top z-[-1]"
-                    />
-                    <motion.div
-                        drag dragSnapToOrigin dragElastic={0.6}
-                        onDrag={(e, info) => { dragX.set(info.offset.x); dragY.set(info.offset.y); }}
-                        onDragEnd={() => { dragX.set(0); dragY.set(0); }}
-                        style={{ x: springX, y: useTransform(springY, (y) => dropDistance + y), rotate: rotate }}
-                        className="relative w-10 h-10 cursor-grab active:cursor-grabbing"
-                    >
-                        <div className={`absolute inset-0 bg-maroon/5 blur-xl rounded-full transition-opacity duration-300 ${dropDistance > 0 ? 'opacity-100' : 'opacity-0'}`} />
-                        <img src={LOGO_URL} alt="Logo" className="w-full h-full drop-shadow-sm relative z-10 select-none pointer-events-none" />
+                    <motion.div style={{ height: dropDistance, width: 1.5, x: springX }} className="absolute top-1/2 bg-slate-300 origin-top z-[-1]" />
+                    <motion.div drag dragSnapToOrigin style={{ x: springX, y: dropDistance }} className="relative w-10 h-10 cursor-grab active:cursor-grabbing">
+                        <img src={LOGO_URL} alt="Logo" className="w-full h-full drop-shadow-sm" />
                     </motion.div>
                 </div>
             );
@@ -205,85 +124,68 @@
 
         function App() {
             const [section, setSection] = useState('home');
-            const [isLoaded, setIsLoaded] = useState(false);
             const [isScrolled, setIsScrolled] = useState(false);
             const [scrollProgress, setScrollProgress] = useState(0);
-            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
             const [runnerPos, setRunnerPos] = useState(0);
             const [runnerDir, setRunnerDir] = useState('forward');
             const [isRunnerIdle, setIsRunnerIdle] = useState(true);
-            const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
             const [formStatus, setFormStatus] = useState('idle');
+            const [allData, setAllData] = useState([]);
+            const [stats, setStats] = useState({ total: 0, topTopic: '-' });
+            const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+            const [passCode, setPassCode] = useState('');
+            const [isLoadingData, setIsLoadingData] = useState(false);
             const runnerTimerRef = useRef(null);
             const lastScrollY = useRef(0);
 
-            const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-            const [passCode, setPassCode] = useState('');
-            const [adminData, setAdminData] = useState([]);
-            const [isLoadingData, setIsLoadingData] = useState(false);
-            const [isLoginShaking, setIsLoginShaking] = useState(false);
-
             useEffect(() => {
-                const handleMouseMove = (e) => setMousePosition({ x: e.clientX, y: e.clientY });
-                window.addEventListener('mousemove', handleMouseMove);
-                AOS.init({ duration: 900, once: true, offset: 60 });
-                const timer = setTimeout(() => setIsLoaded(true), 1100);
-
+                AOS.init({ duration: 1000, once: true });
+                fetchData();
                 const handleScroll = () => {
                     const y = window.scrollY;
                     setIsScrolled(y > 10);
-                    const doc = document.documentElement;
-                    const max = (doc.scrollHeight - doc.clientHeight) || 1;
-                    const progress = (y / max) * 100;
-                    setScrollProgress(progress);
-
+                    const max = (document.documentElement.scrollHeight - window.innerHeight) || 1;
+                    setScrollProgress((y / max) * 100);
+                    
                     if (Math.abs(y - lastScrollY.current) > 1) {
                         setIsRunnerIdle(false);
                         setRunnerDir(y > lastScrollY.current ? 'forward' : 'backward');
-                        const maxX = 420 - 58;
-                        setRunnerPos((y / max) * maxX);
+                        setRunnerPos((y / max) * (420 - 58));
                         if (runnerTimerRef.current) clearTimeout(runnerTimerRef.current);
-                        runnerTimerRef.current = setTimeout(() => setIsRunnerIdle(true), 120);
+                        runnerTimerRef.current = setTimeout(() => setIsRunnerIdle(true), 150);
                     }
                     lastScrollY.current = y;
                 };
-
-                window.addEventListener('scroll', handleScroll, { passive: true });
-                return () => {
-                    window.removeEventListener('mousemove', handleMouseMove);
-                    clearTimeout(timer);
-                    window.removeEventListener('scroll', handleScroll);
-                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
             }, []);
 
-            const fetchAdminData = async () => {
+            const fetchData = async () => {
                 setIsLoadingData(true);
                 try {
                     const res = await fetch(`${SHEETS_CSV}&t=${Date.now()}`);
                     const text = await res.text();
                     const rows = text.split(/\r?\n/).slice(1).filter(Boolean);
                     
-                    // PERBAIKAN LOGIKA PARSING BERDASARKAN GAMBAR USER
-                    const parsed = rows.reverse().map(row => {
+                    // PARSING & REVERSE (Agar data terbaru di index 0)
+                    const parsed = rows.map(row => {
                         const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').trim());
-                        
-                        if (cols.length >= 5) {
-                            return { 
-                                timestamp: cols[0], 
-                                nameNim: `${cols[1]} / ${cols[4]}`, // Nama / NIM (Kolom 1 & 4)
-                                subject: cols[2],                   // Kategori/Topik (Kolom 2)
-                                message: cols[3]                    // Isi Pesan (Kolom 3)
-                            };
-                        }
-                        return { timestamp: cols[0] || '', nameNim: cols[1] || '', subject: cols[2] || '', message: cols[3] || '' };
-                    });
-                    setAdminData(parsed);
-                } catch (error) { console.error(error); } finally { setIsLoadingData(false); }
-            };
-
-            const handleAdminLogin = () => {
-                if (passCode === 'dpmhimapko99') { setIsAdminLoggedIn(true); fetchAdminData(); }
-                else { setIsLoginShaking(true); setPassCode(''); setTimeout(() => setIsLoginShaking(false), 500); }
+                        return { 
+                            timestamp: cols[0], 
+                            name: cols[1], 
+                            topic: cols[2], 
+                            message: cols[3], 
+                            nim: cols[4] 
+                        };
+                    }).reverse(); 
+                    
+                    setAllData(parsed);
+                    
+                    const topics = parsed.map(d => d.topic);
+                    const counts = topics.reduce((a, b) => ({ ...a, [b]: (a[b] || 0) + 1 }), {});
+                    const top = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b, '-');
+                    setStats({ total: parsed.length, topTopic: top });
+                } catch (e) { console.error(e); } finally { setIsLoadingData(false); }
             };
 
             const exportCSV = () => {
@@ -293,62 +195,33 @@
                 document.body.appendChild(a); a.click(); document.body.removeChild(a);
             };
 
+            const handleFormSubmit = () => {
+                setFormStatus('submitting');
+                setTimeout(async () => {
+                    setFormStatus('success');
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#800000', '#ffffff', '#000000'] });
+                    
+                    // OTOMATIS REFRESH DATA SETELAH KIRIM
+                    await fetchData();
+                }, 1000);
+            };
+
             return (
-                <div className={`min-h-screen transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                    <div className="fixed inset-0 -z-20 overflow-hidden pointer-events-none">
-                        <motion.div animate={{ x: mousePosition.x * 0.05, y: mousePosition.y * 0.05 }} className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-maroon/5 rounded-full blur-[120px] animate-blob" />
-                        <motion.div animate={{ x: -mousePosition.x * 0.03, y: -mousePosition.y * 0.03 }} className="absolute top-[20%] -right-[5%] w-[35%] h-[35%] bg-blue-500/5 rounded-full blur-[100px] animate-blob" style={{ animationDelay: '2s' }} />
-                    </div>
-
-                    <AnimatePresence>
-                        {!isLoaded && (
-                            <motion.div exit={{ opacity: 0 }} className="fixed inset-0 z-[300] bg-white/80 backdrop-blur-xl flex items-center justify-center">
-                                <div className="w-[min(560px,92vw)] bg-white/95 border border-slate-200/90 rounded-[2.5rem] shadow-2xl overflow-hidden animate-intro-in">
-                                    <div className="flex items-center gap-4 p-5 border-b border-slate-200/90">
-                                        <img src={LOGO_URL} className="w-10 h-10" alt="Logo" />
-                                        <div>
-                                            <div className="font-heading font-bold text-slate-900">Parlemen Ressilience</div>
-                                            <div className="text-[10px] font-black tracking-widest text-slate-400 uppercase">DPM HIMA PKO FPOK UPI</div>
-                                        </div>
-                                    </div>
-                                    <motion.div initial={{ width: 0 }} animate={{ width: "100%" }} transition={{ duration: 1.15 }} className="h-[3px] bg-maroon" />
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-                    <div className="bg-waves fixed inset-0 -z-10 opacity-40" />
-                    <div className="bg-grain fixed inset-0 -z-10 opacity-[0.03]" />
-                    <div className="fixed inset-0 -z-20 opacity-[0.04] grayscale contrast-[1.02] pointer-events-none" style={{ backgroundImage: `url(${LOGO_URL})`, backgroundSize: 'cover', backgroundPosition: 'center', transform: `translate3d(0, ${Math.min(18, lastScrollY.current * 0.02)}px, 0) scale(1.02)` }} />
-                    <div className="fixed inset-0 -z-10 bg-white/90 pointer-events-none" />
-
-                    <div className="fixed top-0 left-0 h-[3px] bg-maroon z-[200] transition-all duration-100" style={{ width: `${scrollProgress}%` }} />
-
-                    <nav className={`fixed top-0 w-full z-[100] transition-all duration-300 ${isScrolled ? 'bg-white/95 shadow-lg border-b border-slate-200/70 h-[72px]' : 'bg-white/85 backdrop-blur-xl border-b border-slate-200/70 h-20'}`}>
+                <div className="min-h-screen">
+                    <div className="bg-waves" />
+                    
+                    <nav className={`fixed top-0 w-full z-[100] transition-all duration-300 ${isScrolled ? 'bg-white/95 shadow-lg h-16' : 'bg-transparent h-20'}`}>
                         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-                            <div className="flex items-center gap-4 cursor-pointer select-none" onClick={() => setSection('home')}>
+                            <div className="flex items-center gap-4 cursor-pointer" onClick={() => setSection('home')}>
                                 <HangingLogo scrollProgress={scrollProgress} />
-                                <div className="border-l border-slate-200/70 pl-4">
-                                    <h1 className="font-heading font-bold text-sm tracking-tight uppercase">DPM HIMA <span className="text-maroon">PKO FPOK UPI</span></h1>
-                                    <p className="text-[8px] font-black tracking-[0.4em] text-slate-400 uppercase">Ressilience 25/26</p>
+                                <div className="hidden sm:block">
+                                    <h1 className="font-heading font-bold text-sm uppercase">DPM HIMA <span className="text-maroon">PKO</span></h1>
+                                    <p className="text-[8px] font-black tracking-widest text-slate-400 uppercase">Ressilience 25/26</p>
                                 </div>
                             </div>
-                            <div className="hidden md:flex items-center gap-10">
-                                <button onClick={() => setSection('home')} className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${section === 'home' ? 'text-maroon' : 'hover:text-maroon'}`}>Beranda</button>
-                                <button onClick={() => setSection('admin')} className={`px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${section === 'admin' ? 'bg-maroon text-white' : 'bg-slate-900 text-white hover:bg-maroon'}`}>Admin</button>
-                            </div>
-                            <div className="md:hidden relative">
-                                <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="w-11 h-11 rounded-full border border-slate-200/70 bg-white/90 backdrop-blur-xl flex items-center justify-center active:scale-95 transition">
-                                    {mobileMenuOpen ? <Icon name="x" /> : <div className="flex gap-1"><span className="w-1.5 h-1.5 rounded-full bg-slate-700"></span><span className="w-1.5 h-1.5 rounded-full bg-slate-700"></span><span className="w-1.5 h-1.5 rounded-full bg-slate-700"></span></div>}
-                                </button>
-                                <AnimatePresence>
-                                    {mobileMenuOpen && (
-                                        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="absolute right-0 mt-3 w-44 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-xl shadow-xl overflow-hidden">
-                                            <button onClick={() => { setSection('home'); setMobileMenuOpen(false); }} className="w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-slate-50">Beranda</button>
-                                            <button onClick={() => { setSection('admin'); setMobileMenuOpen(false); }} className="w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-slate-50">Admin</button>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
+                            <div className="flex gap-6">
+                                <button onClick={() => setSection('home')} className="text-[10px] font-bold uppercase tracking-widest hover:text-maroon">Beranda</button>
+                                <button onClick={() => setSection('admin')} className="px-5 py-2 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-maroon transition-all">Admin</button>
                             </div>
                         </div>
                     </nav>
@@ -356,73 +229,97 @@
                     <main className="pt-32 pb-20 px-6">
                         <AnimatePresence mode="wait">
                             {section === 'home' ? (
-                                <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="max-w-7xl mx-auto">
-                                    <div className="max-w-4xl mx-auto text-center mb-32 pt-10">
-                                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-maroon/5 border border-maroon/10 text-[10px] font-black text-maroon uppercase tracking-widest mb-8 animate-hero-in">
-                                            <span className="relative flex h-2 w-2">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-maroon opacity-75"></span>
-                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-maroon"></span>
-                                            </span>
-                                            Legislative Portal Active
-                                        </div>
-                                        <h2 className="font-heading text-5xl sm:text-6xl md:text-8xl font-bold leading-[0.92] mb-7">
-                                            <span className="text-slate-900">Parlemen</span><br />
-                                            <span className="text-maroon relative">Ressilience.</span>
-                                        </h2>
-                                        <p className="text-slate-500 text-base sm:text-lg md:text-xl leading-relaxed mb-10 max-w-xl mx-auto font-medium">Suara Anda adalah fondasi kebijakan kami. Sampaikan aspirasi, kritik, dan saran untuk PKO FPOK UPI yang lebih baik.</p>
-                                        <div className="relative w-full max-w-[420px] h-[78px] mx-auto overflow-hidden border-t border-slate-100 pt-4">
+                                <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                                    <div className="max-w-4xl mx-auto text-center mb-20">
+                                        <div className="inline-block px-4 py-1.5 rounded-full bg-maroon/5 text-maroon text-[10px] font-black uppercase tracking-widest mb-6">Legislative Portal Active</div>
+                                        <h2 className="font-heading text-6xl md:text-8xl font-bold leading-none mb-6">Suarakan <span className="text-maroon">Aspirasi.</span></h2>
+                                        <p className="text-slate-500 text-lg max-w-xl mx-auto mb-10">Platform resmi DPM HIMA PKO FPOK UPI untuk menampung seluruh suara mahasiswa PKO.</p>
+                                        
+                                        <div className="relative w-full max-w-[420px] h-[78px] mx-auto overflow-hidden border-t border-slate-100 pt-4 mb-12">
                                             <div className="absolute left-0 right-0 top-[60%] h-[2px] -translate-y-1/2 bg-maroon/10 rounded-full" />
                                             <div className={`absolute left-0 top-[60%] w-[58px] h-[58px] -translate-y-1/2 transition-transform duration-75 ${runnerDir === 'backward' ? 'scale-x-[-1]' : ''}`} style={{ transform: `translate(${runnerPos}px, -50%)` }}>
                                                 <img src={RUNNER_URL} className={`w-full h-full object-contain drop-shadow-md ${!isRunnerIdle ? 'animate-runner-bounce' : ''}`} alt="Runner" />
                                             </div>
                                         </div>
+
+                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl mx-auto mb-12">
+                                            <div className="glass p-6 rounded-3xl text-center" data-aos="zoom-in">
+                                                <div className="text-maroon mb-2 flex justify-center"><Icon name="users" /></div>
+                                                <div className="text-2xl font-bold">{stats.total}</div>
+                                                <div className="text-[10px] font-bold text-slate-400 uppercase">Total Aspirasi</div>
+                                            </div>
+                                            <div className="glass p-6 rounded-3xl text-center" data-aos="zoom-in" data-aos-delay="100">
+                                                <div className="text-maroon mb-2 flex justify-center"><Icon name="trending" /></div>
+                                                <div className="text-sm font-bold truncate px-2">{stats.topTopic}</div>
+                                                <div className="text-[10px] font-bold text-slate-400 uppercase">Topik Utama</div>
+                                            </div>
+                                            <div className="glass p-6 rounded-3xl text-center hidden md:block" data-aos="zoom-in" data-aos-delay="200">
+                                                <div className="text-maroon mb-2 flex justify-center"><Icon name="shield" /></div>
+                                                <div className="text-2xl font-bold">Safe</div>
+                                                <div className="text-[10px] font-bold text-slate-400 uppercase">Data Terenkripsi</div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div className="max-w-3xl mx-auto mb-32" data-aos="fade-up">
-                                        <div className="glass p-8 md:p-12 rounded-[3.5rem] relative overflow-hidden">
+                                    {/* Ticker Suara Mahasiswa (Menampilkan 10 Terbaru) */}
+                                    <div className="w-full overflow-hidden bg-white/50 border-y border-slate-200 py-4 mb-20">
+                                        <div className="flex animate-marquee whitespace-nowrap gap-10">
+                                            {allData.length > 0 ? [...allData, ...allData].slice(0, 10).map((d, i) => (
+                                                <div key={i} className="flex items-center gap-3">
+                                                    <div className="w-2 h-2 rounded-full bg-maroon"></div>
+                                                    <span className="text-xs font-bold text-slate-600 italic">"{d.message?.substring(0, 50)}..."</span>
+                                                    <span className="text-[10px] font-black text-slate-300 uppercase">-{d.topic}</span>
+                                                </div>
+                                            )) : (
+                                                <span className="text-xs font-bold text-slate-300 uppercase tracking-widest px-10">Menunggu Aspirasi Masuk...</span>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
+                                        <div className="md:col-span-2 glass p-10 rounded-[3rem] relative overflow-hidden group" data-aos="fade-right">
+                                            <div className="relative z-10">
+                                                <h3 className="font-heading text-3xl font-bold mb-4">Fungsi Legislasi</h3>
+                                                <p className="text-slate-500 text-sm leading-relaxed">DPM bertanggung jawab dalam merumuskan dan menetapkan peraturan organisasi yang berpihak pada kepentingan mahasiswa PKO.</p>
+                                            </div>
+                                            <div className="absolute -right-10 -bottom-10 opacity-5 group-hover:scale-110 transition-transform"><Icon name="shield" className="w-64 h-64" /></div>
+                                        </div>
+                                        <div className="bg-maroon p-10 rounded-[3rem] text-white" data-aos="fade-left">
+                                            <h3 className="font-heading text-3xl font-bold mb-4">Pengawasan</h3>
+                                            <p className="text-white/70 text-sm leading-relaxed">Mengawasi kinerja eksekutif (HIMA) agar tetap berjalan sesuai koridor AD/ART.</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="max-w-3xl mx-auto" id="aspirasi">
+                                        <div className="glass p-8 md:p-12 rounded-[3.5rem] relative">
                                             <AnimatePresence mode="wait">
                                                 {formStatus === 'success' ? (
-                                                    <motion.div key="success" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-20 space-y-6">
-                                                        <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center mx-auto text-white shadow-2xl"><Icon name="shield" className="w-10 h-10" /></div>
-                                                        <h3 className="font-heading text-3xl font-bold text-slate-900">Aspirasi Terkirim!</h3>
-                                                        <p className="text-slate-500 font-medium">Terima kasih telah berkontribusi untuk kampus yang lebih baik.</p>
-                                                        <button onClick={() => setFormStatus('idle')} className="px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-maroon transition-all">Kirim Aspirasi Lain</button>
+                                                    <motion.div key="success" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center py-20">
+                                                        <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center mx-auto text-white mb-6 shadow-xl"><Icon name="shield" className="w-10 h-10" /></div>
+                                                        <h3 className="font-heading text-3xl font-bold mb-2">Aspirasi Diterima!</h3>
+                                                        <p className="text-slate-500 mb-8">Terima kasih telah berkontribusi untuk PKO yang lebih baik.</p>
+                                                        <button onClick={() => setFormStatus('idle')} className="px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest">Kirim Lagi</button>
                                                     </motion.div>
                                                 ) : (
                                                     <motion.div key="form">
                                                         <div className="text-center mb-10">
-                                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-maroon/5 text-maroon text-[10px] font-bold uppercase tracking-widest mb-4"><Icon name="refresh" className="w-3 h-3" />Saluran Aspirasi</div>
-                                                            <h3 className="font-heading text-4xl font-bold text-slate-900 mb-2 tracking-tight">Formulir Aspirasi</h3>
-                                                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Sampaikan suara Anda secara langsung kepada kami</p>
+                                                            <h3 className="font-heading text-4xl font-bold text-slate-900 mb-2">Formulir Aspirasi</h3>
+                                                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Sampaikan suara Anda secara langsung</p>
                                                         </div>
-                                                        <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeVUr-FDak18xsM4PF3XFZXZsnM1eljxsLYVNlW59OpcMGmZg/formResponse" method="POST" target="hidden_iframe" className="space-y-6" onSubmit={() => { setFormStatus('submitting'); setTimeout(() => { setFormStatus('success'); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 1000); }}>
-                                                            <div className="space-y-3">
-                                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Identitas Mahasiswa</label>
-                                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                                    <input type="text" name="entry.1716082016" required className="w-full p-5 input-style text-sm font-bold" placeholder="Nama Lengkap" />
-                                                                    <input type="text" name="entry.625953499" required className="w-full p-5 input-style text-sm font-bold" placeholder="NIM" />
-                                                                </div>
+                                                        <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeVUr-FDak18xsM4PF3XFZXZsnM1eljxsLYVNlW59OpcMGmZg/formResponse" method="POST" target="hidden_iframe" className="space-y-6" onSubmit={handleFormSubmit}>
+                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                <input type="text" name="entry.1716082016" required className="p-5 input-style text-sm font-bold" placeholder="Nama Lengkap" />
+                                                                <input type="text" name="entry.625953499" required className="p-5 input-style text-sm font-bold" placeholder="NIM" />
                                                             </div>
-                                                            <div className="space-y-3">
-                                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Topik Aspirasi</label>
-                                                                <div className="relative">
-                                                                    <select name="entry.1297363755" required className="w-full p-5 input-style text-sm font-bold appearance-none cursor-pointer pr-12" defaultValue="">
-                                                                        <option value="" disabled>Pilih Bidang Aspirasi</option>
-                                                                        <option value="Fasilitas Kampus">Fasilitas Kampus</option>
-                                                                        <option value="Kegiatan Belajar-Mengajar">Kegiatan Belajar-Mengajar</option>
-                                                                        <option value="Kaderisasi Mahasiswa">Kaderisasi Mahasiswa</option>
-                                                                        <option value="Birokrasi Kampus">Birokrasi Kampus</option>
-                                                                    </select>
-                                                                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400"><Icon name="chevronDown" /></div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="space-y-3">
-                                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Detail Pesan</label>
-                                                                <textarea name="entry.2146318381" required rows={5} className="w-full p-5 input-style text-sm font-bold resize-none" placeholder="Tuliskan aspirasi, kritik, atau saran Anda secara detail di sini..."></textarea>
-                                                            </div>
-                                                            <button type="submit" disabled={formStatus === 'submitting'} className="w-full btn-maroon py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-maroon/20">
-                                                                {formStatus === 'submitting' ? 'Mengirim...' : 'Kirim Aspirasi Sekarang'}
-                                                            </button>
+                                                            <select name="entry.1297363755" required className="w-full p-5 input-style text-sm font-bold appearance-none">
+                                                                <option value="" disabled selected>Pilih Bidang Aspirasi</option>
+                                                                <option value="Fasilitas Kampus">Fasilitas Kampus</option>
+                                                                <option value="Kegiatan Belajar-Mengajar">Kegiatan Belajar-Mengajar</option>
+                                                                <option value="Kaderisasi Mahasiswa">Kaderisasi Mahasiswa</option>
+                                                                <option value="Birokrasi Kampus">Birokrasi Kampus</option>
+                                                            </select>
+                                                            <textarea name="entry.2146318381" required rows={5} className="w-full p-5 input-style text-sm font-bold resize-none" placeholder="Tuliskan aspirasi Anda..."></textarea>
+                                                            <button type="submit" className="w-full btn-maroon py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] shadow-xl shadow-maroon/20">Kirim Aspirasi Sekarang</button>
                                                         </form>
                                                     </motion.div>
                                                 )}
@@ -432,15 +329,13 @@
                                     </div>
                                 </motion.div>
                             ) : (
-                                <motion.div key="admin" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="max-w-7xl mx-auto">
+                                <motion.div key="admin" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-7xl mx-auto">
                                     {!isAdminLoggedIn ? (
                                         <div className="max-w-sm mx-auto py-20">
-                                            <div className={`glass p-12 rounded-[3rem] text-center relative overflow-hidden ${isLoginShaking ? 'animate-shake' : ''}`}>
-                                                <h2 className="font-heading text-xl font-bold mb-10 tracking-tight uppercase">Admin <span className="text-maroon">Access</span></h2>
-                                                <div className="space-y-6">
-                                                    <input type="password" value={passCode} onChange={(e) => setPassCode(e.target.value)} placeholder="••••••••" className="w-full p-5 input-style text-center font-bold" onKeyDown={(e) => e.key === 'Enter' && handleAdminLogin()} />
-                                                    <button onClick={handleAdminLogin} className="w-full btn-maroon py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest">Masuk Ke Panel</button>
-                                                </div>
+                                            <div className="glass p-12 rounded-[3rem] text-center">
+                                                <h2 className="font-heading text-xl font-bold mb-10 uppercase">Admin Access</h2>
+                                                <input type="password" value={passCode} onChange={(e) => setPassCode(e.target.value)} placeholder="••••••••" className="w-full p-5 input-style text-center font-bold mb-6" onKeyDown={(e) => e.key === 'Enter' && (passCode === 'dpmhimapko99' ? setIsAdminLoggedIn(true) : alert('Salah!'))} />
+                                                <button onClick={() => passCode === 'dpmhimapko99' ? setIsAdminLoggedIn(true) : alert('Salah!')} className="w-full btn-maroon py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest">Masuk</button>
                                             </div>
                                         </div>
                                     ) : (
@@ -451,7 +346,7 @@
                                                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-2">DPM HIMA PKO Internal Panel</p>
                                                 </div>
                                                 <div className="flex gap-3 flex-wrap justify-center">
-                                                    <button onClick={fetchAdminData} className="flex items-center gap-2 px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-maroon transition-all shadow-lg">
+                                                    <button onClick={fetchData} className="flex items-center gap-2 px-8 py-3 bg-slate-900 text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-maroon transition-all shadow-lg">
                                                         <Icon name="refresh" className={`w-3.5 h-3.5 ${isLoadingData ? 'animate-spin' : ''}`} />
                                                         {isLoadingData ? "Syncing..." : "Refresh"}
                                                     </button>
@@ -465,32 +360,21 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div className="glass rounded-[3.5rem] overflow-hidden">
+                                            <div className="glass rounded-[3rem] overflow-hidden">
                                                 <div className="overflow-x-auto">
-                                                    <table className="w-full text-left min-w-[900px]">
-                                                        <thead className="bg-slate-50/50 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100">
-                                                            <tr><th className="p-8 font-black">Waktu</th><th className="p-8 font-black">Identitas</th><th className="p-8 font-black">Kategori</th><th className="p-8 font-black">Isi Aspirasi</th></tr>
+                                                    <table className="w-full text-left">
+                                                        <thead className="bg-slate-50 text-[9px] font-black uppercase tracking-widest text-slate-400 border-b">
+                                                            <tr><th className="p-8">Waktu</th><th className="p-8">Identitas</th><th className="p-8">Kategori</th><th className="p-8">Pesan</th></tr>
                                                         </thead>
-                                                        <tbody className="text-xs font-bold text-slate-600 divide-y divide-slate-100/50">
-                                                            {isLoadingData ? (
-                                                                <tr><td colSpan={4} className="p-24 text-center"><div className="flex flex-col items-center gap-4"><Icon name="refresh" className="w-8 h-8 animate-spin text-maroon/20" /><span className="text-slate-300 font-black uppercase tracking-widest">Sinkronisasi Data...</span></div></td></tr>
-                                                            ) : adminData.length === 0 ? (
-                                                                <tr><td colSpan={4} className="p-24 text-center text-slate-300 font-black uppercase tracking-widest">Belum ada data aspirasi</td></tr>
-                                                            ) : (
-                                                                adminData.map((row, i) => (
-                                                                    <tr key={i} className="hover:bg-white/40 transition-colors group">
-                                                                        <td className="p-8 text-[10px] font-mono text-slate-300 italic group-hover:text-maroon/40 transition-colors">{row.timestamp}</td>
-                                                                        <td className="p-8">
-                                                                            <div className="flex flex-col">
-                                                                                <span className="text-slate-900 font-bold uppercase tracking-tight">{row.nameNim.includes(' / ') ? row.nameNim.split(' / ')[0] : row.nameNim}</span>
-                                                                                {row.nameNim.includes(' / ') && <span className="text-[10px] text-slate-400 font-mono mt-0.5">{row.nameNim.split(' / ')[1]}</span>}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="p-8"><span className="inline-block px-4 py-1.5 bg-maroon/5 text-maroon rounded-full font-black text-[9px] uppercase border border-maroon/10 whitespace-nowrap">{row.subject}</span></td>
-                                                                        <td className="p-8 leading-relaxed text-slate-500 max-w-md">{row.message}</td>
-                                                                    </tr>
-                                                                ))
-                                                            )}
+                                                        <tbody className="text-xs font-bold text-slate-600">
+                                                            {allData.map((row, i) => (
+                                                                <tr key={i} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
+                                                                    <td className="p-8 text-[10px] text-slate-300">{row.timestamp}</td>
+                                                                    <td className="p-8"><div>{row.name}</div><div className="text-[10px] text-slate-400">{row.nim}</div></td>
+                                                                    <td className="p-8"><span className="px-3 py-1 bg-maroon/5 text-maroon rounded-full text-[9px] uppercase">{row.topic}</span></td>
+                                                                    <td className="p-8 text-slate-500 max-w-xs">{row.message}</td>
+                                                                </tr>
+                                                            ))}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -502,13 +386,9 @@
                         </AnimatePresence>
                     </main>
 
-                    <footer className="py-12 text-center">
-                        <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.5em]">Parlemen Ressilience © 2025 DPM HIMA PKO UPI</p>
+                    <footer className="py-12 text-center text-[9px] font-black text-slate-300 uppercase tracking-[0.5em]">
+                        Parlemen Ressilience © 2025 DPM HIMA PKO UPI
                     </footer>
-
-                    <button className={`fixed right-6 bottom-6 z-[120] btn-maroon w-12 h-12 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${isScrolled ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                        <Icon name="arrowUp" />
-                    </button>
                 </div>
             );
         }
